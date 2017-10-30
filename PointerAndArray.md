@@ -171,4 +171,28 @@ void strcpy(char *s, char *t) {
 }
 ```
 
+## 指针数组以及指向指针的指针
+指针也是变量，因此可以存放在数组内，
+```c
+int main ()
+{
+   char *names[] = {
+                   "Zara Ali",
+                   "Hina Ali",
+                   "Nuha Ali",
+                   "Sara Ali",
+   };
+   int i = 0;
+ 
+   for ( i = 0; i < MAX; i++)
+   {
+      printf("Value of names[%d] = %s\n", i, names[i] );
+   }
+   return 0;
+}
+```
 
+指向指针的指针是一种多级间接寻址的形式，或者说是一个指针链。通常，一个指针包含一个变量的地址。当我们定义一个指向指针的指针时，第一个指针包含了第二个指针的地址，第二个指针指向包含实际值的位置。
+
+
+## 多维数组
