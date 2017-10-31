@@ -246,6 +246,18 @@ char *name[] = {"Illegal month","Jan","Feb","Mar"};
 
 char aname[][15] = {"Illegal month", "Jan", "Jan", "Feb", "Mar"};
 ```
+## 命令行参数
+C语言中，在程序开始执行时将命令行参数传递给程序，调用主函数main时，它带有两个参数。第一个参数（argc，用于参数计数）的值表示运行程序时命令行中参数的数目，第二个参数（argv，用于参数向量）是一个指向字符串数组的指针，每个字符串对应一个参数。比如echo命令：
+```c
+echo hello, world
+```
+会在屏幕中打印出`hello， world`
+
+按照C语言约定，argv[0]的值是该程序的程序名，因此argc至少为1。上面例子中argc值为3,另外ANSI标准要求argv[argc]的值必须为一个空指针，argv的参数分别为：
+argv[0]         echo\0
+argv[1]         hello,\0
+argv[2]         world\0
+argv[3]         0
 
 
 
