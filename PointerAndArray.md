@@ -259,8 +259,29 @@ argv[1]         hello,\0
 argv[2]         world\0
 argv[3]         0
 
+echo的第一个版本将argv看成一个字符指针数组：
+```c
+#include <stdio.h>
 
+int main (int argc, char *argv[]) {
+    int i;
+    for (i = 1; 1 < argc; i++>)
+        printf("%s%s",argv[i], (i < argc-1) ? " " : "");
+    return 0;
+}
+```
+第二个版本是在对argv进行自增运算、对argc进行自减运算的技术上实现的，argv是一个指向char类型的指针的指针：
+```c
+#include <stdio.h>
+int main(int argc, char *argv[]) {
+    while (--argc > 0) 
+        printf((arvc > 1) ? "%s" : "%s", *++argv);
+    printf("\n");
+    return 0;
+}
+```
 
+## 指向函数的指针
 
 
 
