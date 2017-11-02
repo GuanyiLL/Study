@@ -17,7 +17,7 @@ void shell_sort(T arr[], int len) {
 
 void outputArray(int arr[], int len) {
     while (len-- > 0) {
-        printf("%d",*arr++);
+        printf("%d ",*arr++);
     }
     printf("\n");
 }
