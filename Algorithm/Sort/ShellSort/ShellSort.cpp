@@ -16,12 +16,10 @@ void shell_sort(T arr[], int len) {
 
 
 void outputArray(int arr[], int len) {
-    int *temp = arr;
-    for (int i = 0; i < len; i++) {
-        printf("%d ",arr[i]);
+    while (len-- > 0) {
+        printf("%d",*arr++);
     }
     printf("\n");
-    arr = temp;
 }
 
 int main() {
