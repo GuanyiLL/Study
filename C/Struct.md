@@ -36,3 +36,52 @@ struct point makepoint(int x, int y) {
 }
 ```
 
+也可以将结构体当作函数参数：
+```c
+struct point addpoint(struct point p1, struct point p2) {
+    p1.x += p2.x;
+    p1.y += p2.y;
+    return p1;
+}
+```
+
+如果传递给函数的结构体很大，那么使用指针方式的效率通常比复制整个结构体的效率更高。声明
+```c
+struct point *pp;
+```
+pp为指向`struct point`类型对象的指针。对于pp的使用如下：
+```c
+struct point origin, *pp;
+
+pp = &origin;
+printf("origin is (%d,%d)\n", (*pp).x,(*pp).y);
+```
+而C语言提供了一种简写方式来方位结构体成员：
+```c
+p->结构体成员
+
+printf("origin is (%d,%d)\n", pp->x, pp->y);
+
+```
+运算符`.`与`->`都是从左只有结合，对于以下声明：
+```c
+struct rect r, *rp = &r;
+```
+以下4个表达式等价：
+```c
+r.pt1.x
+rp->pt1.x
+(r.pt1).x
+(rp->pt1).x
+```
+表达式
+```c
+++p->len
+```
+将增加len的值，而不是p。表达式等同于++（p->len）。
+
+## 结构数组
+
+
+
+
