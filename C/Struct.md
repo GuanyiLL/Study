@@ -81,7 +81,34 @@ rp->pt1.x
 将增加len的值，而不是p。表达式等同于++（p->len）。
 
 ## 结构数组
-
+声明如下：
+```c
+struct key {
+    char *word;
+    int count;
+} keytab[NKEYS];
+```
+它声明了一个结构体类型key，并定义了该类型的结构体数组keytab，同时为其分配存储空间。数组keytab的每一个元素都是一个结构体。上述声明可以改写为以下形式：
+```c
+struct key {
+    char *word;
+    int count;
+};
+struct key keytab[NKEYS];
+```
+因为结构体keytab包含一个固定的名字集合，所以，最好将它声明为外部变量，这样只需要初始化一次。如下：
+```c
+struct key {
+    char *word;
+    int count;
+} keytab[] = {
+    "auto", 0,
+    "break", 0,
+    "case", 0,
+    /* ... */
+    "while", 0
+};
+```
 
 
 
