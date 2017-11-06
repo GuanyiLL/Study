@@ -25,13 +25,10 @@ void outputArray(int arr[], int len) {
 int main() {
 
     int arr[] = {22, 9, 87, 38, 49, 1, 55, 98, 76, 97};
-    int *p = arr;
-  
     cout<<"before sorting"<<endl;
-    outputArray(p, 10);  
+    outputArray(arr, 10);
     cout<<"after sorting"<<endl;
-    shell_sort(p,10);
-    outputArray(p, 10);
+    shell_sort(arr,10);
+    outputArray(arr, 10);
     return 0;
 }
-
