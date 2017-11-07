@@ -19,7 +19,7 @@
 原地操作几乎是选择排序的唯一优点，当控件复杂度要求较高时，可以考虑选择排序；实际适用的场合非常罕见。
 
 Code：
-```c
+```c++
 template<typename T> //整數或浮點數皆可使用，若要使用物件（class）時必須設定大於（>）的運算子功能
 void selection_sort(std::vector<T>& arr) {
 	for (int i = 0; i < arr.size() - 1; i++) {

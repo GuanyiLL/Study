@@ -61,7 +61,7 @@
 
 代码实现：
 
-```c
+```c++
 void shell_sort(T arr[], int len) {
 	int gap, i, j;
 	T temp;
@@ -74,4 +74,3 @@ void shell_sort(T arr[], int len) {
 		}
 }
 ```
-
