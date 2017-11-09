@@ -60,6 +60,7 @@ int main(int argc, char*argv[]) {
     cout<<"before sorting"<<endl;
     outputArray(a, 10);
     cout<<"after sorting"<<endl;
+    merge_sort(a,10);
     outputArray(a, 10);
 
     return 0;
