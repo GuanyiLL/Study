@@ -61,6 +61,10 @@ int main(int argc, char*argv[]) {
     outputArray(a, 10);
     cout<<"after sorting"<<endl;
     merge_sort(a,10);
+
+    // int *temp = new int[10];
+    // merge_sort_recursive(a, temp, 0, 10);
+
     outputArray(a, 10);
 
     return 0;
