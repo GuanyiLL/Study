@@ -167,6 +167,6 @@ struct key *binsearch(char *word, struct key *tab, int n) {
 对节点的所有操作要保证，任何节点的左子树只包含按字典序小于该节点中单词的那些单词，右子树只包含按字典序大于该节点中单词的那些单词。
 "now is the time for all good men to come to the aid of their party"
 
-
+![struct tree](/img/Struct01.png)
 
 
