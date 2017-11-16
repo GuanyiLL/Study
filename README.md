@@ -1,1 +1,1 @@
-Custom study repository
+Personal study repository
