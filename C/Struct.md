@@ -227,3 +227,16 @@ struct tnode *address(struct tnode *p, char *w) {
     return p;
 }
 ```
+新节点的存储空间由`talloc`获得。`talloc`函数返回一个指针，指针能容纳一个树节点的空闲空间。函数`strdup`将新单词复制到某个隐藏位置。计数值将被初始化，两个子树被置空。增加新节点时，这部分代码只在树叶部分执行。该程序忽略了对`strdup`和`talloc`返回值的出错检查。
+`treeprint`函数按顺序打印树。在每个节点，它先打印左子树，然后是该单词本身，最后是右子树。
+```c
+void treeprint(struct tnode *p) {
+    if (p != NULL) {
+        treeprint(p -> left);
+        printf("%4d %s \n", p->count, p->word);
+        treeprint(p->right);
+    }
+}
+```
+
+
