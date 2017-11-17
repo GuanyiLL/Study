@@ -169,4 +169,61 @@ struct key *binsearch(char *word, struct key *tab, int n) {
 
 ![struct tree](/img/Struct01.png)
 
+查找一个新单词是否已经在树中，可以从根节点开始，比较新单词与该节点中的单词。若单词小于该节点中的单词，则在左子树中继续查找，否则在右子树查找。如果搜寻方向无子树，则说明新单词不在树中，则当前的空位就是存放新单词的位置。
 
+```c
+struct tnode {
+    char *word;                 /* 树的节点 */
+    int count;                  /* 指向单词的指针 */
+    struct tnode *left;         /* 左子节点 */
+    struct tnode *right;        /* 右子节点 */
+}
+```
+以上为树结构体。
+
+```c
+#include <stdio.h>
+#include <ctype.h>
+#include <string.h>
+
+#define MAXWORD 100
+struct tnode *addtree(struct tnode*, char*);
+void treeprint(struct tnode *);
+int getword(char *,int);
+
+main() {
+    struct tnode *root;
+    char word[MAXWORD];
+
+    root = NULL;
+    while(getword(word,MAXWORD) != EOF) 
+        if (isalpha(word[0]))
+            root = addtree(root, word);
+    treenode(root);
+    return 0; 
+}
+```
+函数`addtree`是递归调用的，主函数以参数的一个单词将作为树的最顶层。在每一部中，新单词与节点中存储的单词进行比较，随后，通过递归调用`addtree`而转向左子树或右子树。该单词最终将与树中的某个节点匹配，或遇到一个空指针。若生成新节点，则返回一个指向新节点的指针。
+```c
+struct tnode *talloc(void);
+char *strdup(char *);
+
+struct tnode *address(struct tnode *p, char *w) {
+    int cond;
+
+    if (p == NULL) {
+        p = talloc();
+        p -> word = strdup(w);
+        p -> countt = 1;
+        p -> left = p -> right = NULL;
+    } else if ((cond = strcmp(w, p -> word)) == 0) {
+        p -> count++;
+    } else if (cond < 0) {
+        p -> left = addtree(p -> left, w);
+    } else {
+        p -> right = addtree(p -> right, w);
+    }
+
+    return p;
+}
+```
