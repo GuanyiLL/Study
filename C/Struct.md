@@ -238,5 +238,25 @@ void treeprint(struct tnode *p) {
     }
 }
 ```
+talloc函数如下：
+```c
+/* talloc函数：创建一个tnode */
+truct tnode *talloc(void) {
+    return (struct tnode *)malloc(sizeof(struct tnode));
+}
+```
+`strdup`函数只是把通过其参数传入的字符串复制到某个安全的位置。它是通过调用`malloc`函数实现的：
+```c
+char *strdup(char *s) {         /* 复制s到某个位置 */
+    char *p;
+    p = (char *)malloc(strlen(s) + 1);
+    if (p != NULL) 
+        strcpy(p, s);
+    return p;
+}
+```
+
+## 表查找
+
 
 
