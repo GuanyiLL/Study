@@ -9,7 +9,20 @@
 归并操作（merge），也叫归并算法，指的是将两个已经排序的序列合并成一个序列的操作。归并排序算法依赖归并操作。
 
 ## 原地归并的抽象方法
+实现归并的一种直截了当的方法是将两个不同的有序数组归并到第三个数组中。但是，当用归并将一个数组排序时，需要进行很多次归并，这样每次归并时都创建一个新数组来存储排序结果会带来问题。原地归并可以先将前半部分排序，再将后半部分排序，然后在数组中移动元素而不需要使用额外的空间。使用以下merge函数来进行归并：
+```java
+public static void merge(Comparebal[] a, int lo, int mid, int hi) {
+    int i = lo, j = mid + 1;
+    for (int k = lo; k <= hi; k++)
+        aux[k] = a[k];
 
+    for (int k = lo; k <= hi; k++)
+        if (i > mid)
+        else if (j > hi)
+        else if (less(aux[j], aux[i]))
+        else
+}
+```
 ## 自顶向下的归并排序
 
 ## 自低向上的归并排序
