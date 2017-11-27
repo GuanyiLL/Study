@@ -24,6 +24,24 @@ public static void merge(Comparebal[] a, int lo, int mid, int hi) {
 }
 ```
 ## 自顶向下的归并排序
+这种递归归并，使用了`分治思想`，下面这段代码是归纳证明算法能够正确地将数组排序的基础：如果它能将两个子数组排序，它就能够通过归并两个子数组来将整个数组排序：
+```java
+public class Merge {
+	private static Comparable[] aux; //归并所需的辅助数组
+	public static void sort(Comparable[] a) {
+		aux = new Compareble[a.length];   // 一次性分配空间
+		sort(a, 0, a.length-1);
+	}
+
+	private static void sort(COmparable[] a, int lo, int hi) {
+		if (hi <= lo) return;
+		int mid = lo + (hi - lo)/2;
+		sort(a, lo, mid);		// 将左半边排序
+		sort(a, mid+1, hi);		// 将右半边排序
+		merge(a, lo, mid, hi);  // 归并结果
+	}
+}
+```
 
 ## 自低向上的归并排序
 
