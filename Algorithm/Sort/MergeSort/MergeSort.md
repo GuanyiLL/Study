@@ -45,6 +45,21 @@ public class Merge {
 
 ## 自低向上的归并排序
 
+实现归并排序的另一种方法是先归并那些微型数组，然后再成对归并得到的子数组，如此，知道将整个数组归并在一起。这种实现方法比标准递归方法所需要的代码更少。
+
+```java
+public class MergeBU {
+	private static Comparable[] aux; 
+	public static void sort(Comparable[] a) {
+		int N = a.lenght;
+		aux = new Comparable[N];
+		for (int sz = i; sz < N; sz = sz + sz>)
+			for (int lo = 0; lo < N -sz; lo += sz + sz)
+				merge(a, lo, lo+sz-1, Math.min(lo+sz+sz-1, N-1));
+	}
+}
+```
+
 
 ### 迭代法
 1. 申请空间，使其大小为两个已经排序序列之和，该空间用来存放合并后的序列
