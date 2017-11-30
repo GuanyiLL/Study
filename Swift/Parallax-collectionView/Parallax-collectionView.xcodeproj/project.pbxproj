@@ -9,9 +9,11 @@
 /* Begin PBXBuildFile section */
 		93CDB7CC1FCFA0DE0032DE13 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93CDB7CB1FCFA0DE0032DE13 /* AppDelegate.swift */; };
 		93CDB7CE1FCFA0DE0032DE13 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93CDB7CD1FCFA0DE0032DE13 /* ViewController.swift */; };
-		93CDB7D11FCFA0DE0032DE13 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 93CDB7CF1FCFA0DE0032DE13 /* Main.storyboard */; };
 		93CDB7D31FCFA0DE0032DE13 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 93CDB7D21FCFA0DE0032DE13 /* Assets.xcassets */; };
-		93CDB7D61FCFA0DE0032DE13 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 93CDB7D41FCFA0DE0032DE13 /* LaunchScreen.storyboard */; };
+		93CDB7E31FCFA5A30032DE13 /* ParallaxCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93CDB7E21FCFA5A30032DE13 /* ParallaxCollectionViewCell.swift */; };
+		93CDB7E41FCFA7290032DE13 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 93CDB7CF1FCFA0DE0032DE13 /* Main.storyboard */; };
+		93CDB7E51FCFA72D0032DE13 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 93CDB7D41FCFA0DE0032DE13 /* LaunchScreen.storyboard */; };
+		93CDB7E61FCFA72F0032DE13 /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 93CDB7D71FCFA0DE0032DE13 /* Info.plist */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -22,6 +24,7 @@
 		93CDB7D21FCFA0DE0032DE13 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		93CDB7D51FCFA0DE0032DE13 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		93CDB7D71FCFA0DE0032DE13 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		93CDB7E21FCFA5A30032DE13 /* ParallaxCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParallaxCollectionViewCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -54,14 +57,23 @@
 		93CDB7CA1FCFA0DE0032DE13 /* Parallax-collectionView */ = {
 			isa = PBXGroup;
 			children = (
-				93CDB7CB1FCFA0DE0032DE13 /* AppDelegate.swift */,
 				93CDB7CD1FCFA0DE0032DE13 /* ViewController.swift */,
+				93CDB7E21FCFA5A30032DE13 /* ParallaxCollectionViewCell.swift */,
 				93CDB7CF1FCFA0DE0032DE13 /* Main.storyboard */,
+				93CDB7DD1FCFA19B0032DE13 /* SupportingFiles */,
+			);
+			path = "Parallax-collectionView";
+			sourceTree = "<group>";
+		};
+		93CDB7DD1FCFA19B0032DE13 /* SupportingFiles */ = {
+			isa = PBXGroup;
+			children = (
+				93CDB7CB1FCFA0DE0032DE13 /* AppDelegate.swift */,
 				93CDB7D21FCFA0DE0032DE13 /* Assets.xcassets */,
 				93CDB7D41FCFA0DE0032DE13 /* LaunchScreen.storyboard */,
 				93CDB7D71FCFA0DE0032DE13 /* Info.plist */,
 			);
-			path = "Parallax-collectionView";
+			path = SupportingFiles;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -123,9 +135,10 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				93CDB7D61FCFA0DE0032DE13 /* LaunchScreen.storyboard in Resources */,
+				93CDB7E61FCFA72F0032DE13 /* Info.plist in Resources */,
+				93CDB7E51FCFA72D0032DE13 /* LaunchScreen.storyboard in Resources */,
+				93CDB7E41FCFA7290032DE13 /* Main.storyboard in Resources */,
 				93CDB7D31FCFA0DE0032DE13 /* Assets.xcassets in Resources */,
-				93CDB7D11FCFA0DE0032DE13 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -138,6 +151,7 @@
 			files = (
 				93CDB7CE1FCFA0DE0032DE13 /* ViewController.swift in Sources */,
 				93CDB7CC1FCFA0DE0032DE13 /* AppDelegate.swift in Sources */,
+				93CDB7E31FCFA5A30032DE13 /* ParallaxCollectionViewCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -276,7 +290,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = MBNHL4TFE7;
-				INFOPLIST_FILE = "Parallax-collectionView/Info.plist";
+				INFOPLIST_FILE = "Parallax-collectionView/SupportingFiles/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.yiguan.Parallax-collectionView";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -291,7 +305,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = MBNHL4TFE7;
-				INFOPLIST_FILE = "Parallax-collectionView/Info.plist";
+				INFOPLIST_FILE = "Parallax-collectionView/SupportingFiles/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.yiguan.Parallax-collectionView";
 				PRODUCT_NAME = "$(TARGET_NAME)";
