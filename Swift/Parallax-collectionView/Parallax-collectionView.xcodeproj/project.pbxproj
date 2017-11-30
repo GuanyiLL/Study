@@ -13,7 +13,7 @@
 		93CDB7E31FCFA5A30032DE13 /* ParallaxCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93CDB7E21FCFA5A30032DE13 /* ParallaxCollectionViewCell.swift */; };
 		93CDB7E41FCFA7290032DE13 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 93CDB7CF1FCFA0DE0032DE13 /* Main.storyboard */; };
 		93CDB7E51FCFA72D0032DE13 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 93CDB7D41FCFA0DE0032DE13 /* LaunchScreen.storyboard */; };
-		93CDB7E61FCFA72F0032DE13 /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 93CDB7D71FCFA0DE0032DE13 /* Info.plist */; };
+		93CDB7EA1FCFD51B0032DE13 /* ParallaxCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93CDB7E91FCFD51B0032DE13 /* ParallaxCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -25,6 +25,7 @@
 		93CDB7D51FCFA0DE0032DE13 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		93CDB7D71FCFA0DE0032DE13 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		93CDB7E21FCFA5A30032DE13 /* ParallaxCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParallaxCollectionViewCell.swift; sourceTree = "<group>"; };
+		93CDB7E91FCFD51B0032DE13 /* ParallaxCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParallaxCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -58,6 +59,7 @@
 			isa = PBXGroup;
 			children = (
 				93CDB7CD1FCFA0DE0032DE13 /* ViewController.swift */,
+				93CDB7E91FCFD51B0032DE13 /* ParallaxCell.swift */,
 				93CDB7E21FCFA5A30032DE13 /* ParallaxCollectionViewCell.swift */,
 				93CDB7CF1FCFA0DE0032DE13 /* Main.storyboard */,
 				93CDB7DD1FCFA19B0032DE13 /* SupportingFiles */,
@@ -135,7 +137,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				93CDB7E61FCFA72F0032DE13 /* Info.plist in Resources */,
 				93CDB7E51FCFA72D0032DE13 /* LaunchScreen.storyboard in Resources */,
 				93CDB7E41FCFA7290032DE13 /* Main.storyboard in Resources */,
 				93CDB7D31FCFA0DE0032DE13 /* Assets.xcassets in Resources */,
@@ -151,6 +152,7 @@
 			files = (
 				93CDB7CE1FCFA0DE0032DE13 /* ViewController.swift in Sources */,
 				93CDB7CC1FCFA0DE0032DE13 /* AppDelegate.swift in Sources */,
+				93CDB7EA1FCFD51B0032DE13 /* ParallaxCell.swift in Sources */,
 				93CDB7E31FCFA5A30032DE13 /* ParallaxCollectionViewCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
