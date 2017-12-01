@@ -56,12 +56,20 @@ class ViewController
         
         print("ScrollView content offset: [\(scrollView.contentOffset.x)] \nvelocity: [\(velocity.x)]\nTargetContentOffset: [\(targetContentOffset.move().x)]")
         
-        if velocity.x == 0 { return }
-        
         var targetCell: ParallaxCollectionViewCell?
         var targetX: CGFloat = 0
-        
-        if velocity.x > 0 {
+
+        if velocity.x == 0 {
+            var quotient:CGFloat = collectionView.contentOffset.x / (ItemSize.width + 20)
+            let i = floor(quotient)
+            quotient = CGFloat(quotient - CGFloat(i))
+
+            if quotient > 0.5 {
+                 targetCell = collectionView.visibleCells.max { $0.frame.minX < $1.frame.minX } as? ParallaxCollectionViewCell
+            } else {
+                 targetCell = collectionView.visibleCells.min { $0.frame.minX < $1.frame.minX } as? ParallaxCollectionViewCell
+            }
+        } else if velocity.x > 0 {
             targetCell = collectionView.visibleCells.max { $0.frame.minX < $1.frame.minX } as? ParallaxCollectionViewCell
         } else {
             targetCell = collectionView.visibleCells.min { $0.frame.minX < $1.frame.minX } as? ParallaxCollectionViewCell
