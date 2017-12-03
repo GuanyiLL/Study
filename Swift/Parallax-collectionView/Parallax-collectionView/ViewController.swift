@@ -9,8 +9,9 @@
 import UIKit
 
 struct ItemSize {
-    static let width:CGFloat = 280;
-    static let height:CGFloat = 400;
+    static let width: CGFloat = 280;
+    static let height: CGFloat = 400;
+    static let merge: CGFloat = 20;
 }
 
 class ViewController
@@ -23,15 +24,7 @@ class ViewController
     var layout: UICollectionViewFlowLayout!
     var imgNames: NSArray = ["01","02","03","04"];
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        configCollectionView()
-    }
-    
-    override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
-        collectionView.frame = CGRect(x: 0, y: 64, width: view.frame.width, height: view.frame.height - 64)
-    }
+    //MARK:- Delegates
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return 20;
@@ -39,7 +32,7 @@ class ViewController
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ParallaxCollectionViewCell.reuseIdentifier, for: indexPath) as! ParallaxCollectionViewCell
-        cell.bgImageView.image = UIImage(named: "0\(indexPath.row % 4 + 1)")
+        cell.backgroundImage = UIImage(named: "0\(indexPath.row % 4 + 1)")
         return cell
     }
     
@@ -54,15 +47,15 @@ class ViewController
     
     func scrollViewWillEndDragging(_ scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
         
-        print("ScrollView content offset: [\(scrollView.contentOffset.x)] \nvelocity: [\(velocity.x)]\nTargetContentOffset: [\(targetContentOffset.move().x)]")
+        //This following code wrote like shit
         
         var targetCell: ParallaxCollectionViewCell?
         var targetX: CGFloat = 0
 
         if velocity.x == 0 {
-            var quotient:CGFloat = collectionView.contentOffset.x / (ItemSize.width + 20)
+            var quotient:CGFloat = collectionView.contentOffset.x / (ItemSize.width + ItemSize.merge)
             let i = floor(quotient)
-            quotient = CGFloat(quotient - CGFloat(i))
+            quotient = CGFloat(quotient - i)
 
             if quotient > 0.5 {
                  targetCell = collectionView.visibleCells.max { $0.frame.minX < $1.frame.minX } as? ParallaxCollectionViewCell
@@ -76,14 +69,26 @@ class ViewController
         }
         guard let cell = targetCell else { fatalError() }
         guard let indexPath = collectionView.indexPath(for: cell) else { fatalError() }
-        targetX = CGFloat(indexPath.row) * (ItemSize.width + 20)
+        targetX = CGFloat(indexPath.row) * (ItemSize.width + ItemSize.merge)
         targetContentOffset.pointee.x = targetX
+    }
+
+    // MARK:- Liftcycle
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        configCollectionView()
+    }
+    
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        collectionView.frame = CGRect(x: 0, y: 64, width: view.frame.width, height: view.frame.height - 64)
     }
     
     func configCollectionView() {
         layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .horizontal
-        layout.minimumLineSpacing = 20
+        layout.minimumLineSpacing = ItemSize.merge
         layout.headerReferenceSize = CGSize(width: (UIScreen.main.bounds.width - ItemSize.width) / 2, height: ItemSize.height)
         layout.footerReferenceSize = CGSize(width: (UIScreen.main.bounds.width - ItemSize.width) / 2, height: ItemSize.height)
         collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
@@ -95,7 +100,6 @@ class ViewController
         collectionView.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
         view.addSubview(collectionView)
     }
-    
     
 }
 

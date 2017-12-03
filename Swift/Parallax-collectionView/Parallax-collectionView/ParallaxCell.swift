@@ -11,4 +11,5 @@ import UIKit
 protocol ParallaxCell {
     var container: UIView { get set }
     var bgImageView: UIImageView { get set }
+    var bgImageHeight: CGFloat { get set }
 }
