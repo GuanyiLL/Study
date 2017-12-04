@@ -11,6 +11,7 @@ import UIKit
 class ParallaxCollectionViewCell
 : UICollectionViewCell
 , ParallaxCell {
+    
     var container: UIView = {
         let view = UIView()
         view.clipsToBounds = true
@@ -25,7 +26,22 @@ class ParallaxCollectionViewCell
     var backgroundImage: UIImage? {
         didSet {
             bgImageView.image = backgroundImage
+            let targetWidth = backgroundImageViewWidth(by: backgroundImage)
+            bgImageView.frame.size = CGSize(width: targetWidth, height: bgImageHeight)
         }
+    }
+    
+    func movingBackgroundImageView(collectionView: UICollectionView) {
+        
+        let width = ItemSize.width + ItemSize.merge
+        
+        var deltaY = (frame.origin.x + frame.width/2) - collectionView.contentOffset.x
+        deltaY = min(width, max(deltaY, 0)) // range
+        
+        var move : CGFloat = (deltaY / width) * width
+        move = move / 2.0  - move
+        
+        bgImageView.frame.origin.x = move
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -37,7 +53,7 @@ class ParallaxCollectionViewCell
         commonInit()
     }
     
-    func commonInit() {
+    fileprivate func commonInit() {
         self.clipsToBounds = true
         contentView.addSubview(container)
         container.addSubview(bgImageView)
@@ -46,9 +62,6 @@ class ParallaxCollectionViewCell
     override func layoutSubviews() {
         super.layoutSubviews()
         container.frame = contentView.bounds
-        let targetWidth = backgroundImageViewWidth(by: backgroundImage)
-        bgImageView.frame = CGRect(x: (contentView.frame.width - targetWidth) / 2, y: 0, width: targetWidth, height: bgImageHeight)
-        bgImageView.backgroundColor = .red
         contentView.backgroundColor = .green
     }
     

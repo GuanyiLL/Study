@@ -72,6 +72,14 @@ class ViewController
         targetX = CGFloat(indexPath.row) * (ItemSize.width + ItemSize.merge)
         targetContentOffset.pointee.x = targetX
     }
+    
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        if scrollView == collectionView {
+            collectionView.visibleCells
+                .map{ $0 as! ParallaxCollectionViewCell }
+                .forEach { $0.movingBackgroundImageView(collectionView: collectionView) }
+        }
+    }
 
     // MARK:- Liftcycle
     
@@ -96,6 +104,7 @@ class ViewController
         collectionView.dataSource = self
         collectionView.showsVerticalScrollIndicator = false
         collectionView.showsHorizontalScrollIndicator = false
+        collectionView.bounces = false
         collectionView.register(ParallaxCollectionViewCell.classForCoder(), forCellWithReuseIdentifier: ParallaxCollectionViewCell.reuseIdentifier)
         collectionView.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
         view.addSubview(collectionView)
