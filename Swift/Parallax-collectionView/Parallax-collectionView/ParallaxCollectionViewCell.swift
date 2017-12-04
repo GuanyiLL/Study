@@ -72,8 +72,22 @@ class ParallaxCollectionViewCell
     }
 }
 
-extension ParallaxCollectionViewCell {
+extension UIView {
     static var reuseIdentifier: String {
         return NSStringFromClass(self.classForCoder())
+    }
+    
+    var snapshot: UIImageView {
+        let container  = UIImageView(image: UIView.shot(withView: self))
+        container.frame.size = self.bounds.size;
+        return container
+    }
+
+    static func shot(withView v: UIView) -> UIImage? {
+        UIGraphicsBeginImageContext(v.bounds.size)
+        v.layer.render(in: UIGraphicsGetCurrentContext()!)
+        let image = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+        return image
     }
 }

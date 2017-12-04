@@ -18,12 +18,14 @@ class ViewController
 : UIViewController
 , UICollectionViewDelegate
 , UICollectionViewDataSource
-, UICollectionViewDelegateFlowLayout {
+, UICollectionViewDelegateFlowLayout
+, UINavigationControllerDelegate {
 
     var collectionView: UICollectionView!
     var layout: UICollectionViewFlowLayout!
     var imgNames: NSArray = ["01","02","03","04"];
-    
+    var selectedCell: ParallaxCell?
+
     //MARK:- Delegates
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -41,8 +43,11 @@ class ViewController
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        //TODO
         print("Did select item at row:[\(indexPath.row)]")
+        selectedCell = collectionView.cellForItem(at: indexPath) as? ParallaxCell
+        let detail = ParallaxDetailController()
+        detail.image = selectedCell?.bgImageView.image
+        navigationController?.pushViewController(detail, animated: true)
     }
     
     func scrollViewWillEndDragging(_ scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
@@ -80,6 +85,14 @@ class ViewController
                 .forEach { $0.movingBackgroundImageView(collectionView: collectionView) }
         }
     }
+    
+    func navigationController(_ navigationController: UINavigationController, animationControllerFor operation: UINavigationControllerOperation, from fromVC: UIViewController, to toVC: UIViewController) -> UIViewControllerAnimatedTransitioning? {
+        
+        if toVC is ParallaxDetailController {
+            return AnimatedTransitioning()
+        }
+        return nil
+    }
 
     // MARK:- Liftcycle
     
@@ -91,6 +104,11 @@ class ViewController
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         collectionView.frame = CGRect(x: 0, y: 64, width: view.frame.width, height: view.frame.height - 64)
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        navigationController?.delegate = self
     }
     
     func configCollectionView() {
