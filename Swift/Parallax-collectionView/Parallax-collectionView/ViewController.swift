@@ -33,7 +33,6 @@ class ViewController
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ParallaxCollectionViewCell.reuseIdentifier, for: indexPath) as! ParallaxCollectionViewCell
         cell.backgroundImage = UIImage(named: "0\(indexPath.row % 4 + 1)")
-        cell.index = indexPath.row
         return cell
     }
     
