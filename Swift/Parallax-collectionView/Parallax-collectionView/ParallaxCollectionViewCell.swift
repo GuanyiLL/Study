@@ -23,25 +23,36 @@ class ParallaxCollectionViewCell
         return imageView
     }()
     var bgImageHeight: CGFloat = 250
+    var index: Int = 0
     var backgroundImage: UIImage? {
         didSet {
             bgImageView.image = backgroundImage
-            let targetWidth = backgroundImageViewWidth(by: backgroundImage)
+            var targetWidth = backgroundImageViewWidth(by: backgroundImage)
+            if targetWidth <= ItemSize.width {
+                targetWidth += 20
+            }
             bgImageView.frame.size = CGSize(width: targetWidth, height: bgImageHeight)
         }
     }
     
     func movingBackgroundImageView(collectionView: UICollectionView) {
         
-        let width = ItemSize.width + ItemSize.merge
+        let width = ItemSize.width
         
-        var deltaY = (frame.origin.x + frame.width/2) - collectionView.contentOffset.x
-        deltaY = min(width, max(deltaY, 0)) // range
+        var deltaX = (frame.origin.x + frame.width/2) - collectionView.contentOffset.x
         
-        var move : CGFloat = (deltaY / width) * width
+        print(deltaX)
+        
+        deltaX = min(width, max(deltaX, 0))
+        
+        var move : CGFloat = deltaX / collectionView.bounds.width * (ItemSize.width + ItemSize.merge)
         move = move / 2.0  - move
         
         bgImageView.frame.origin.x = move
+        
+        if (index == 1) {
+            print("{\n\t\(move)\n\t\(bgImageView.frame)\n\t\(frame.width)\n}")
+        }
     }
     
     required init?(coder aDecoder: NSCoder) {
