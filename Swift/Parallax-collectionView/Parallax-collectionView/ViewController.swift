@@ -87,10 +87,10 @@ class ViewController
     }
     
     func navigationController(_ navigationController: UINavigationController, animationControllerFor operation: UINavigationControllerOperation, from fromVC: UIViewController, to toVC: UIViewController) -> UIViewControllerAnimatedTransitioning? {
-        
-        if toVC is ParallaxDetailController {
-            return AnimatedTransitioning()
-        }
+//        
+//        if toVC is ParallaxDetailController {
+//            return AnimatedTransitioning()
+//        }
         return nil
     }
 

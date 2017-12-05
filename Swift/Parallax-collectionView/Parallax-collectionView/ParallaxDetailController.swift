@@ -14,8 +14,8 @@ class ParallaxDetailController: UIViewController {
     
     var imageView: UIImageView = {
         let imageView = UIImageView()
-        imageView.contentMode = .scaleAspectFill
         imageView.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: 250)
+        imageView.isHidden = true
         return imageView
     }()
     
@@ -25,6 +25,11 @@ class ParallaxDetailController: UIViewController {
         view.addSubview(imageView)
         imageView.image = image
         view.backgroundColor = .white
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        print(imageView)
     }
 
 }

@@ -60,7 +60,7 @@ class ParallaxCollectionViewCell
     
     override func layoutSubviews() {
         super.layoutSubviews()
-        container.frame = contentView.bounds
+        container.frame = CGRect(x: 0, y: 0, width: frame.width, height: bgImageHeight)
         contentView.backgroundColor = .green
     }
     
@@ -80,6 +80,7 @@ extension UIView {
     var snapshot: UIImageView {
         let container  = UIImageView(image: UIView.shot(withView: self))
         container.frame.size = self.bounds.size;
+        container.contentMode = .scaleToFill
         return container
     }
 
