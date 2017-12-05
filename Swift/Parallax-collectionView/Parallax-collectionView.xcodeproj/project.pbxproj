@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		938833541FD6E47D00721ADC /* ParallaxFlowLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 938833531FD6E47D00721ADC /* ParallaxFlowLayout.swift */; };
 		93CDB7CC1FCFA0DE0032DE13 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93CDB7CB1FCFA0DE0032DE13 /* AppDelegate.swift */; };
 		93CDB7CE1FCFA0DE0032DE13 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93CDB7CD1FCFA0DE0032DE13 /* ViewController.swift */; };
 		93CDB7D31FCFA0DE0032DE13 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 93CDB7D21FCFA0DE0032DE13 /* Assets.xcassets */; };
@@ -19,6 +20,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		938833531FD6E47D00721ADC /* ParallaxFlowLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParallaxFlowLayout.swift; sourceTree = "<group>"; };
 		93CDB7C81FCFA0DE0032DE13 /* Parallax-collectionView.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Parallax-collectionView.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		93CDB7CB1FCFA0DE0032DE13 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		93CDB7CD1FCFA0DE0032DE13 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -63,6 +65,7 @@
 			isa = PBXGroup;
 			children = (
 				93CDB7CD1FCFA0DE0032DE13 /* ViewController.swift */,
+				938833531FD6E47D00721ADC /* ParallaxFlowLayout.swift */,
 				93CDB7E91FCFD51B0032DE13 /* ParallaxCell.swift */,
 				93CDB7E21FCFA5A30032DE13 /* ParallaxCollectionViewCell.swift */,
 				93CDB7F51FD542E60032DE13 /* AnimatedTransitioning.swift */,
@@ -156,6 +159,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				938833541FD6E47D00721ADC /* ParallaxFlowLayout.swift in Sources */,
 				93CDB7CE1FCFA0DE0032DE13 /* ViewController.swift in Sources */,
 				93CDB7CC1FCFA0DE0032DE13 /* AppDelegate.swift in Sources */,
 				93CDB7F61FD542E60032DE13 /* AnimatedTransitioning.swift in Sources */,
