@@ -30,7 +30,11 @@ class AnimatedTransitioning:NSObject, UIViewControllerAnimatedTransitioning {
         
         UIView.animate(withDuration: 0.5, animations: {
             destinationVC.view.alpha = 1;
+            print(cell.bgImageView)
+            cell.bgImageView.frame = destinationVC.imageView.frame
+            print(cell.bgImageView)
             cell.frame = container.convert(destinationVC.view.frame, from: destinationVC.view)
+            
         }) { finish in
             if finish {
                 cell.isHidden = true

@@ -19,7 +19,6 @@ class ParallaxCollectionViewCell
     }()
     var bgImageView: UIImageView = {
         let imageView = UIImageView()
-        imageView.contentMode = .scaleAspectFill
         return imageView
     }()
     var bgImageHeight: CGFloat = 250
@@ -75,20 +74,5 @@ class ParallaxCollectionViewCell
 extension UIView {
     static var reuseIdentifier: String {
         return NSStringFromClass(self.classForCoder())
-    }
-    
-    var snapshot: UIImageView {
-        let container  = UIImageView(image: UIView.shot(withView: self))
-        container.frame.size = self.bounds.size;
-        container.contentMode = .scaleToFill
-        return container
-    }
-
-    static func shot(withView v: UIView) -> UIImage? {
-        UIGraphicsBeginImageContext(v.bounds.size)
-        v.layer.render(in: UIGraphicsGetCurrentContext()!)
-        let image = UIGraphicsGetImageFromCurrentImageContext()
-        UIGraphicsEndImageContext()
-        return image
     }
 }

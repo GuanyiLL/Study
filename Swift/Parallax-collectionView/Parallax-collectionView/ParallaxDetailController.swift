@@ -37,10 +37,5 @@ class ParallaxDetailController: UIViewController {
         imageView.image = image
         view.backgroundColor = .white
     }
-    
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        print(imageView)
-    }
 
 }
