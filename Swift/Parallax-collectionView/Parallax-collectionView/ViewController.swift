@@ -24,7 +24,7 @@ class ViewController
     var collectionView: UICollectionView!
     var layout: UICollectionViewFlowLayout!
     var imgNames: NSArray = ["01","02","03","04"];
-    var selectedCell: ParallaxCell?
+    var selectedCell: ParallaxCollectionViewCell?
 
     //MARK:- Delegates
     
@@ -44,7 +44,7 @@ class ViewController
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         print("Did select item at row:[\(indexPath.row)]")
-        selectedCell = collectionView.cellForItem(at: indexPath) as? ParallaxCell
+        selectedCell = collectionView.cellForItem(at: indexPath) as? ParallaxCollectionViewCell
         let detail = ParallaxDetailController()
         detail.image = selectedCell?.bgImageView.image
         navigationController?.pushViewController(detail, animated: true)
@@ -87,10 +87,10 @@ class ViewController
     }
     
     func navigationController(_ navigationController: UINavigationController, animationControllerFor operation: UINavigationControllerOperation, from fromVC: UIViewController, to toVC: UIViewController) -> UIViewControllerAnimatedTransitioning? {
-//        
-//        if toVC is ParallaxDetailController {
-//            return AnimatedTransitioning()
-//        }
+        
+        if toVC is ParallaxDetailController {
+            return AnimatedTransitioning()
+        }
         return nil
     }
 

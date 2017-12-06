@@ -15,31 +15,23 @@ class AnimatedTransitioning:NSObject, UIViewControllerAnimatedTransitioning {
     
     func animateTransition(using transitionContext: UIViewControllerContextTransitioning) {
         let destinationVC = transitionContext.viewController(forKey: UITransitionContextViewControllerKey.to) as! ParallaxDetailController
-        
         let sourceVC = transitionContext.viewController(forKey: UITransitionContextViewControllerKey.from) as! ViewController
-        
         let container = transitionContext.containerView
         
         guard let cell = sourceVC.selectedCell else { fatalError() }
-        
-        let snapshotView = cell.container.snapshot
-        snapshotView.frame = container.convert(cell.container.frame, from: cell.container)
-        sourceVC.selectedCell?.bgImageView.isHidden = true
         
         destinationVC.view.frame = transitionContext.finalFrame(for: destinationVC)
         destinationVC.view.alpha = 0
         
         container.addSubview(destinationVC.view)
-        container.addSubview(snapshotView)
+        container.addSubview(cell)
         
         UIView.animate(withDuration: 0.5, animations: {
-            snapshotView.image = destinationVC.image
-            snapshotView.frame = container.convert(destinationVC.imageView.frame, from: destinationVC.view)
-            print(snapshotView)
+            cell.frame = UIScreen.main.bounds
         }) { (finish) in
             if finish {
                 destinationVC.view.alpha = 1;
-                snapshotView.isHidden = true
+                cell.alpha = 0
                 destinationVC.imageView.isHidden = false
                 transitionContext.completeTransition(!transitionContext.transitionWasCancelled)
             }
