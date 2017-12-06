@@ -55,6 +55,22 @@ class ParallaxCollectionViewCell
         self.clipsToBounds = true
         contentView.addSubview(container)
         container.addSubview(bgImageView)
+        
+        /* 添加阴影会影响到push迁移动画 WTF */
+        
+//        layer.cornerRadius = 10;
+//        contentView.layer.cornerRadius = 10.0;
+//        contentView.layer.borderWidth = 0.5;
+//        contentView.layer.borderColor = UIColor.clear.cgColor;
+//        contentView.layer.masksToBounds = true;
+//
+//        layer.shadowColor = UIColor.darkGray.cgColor;
+//        layer.shadowOffset = CGSize(width: 0, height: 0)
+//        layer.shadowRadius = 4.0;
+//        layer.shadowOpacity = 0.5;
+//        layer.masksToBounds = false;
+//
+//        layer.shadowPath = UIBezierPath(roundedRect: bounds, cornerRadius: contentView.layer.cornerRadius).cgPath
     }
     
     override func layoutSubviews() {
