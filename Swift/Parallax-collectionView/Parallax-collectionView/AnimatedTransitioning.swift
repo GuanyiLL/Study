@@ -19,7 +19,9 @@ class AnimatedTransitioning:NSObject, UIViewControllerAnimatedTransitioning {
         let container = transitionContext.containerView
         
         guard let cell = sourceVC.selectedCell else { fatalError() }
-        
+
+        cell.frame = container.convert(cell.contentView.frame, from: sourceVC.selectedCell)
+
         destinationVC.view.frame = transitionContext.finalFrame(for: destinationVC)
         destinationVC.view.alpha = 0
         
@@ -27,11 +29,11 @@ class AnimatedTransitioning:NSObject, UIViewControllerAnimatedTransitioning {
         container.addSubview(cell)
         
         UIView.animate(withDuration: 0.5, animations: {
-            cell.frame = UIScreen.main.bounds
-        }) { (finish) in
+            destinationVC.view.alpha = 1;
+            cell.frame = container.convert(destinationVC.view.frame, from: destinationVC.view)
+        }) { finish in
             if finish {
-                destinationVC.view.alpha = 1;
-                cell.alpha = 0
+                cell.isHidden = true
                 destinationVC.imageView.isHidden = false
                 transitionContext.completeTransition(!transitionContext.transitionWasCancelled)
             }
