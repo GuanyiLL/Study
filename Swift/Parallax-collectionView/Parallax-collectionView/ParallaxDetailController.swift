@@ -12,7 +12,7 @@ class ParallaxDetailController: UIViewController {
     
     var image:UIImage?
     var backButton: UIButton = {
-        let button = UIButton(frame: CGRect(x: 50, y: 200, width: 30, height: 30))
+        let button = UIButton(frame: CGRect(x: 30, y: 150, width: 30, height: 30))
         button.setTitle("Back", for: .normal)
         button.addTarget(self, action: #selector(ParallaxDetailController.popViewController), for: .touchUpInside)
         return button
@@ -20,7 +20,7 @@ class ParallaxDetailController: UIViewController {
     
     var imageView: UIImageView = {
         let imageView = UIImageView()
-        imageView.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: 250)
+        imageView.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: 200)
         imageView.isHidden = true
         return imageView
     }()

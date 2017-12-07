@@ -50,33 +50,33 @@ class ViewController
         navigationController?.pushViewController(detail, animated: true)
     }
     
-    func scrollViewWillEndDragging(_ scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
-        
-        //This following code wrote like shit
-        
-        var targetCell: ParallaxCollectionViewCell?
-        var targetX: CGFloat = 0
-
-        if velocity.x == 0 {
-            var quotient:CGFloat = collectionView.contentOffset.x / (ItemSize.width + ItemSize.merge)
-            let i = floor(quotient)
-            quotient = CGFloat(quotient - i)
-
-            if quotient > 0.5 {
-                 targetCell = collectionView.visibleCells.max { $0.frame.minX < $1.frame.minX } as? ParallaxCollectionViewCell
-            } else {
-                 targetCell = collectionView.visibleCells.min { $0.frame.minX < $1.frame.minX } as? ParallaxCollectionViewCell
-            }
-        } else if velocity.x > 0 {
-            targetCell = collectionView.visibleCells.max { $0.frame.minX < $1.frame.minX } as? ParallaxCollectionViewCell
-        } else {
-            targetCell = collectionView.visibleCells.min { $0.frame.minX < $1.frame.minX } as? ParallaxCollectionViewCell
-        }
-        guard let cell = targetCell else { fatalError() }
-        guard let indexPath = collectionView.indexPath(for: cell) else { fatalError() }
-        targetX = CGFloat(indexPath.row) * (ItemSize.width + ItemSize.merge)
-        targetContentOffset.pointee.x = targetX
-    }
+//    func scrollViewWillEndDragging(_ scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
+//
+//        //This following code wrote like shit
+//
+//        var targetCell: ParallaxCollectionViewCell?
+//        var targetX: CGFloat = 0
+//
+//        if velocity.x == 0 {
+//            var quotient:CGFloat = collectionView.contentOffset.x / (ItemSize.width + ItemSize.merge)
+//            let i = floor(quotient)
+//            quotient = CGFloat(quotient - i)
+//
+//            if quotient > 0.5 {
+//                 targetCell = collectionView.visibleCells.max { $0.frame.minX < $1.frame.minX } as? ParallaxCollectionViewCell
+//            } else {
+//                 targetCell = collectionView.visibleCells.min { $0.frame.minX < $1.frame.minX } as? ParallaxCollectionViewCell
+//            }
+//        } else if velocity.x > 0 {
+//            targetCell = collectionView.visibleCells.max { $0.frame.minX < $1.frame.minX } as? ParallaxCollectionViewCell
+//        } else {
+//            targetCell = collectionView.visibleCells.min { $0.frame.minX < $1.frame.minX } as? ParallaxCollectionViewCell
+//        }
+//        guard let cell = targetCell else { fatalError() }
+//        guard let indexPath = collectionView.indexPath(for: cell) else { fatalError() }
+//        targetX = CGFloat(indexPath.row) * (ItemSize.width + ItemSize.merge)
+//        targetContentOffset.pointee.x = targetX
+//    }
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         if scrollView == collectionView {
@@ -112,7 +112,7 @@ class ViewController
     }
     
     func configCollectionView() {
-        layout = UICollectionViewFlowLayout()
+        layout = ParallaxFlowLayout()
         layout.scrollDirection = .horizontal
         layout.minimumLineSpacing = ItemSize.merge
         layout.headerReferenceSize = CGSize(width: (UIScreen.main.bounds.width - ItemSize.width) / 2, height: ItemSize.height)
