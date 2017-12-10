@@ -32,7 +32,11 @@ We could turn this example into a classification problem by instead making our o
 
 (a) Regression - Given a picture of a person, we have to predict their age on the basis of the given picture
 
+> 回归问题，根据之前的数据预测出一个准确的输出值（房价预测问题）
+
 (b) Classification - Given a patient with a tumor, we have to predict whether the tumor is malignant or benign.
+
+> 分类问题，预测出离散值（如肿瘤的良性与恶性）
 
 
 ## Unsupervised Learning
