@@ -34,13 +34,19 @@ This function is otherwise called the "Squared error function", or "Mean squared
  Θj := Θj - α * δ/δθj J(θ0，θ1)
 
 := 赋值运算符
+
 α  学习速率
+
 δ/δθj J(θ0，θ1) 微分项
 
 梯度下降计算
+
 temp0 := Θ0 - α * δ/δθ0
+
 temp1 := Θ1 - α * δ/δθ1
+
 Θ0 := temp0
+
 Θ1 := temp1
 
 必须是同步更新，而不是将通过计算得出的Θ0带入到公式中求出Θ1
