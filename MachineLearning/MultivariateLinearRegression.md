@@ -19,3 +19,16 @@ Where μi is the average of all the values for feature (i) and si is the range o
 For example, if xi represents housing prices with a range of 100 to 2000 and a mean value of 1000, then,
 
 xi:=(price−1000)/1900.
+
+## Gradient Descent in Practice 2 - Learning Rate
+
+Debugging gradient descent. Make a plot with number of iterations on the x-axis. Now plot the cost function, J(θ) over the number of iterations of gradient descent. If J(θ) ever increases, then you probably need to decrease α.
+
+Automatic convergence test. Declare convergence if J(θ) decreases by less than E in one iteration, where E is some small value such as 10−3. However in practice it's difficult to choose this threshold value.
+
+If α is too small: slow convergence.
+
+If α is too large: ￼may not decrease on every iteration and thus may not converge.
+
+如果学习速率过小，那么收敛的速度会非常慢
+如果学习速率过大，那么可能将不会在每次迭代中逐渐减小，最终无法收敛
