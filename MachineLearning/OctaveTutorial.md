@@ -154,3 +154,58 @@ sum(sum(A. * flipud(eye(9))))  //9，1 到 1，9
 以上都是求对角线的和
 
 pinv(A) 求出A矩阵的反矩阵A^-1
+
+## Plotting Data
+
+## Control Statements
+```
+v = zeros(10,1) //10x1的元素都为0的向量
+
+for i = 1 : 10,  
+  v(i) = 2 ^ i;
+end;
+
+v =
+  2
+  4
+  8
+  16
+  32
+  64
+  128
+  256
+  512
+  1024
+
+indices = 1:10;   // 与 i=1:10 等价
+for i = indices,
+  disp(i)
+end;
+
+i = 1;
+while i <= 5,
+  v(i) = 100;
+  i = i + 1;
+end;
+
+i = 1;
+while true,
+  v(i) = 999;
+  i = i+1;
+  if i == 6,
+    break;
+  end;
+end;
+
+```
+
+addpath(‘/Users/kq/Desktop‘) //为octave添加环境路径以找到文件
+
+```
+>> [a,b] = squareAndCubeThisNumber(5);
+>> a
+a =  25
+>> b
+b =  125
+>>
+```
