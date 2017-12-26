@@ -209,3 +209,19 @@ a =  25
 b =  125
 >>
 ```
+
+## Vectorization 
+
+Unvectorized implemention
+
+```
+prediction = 0
+for j = 1:n+1
+  prediction = prediction + theta(j) * x(y)
+end;
+```
+
+Vectorized implementation
+```
+prediction = theta' * x;
+```
