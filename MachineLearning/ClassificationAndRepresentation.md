@@ -21,3 +21,4 @@ g(z)=1/(1+e^−z)
 hθ(x)=P(y=1|x;θ)=1−P(y=0|x;θ)
 P(y=0|x;θ)+P(y=1|x;θ)=1
 ```
+## Decision Boundary
