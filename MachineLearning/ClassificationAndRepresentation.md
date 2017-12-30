@@ -44,4 +44,4 @@ hθ(x)跟Cost(hθ(x),y)的关系
 * 当实际的y=0且hθ也为0时代价函数值为0，当y=1但hθ不为1时代价随着hθ的变大而变大
 
 
-$ J(\theta) = -\frac{1}{2} [\sum_{i=1}^m y^(i) log(h_\theta (x^(i))) + (1-y^(i)) log(1-h_\theta (x^(i) ))] $
+$$ J(\theta) = -\frac{1}{2} [\sum_{i=1}^m y^(i) log(h_\theta (x^(i))) + (1-y^(i)) log(1-h_\theta (x^(i) ))] $$
