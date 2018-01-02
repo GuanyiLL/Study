@@ -44,3 +44,10 @@ hθ(x)跟Cost(hθ(x),y)的关系
 * 当实际的y=0且hθ也为0时代价函数值为0，当y=1但hθ不为1时代价随着hθ的变大而变大
 
 ![cost function](/img/CostFunction02.jpeg)
+
+## Simplified Cost Function and Gradient Descent
+逻辑回归的梯度下降算法与线性回归的梯度下降算法的公式一样，但是由于假设函数的实现不同，因此两个公式实质是不同的。
+
+线性回归中的特征缩放同样适用于逻辑回归方程，也可以加快梯度下降过程，以更快的找到最优解。
+
+## Advanced Optimization
