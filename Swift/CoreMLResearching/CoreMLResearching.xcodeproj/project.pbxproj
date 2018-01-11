@@ -22,6 +22,7 @@
 		93B093E120075CAB0013B7A7 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		93B093E420075CAC0013B7A7 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		93B093E620075CAC0013B7A7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		93B093ED20076D910013B7A7 /* CoreMLResearching.playground */ = {isa = PBXFileReference; lastKnownFileType = file.playground; name = CoreMLResearching.playground; path = CoreMLResearching/CoreMLResearching.playground; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -38,6 +39,7 @@
 		93B093CE20075CAA0013B7A7 = {
 			isa = PBXGroup;
 			children = (
+				93B093ED20076D910013B7A7 /* CoreMLResearching.playground */,
 				93B093D920075CAB0013B7A7 /* CoreMLResearching */,
 				93B093D820075CAB0013B7A7 /* Products */,
 			);
