@@ -34,5 +34,15 @@
  ### 在代码中创建一个模型
  Xcode会自动根据模型的输入输出提供编程接口。
  
- */
+ 初始化一个模型：
+ - Example:
+ `let model = MobileNet.mimodel`
+ 
+ ### 将参数传递给模型，并输出预测
+ `MobileNet`这个类，有一个预测方法，输入所需参数，返回一个MobilNetOutput类型的实例。
 
+ - Example:
+ `let output = try? model.prediction(image: input!)`
+ 
+ 然后可以通过MobileNetOutput的实例取得预测结果，并展示在UI中。
+ */
