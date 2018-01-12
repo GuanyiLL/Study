@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		933BD54B200861C300103AB0 /* MobileNet.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = 933BD54A200861C300103AB0 /* MobileNet.mlmodel */; };
 		93B093DB20075CAB0013B7A7 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93B093DA20075CAB0013B7A7 /* AppDelegate.swift */; };
 		93B093DD20075CAB0013B7A7 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93B093DC20075CAB0013B7A7 /* ViewController.swift */; };
 		93B093E020075CAB0013B7A7 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 93B093DE20075CAB0013B7A7 /* Main.storyboard */; };
@@ -15,6 +16,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		933BD54A200861C300103AB0 /* MobileNet.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; path = MobileNet.mlmodel; sourceTree = "<group>"; };
 		93B093D720075CAB0013B7A7 /* CoreMLResearching.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CoreMLResearching.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		93B093DA20075CAB0013B7A7 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		93B093DC20075CAB0013B7A7 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -22,7 +24,6 @@
 		93B093E120075CAB0013B7A7 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		93B093E420075CAC0013B7A7 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		93B093E620075CAC0013B7A7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		93B093ED20076D910013B7A7 /* CoreMLResearching.playground */ = {isa = PBXFileReference; lastKnownFileType = file.playground; name = CoreMLResearching.playground; path = CoreMLResearching/CoreMLResearching.playground; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -39,7 +40,6 @@
 		93B093CE20075CAA0013B7A7 = {
 			isa = PBXGroup;
 			children = (
-				93B093ED20076D910013B7A7 /* CoreMLResearching.playground */,
 				93B093D920075CAB0013B7A7 /* CoreMLResearching */,
 				93B093D820075CAB0013B7A7 /* Products */,
 			);
@@ -56,6 +56,7 @@
 		93B093D920075CAB0013B7A7 /* CoreMLResearching */ = {
 			isa = PBXGroup;
 			children = (
+				933BD54A200861C300103AB0 /* MobileNet.mlmodel */,
 				93B093DC20075CAB0013B7A7 /* ViewController.swift */,
 				93B093EC20075D7F0013B7A7 /* SupportingFiles */,
 			);
@@ -148,6 +149,7 @@
 			files = (
 				93B093DD20075CAB0013B7A7 /* ViewController.swift in Sources */,
 				93B093DB20075CAB0013B7A7 /* AppDelegate.swift in Sources */,
+				933BD54B200861C300103AB0 /* MobileNet.mlmodel in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
