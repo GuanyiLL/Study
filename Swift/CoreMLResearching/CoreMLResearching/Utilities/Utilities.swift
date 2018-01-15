@@ -1,27 +1,12 @@
 //
-//  ViewController.swift
+//  Utilities.swift
 //  CoreMLResearching
 //
-//  Created by Guanyi on 2018/1/11.
+//  Created by Guanyi on 2018/1/15.
 //  Copyright © 2018年 yiguan. All rights reserved.
 //
 
 import UIKit
-
-class ViewController: UIViewController {
-    
-    let image = #imageLiteral(resourceName: "Cat")
-    let model = MobileNet()
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        let input = image.pixelBuffer(width: 224, height: 224)
-        
-        let output = try? model.prediction(image: input!)
-        
-        print("\(output?.classLabel) --- \(output?.classLabelProbs)")
-    }
-}
 
 extension UIImage {
     public func pixelBuffer(width: Int, height: Int) -> CVPixelBuffer? {
@@ -64,4 +49,3 @@ extension UIImage {
         return pixelBuffer
     }
 }
-

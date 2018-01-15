@@ -1,5 +1,5 @@
 /*:
- # CoreML Tutorail
+ # CoreML Tutorial
  ----
  ## Overview
  
@@ -9,7 +9,7 @@
  
  训练好的模型是将机器学习算法应用于一组训练数据的结果。 该模型基于新的输入数据进行预测。
  
- Core ML是特定领域框架和功能的基础。 Core ML支持用于图像分析的Vision，自然语言处理的基础（例如NSLinguisticTagger类）以及用于评估学习决策树的GameplayKit。 Core ML本身建立在像*Accelerate*和*BNNS*以及*Metal Performance Shaders*的底层之上。
+ Core ML是特定领域框架和功能的基础。 Core ML支持用于图像分析的Vision，自然语言处理的基础（例如NSLinguisticTagger类）以及用于评估学习决策树的*GameplayKit*。 Core ML本身建立在像*Accelerate*和*BNNS*以及*Metal Performance Shaders*的底层之上。
  
   ![coreML-02](/coreml02.jpg)
  
