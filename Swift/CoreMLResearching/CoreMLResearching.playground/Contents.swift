@@ -45,4 +45,31 @@
  `let output = try? model.prediction(image: input!)`
  
  然后可以通过MobileNetOutput的实例取得预测结果，并展示在UI中。
+ 
+ ----
+ 
+ # Classifying Images with Vision and Core ML
+ 
+ ----
+ 
+ ## Overview
+ 
+ Core ML框架可以利用训练好的模型对输入的数据进行分类处理。Vision框架结合Core ML则使图像分析以及机器学习变得更加简单可靠。
+ 
+ ## 用Core ML模型来生成Vision
+ 首先用模型来创建一个Vision请求,并在回调中调用结果的处理方法:\
+ 
+ - Example:
+ ` let model = try VNCoreMLModel(for: MobileNet().model) `\
+ ` let request = VNCoreMLRequest(model: model, completionHandler: { [weak self] request, error in `\
+ `   print("index = \(index)")`\
+ ` })  `\
+ ` request.imageCropAndScaleOption = .centerCrop `\
+ 
+ ML 在处理输入的图像时使用的是固定的长宽比，但是输入的图像可能是任意比例，因此Vision必须缩放或者截取图片来进行处理，设置*imageCropAndScaleOption*来获得最好的结果。出了特殊情况*centerCrop*是最合适的选项。
+
+ ## 发出Vison请求
+ 
+ 
+ 
  */
