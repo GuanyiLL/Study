@@ -35,20 +35,22 @@
  Xcode会自动根据模型的输入输出提供编程接口。
  
  初始化一个模型：
- - Example:
- `let model = MobileNet.mimodel`
+ ```
+ let model = MobileNet.mimodel
+ ```
  
  ### 将参数传递给模型，并输出预测
  `MobileNet`这个类，有一个预测方法，输入所需参数，返回一个MobilNetOutput类型的实例。
 
- - Example:
- `let output = try? model.prediction(image: input!)`
+ ```
+ let output = try? model.prediction(image: input!)
+ ```
  
  然后可以通过MobileNetOutput的实例取得预测结果，并展示在UI中。
  
  ----
  
- # Classifying Images with Vision and Core ML
+ # 使用Vision和Core ML来对图片进行分类处理
  
  ----
  
@@ -57,19 +59,47 @@
  Core ML框架可以利用训练好的模型对输入的数据进行分类处理。Vision框架结合Core ML则使图像分析以及机器学习变得更加简单可靠。
  
  ## 用Core ML模型来生成Vision
- 首先用模型来创建一个Vision请求,并在回调中调用结果的处理方法:\
+ 首先用模型来创建一个Vision请求,并在回调中调用结果的处理方法:
  
- - Example:
- ` let model = try VNCoreMLModel(for: MobileNet().model) `\
- ` let request = VNCoreMLRequest(model: model, completionHandler: { [weak self] request, error in `\
- `   print("index = \(index)")`\
- ` })  `\
- ` request.imageCropAndScaleOption = .centerCrop `\
+ ```
+ let model = try VNCoreMLModel(for: MobileNet().model)
+ let request = VNCoreMLRequest(model: model, completionHandler: { [weak self] request, error in
+     print("index = \(index)")
+ })
+ request.imageCropAndScaleOption = .centerCrop
+ ```
  
  ML 在处理输入的图像时使用的是固定的长宽比，但是输入的图像可能是任意比例，因此Vision必须缩放或者截取图片来进行处理，设置*imageCropAndScaleOption*来获得最好的结果。出了特殊情况*centerCrop*是最合适的选项。
 
  ## 发出Vison请求
  
+ `VNImageRequestHandler`对象的创建基于一张被处理的图片，以及处理请求的方法。这个方法是同步执行的，然而使用了后台线程，以便主线程在请求执行时不被阻塞。
  
+ ```
+ DispatchQueue.global(qos: .userInitiated).async {
+     let handler = VNImageRequestHandler(ciImage: ciImage, orientation: orientation)
+     do {
+         try handler.perform([self.classificationRequest])
+     } catch {
+         print("Failed to perform classification.\n\(error.localizedDescription)")
+     }
+ }
+ ```
+ 大多数的训练模型都已经导向了正确的展示方式。为了对任意方向的图片作出最合适的处理，所以将图片的方向传递给处理方法。
  
+ ## 处理图片分类结果
+ 
+ Vision的处理方法内可以得知处理结果是成功还是失败。如果成功，那么结果中将包含`VNClassificationObservation`对象。
+ 
+ ```
+ func processClassifications(for request: VNRequest, error: Error?) {
+     DispatchQueue.main.async {
+         guard let results = request.results else {
+         self.classificationLabel.text = "Unable to classify image.\n\(error!.localizedDescription)"
+         return
+     }
+     // The `results` will always be `VNClassificationObservation`s, as specified by the Core ML model in this project.
+    let classifications = results as! [VNClassificationObservation]
+ ```
+
  */
