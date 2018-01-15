@@ -62,7 +62,7 @@ class VisionViewController
                 let descriptions = topClassifications.map { classification in
                     return String(format: "  %@ - [%.2f]", classification.identifier, classification.confidence)
                 }
-                self.label.text = "Classification:\n" + descriptions.joined(separator: "\n")
+                self.label.text = descriptions.joined(separator: "\n")
             }
         }
     }
