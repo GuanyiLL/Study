@@ -60,7 +60,7 @@ class VisionViewController
             } else {
                 let topClassifications = classifications.prefix(2)
                 let descriptions = topClassifications.map { classification in
-                    return String(format: "  %@ - [%.2f]", classification.identifier, classification.confidence)
+                    return String(format: "  %@ - [%.2f]%%", classification.identifier, classification.confidence * 100)
                 }
                 self.label.text = descriptions.joined(separator: "\n")
             }
@@ -93,7 +93,7 @@ class VisionViewController
         present(picker, animated: true)
     }
     
-    // Mark: Delegate
+    //MARK: - Delegate
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String: Any]) {
         picker.dismiss(animated: true)
         let image = info[UIImagePickerControllerOriginalImage] as! UIImage

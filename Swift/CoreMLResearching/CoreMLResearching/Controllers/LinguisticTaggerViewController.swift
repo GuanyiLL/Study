@@ -8,28 +8,33 @@
 
 import UIKit
 
-class LinguisticTaggerViewController: UIViewController {
-
-    override func viewDidLoad() {
-        super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
-    }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
+class LinguisticTaggerViewController
+: UIViewController
+, UITextViewDelegate {
     
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
+    @IBOutlet weak var textView: UITextView! {
+        didSet {
+            textView.delegate = self
+            textView.text = "The American Red Cross was established in Washington, D.C., by Clara Barton."
+        }
     }
-    */
-
+    @IBOutlet weak var label: UILabel!
+    @IBAction func classify(_ sender: UIButton) {
+        let text = textView.text ?? ""
+        let tagger = NSLinguisticTagger(tagSchemes: [.nameType], options: 0)
+        tagger.string = text
+        let range = NSRange(location:0, length: text.utf16.count)
+        let options: NSLinguisticTagger.Options = [.omitPunctuation, .omitWhitespace, .joinNames]
+        let tags: [NSLinguisticTag] = [.personalName, .placeName, .organizationName]
+        var contents = [String]()
+        tagger.enumerateTags(in: range, unit: .word, scheme: .nameType, options: options) { tag, tokenRange, stop in
+            if let tag = tag, tags.contains(tag) {
+                let name = (text as NSString).substring(with: tokenRange)
+                contents.append("\(name): \(tag.rawValue)")
+                print("\(name): \(tag.rawValue)")
+            }
+        }
+        
+        label.text = contents.joined(separator: "\n")
+    }
 }
