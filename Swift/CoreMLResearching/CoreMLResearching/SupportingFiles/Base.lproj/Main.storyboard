@@ -176,20 +176,34 @@
             </objects>
             <point key="canvasLocation" x="944.79999999999995" y="1012.4437781109445"/>
         </scene>
-        <!--View Controller-->
+        <!--How To Name This Controller-->
         <scene sceneID="PIH-aR-1vF">
             <objects>
-                <viewController id="HGe-gw-zfX" sceneMemberID="viewController">
+                <viewController id="HGe-gw-zfX" customClass="HowToNameThisController" customModule="CoreMLResearching" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="EyB-G6-TzB">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <arscnView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="fEj-5X-JIz">
+                                <rect key="frame" x="0.0" y="64" width="375" height="603"/>
+                            </arscnView>
+                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="fEj-5X-JIz" firstAttribute="top" secondItem="e2s-KB-VNk" secondAttribute="top" id="XLI-ep-UYt"/>
+                            <constraint firstItem="fEj-5X-JIz" firstAttribute="leading" secondItem="e2s-KB-VNk" secondAttribute="leading" id="ahx-JJ-eJC"/>
+                            <constraint firstItem="fEj-5X-JIz" firstAttribute="bottom" secondItem="e2s-KB-VNk" secondAttribute="bottom" id="ccw-CM-bHL"/>
+                            <constraint firstItem="fEj-5X-JIz" firstAttribute="trailing" secondItem="e2s-KB-VNk" secondAttribute="trailing" id="rkw-AN-Rkq"/>
+                        </constraints>
                         <viewLayoutGuide key="safeArea" id="e2s-KB-VNk"/>
                     </view>
+                    <connections>
+                        <outlet property="arView" destination="fEj-5X-JIz" id="eDn-KJ-Oum"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="sIC-uY-coo" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1658" y="1012"/>
+            <point key="canvasLocation" x="1656.8" y="1011.544227886057"/>
         </scene>
         <!--Vision View Controller-->
         <scene sceneID="IeJ-gT-bsS">

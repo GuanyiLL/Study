@@ -17,6 +17,7 @@
 		93B093E020075CAB0013B7A7 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 93B093DE20075CAB0013B7A7 /* Main.storyboard */; };
 		93B093E220075CAB0013B7A7 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 93B093E120075CAB0013B7A7 /* Assets.xcassets */; };
 		93B093E520075CAC0013B7A7 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 93B093E320075CAC0013B7A7 /* LaunchScreen.storyboard */; };
+		93E02037200DEDE50035D831 /* HowToNameThisController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93E02036200DEDE50035D831 /* HowToNameThisController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -32,6 +33,7 @@
 		93B093E120075CAB0013B7A7 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		93B093E420075CAC0013B7A7 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		93B093E620075CAC0013B7A7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		93E02036200DEDE50035D831 /* HowToNameThisController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HowToNameThisController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -60,6 +62,7 @@
 				933BD552200C59A700103AB0 /* MasterViewController.swift */,
 				933BD554200C5B0200103AB0 /* VisionViewController.swift */,
 				933BD556200C5B7D00103AB0 /* LinguisticTaggerViewController.swift */,
+				93E02036200DEDE50035D831 /* HowToNameThisController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -181,6 +184,7 @@
 				933BD54F200C440100103AB0 /* Utilities.swift in Sources */,
 				933BD557200C5B7D00103AB0 /* LinguisticTaggerViewController.swift in Sources */,
 				933BD555200C5B0200103AB0 /* VisionViewController.swift in Sources */,
+				93E02037200DEDE50035D831 /* HowToNameThisController.swift in Sources */,
 				933BD54B200861C300103AB0 /* MobileNet.mlmodel in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
