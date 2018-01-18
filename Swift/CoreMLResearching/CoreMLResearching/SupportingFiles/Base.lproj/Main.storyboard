@@ -43,8 +43,8 @@
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Tqb-w9-trA">
-                                        <rect key="frame" x="13.5" y="120" width="90" height="30"/>
-                                        <state key="normal" title="FaceTracking"/>
+                                        <rect key="frame" x="20" y="120" width="77" height="30"/>
+                                        <state key="normal" title="What's this"/>
                                         <connections>
                                             <segue destination="HGe-gw-zfX" kind="show" id="fUe-cT-2Lb"/>
                                         </connections>
