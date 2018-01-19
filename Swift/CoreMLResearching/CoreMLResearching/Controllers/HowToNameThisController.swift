@@ -19,7 +19,6 @@ class HowToNameThisController
     @IBOutlet weak var arView: ARSCNView!
     
     var displayLink: CADisplayLink!
-    var objectsMarked:Dictionary<UUID, VNRectangleObservation> = Dictionary()
     
     lazy var request: VNCoreMLRequest = {
         do {
@@ -34,27 +33,7 @@ class HowToNameThisController
             fatalError("Failed\n\(error)")
         }
     }()
-    
-    lazy var trackObjectRequest: VNDetectRectanglesRequest = {
-        let request = VNDetectRectanglesRequest(completionHandler: processTrackingObject)
-        return request
-    }()
-    
-    func processTrackingObject(for request: VNRequest, error: Error?) {
-        guard let results = request.results else {
-            //                self.label.text = "Error\n\(error!.localizedDescription)"
-            return
-        }
-        
-        let objects = results as! [VNRectangleObservation]
-        if objects.count == 1 {
-
-            let descriptions = objects.first!.boundingBox.debugDescription
-            print(descriptions)
-            
-        }
-    }
-    
+ 
     func processClassifications(for request: VNRequest, error: Error?) {
         DispatchQueue.main.async {
             guard let results = request.results else {
@@ -77,34 +56,6 @@ class HowToNameThisController
         }
     }
     
-    func startTrackingObject(for image: CIImage) {
-        
-        guard let pixelBuffer = image.pixelBuffer else { return }
-        let sequenceHandler = VNSequenceRequestHandler()
-        
-        let obsercationKeys = self.objectsMarked
-        var obsercationRequest = [VNTrackObjectRequest]()
-
-        obsercationKeys.forEach { (key, value) in
-            guard let obsercation = self.objectsMarked[key] else {
-                return
-            }
-            
-            let request = VNTrackObjectRequest(detectedObjectObservation: obsercation, completionHandler: { (request, error) in
-
-                
-            })
-            
-            request.trackingLevel = .accurate
-            obsercationRequest.append(request)
-        }
-        do {
-            try sequenceHandler.perform(obsercationRequest, on: pixelBuffer)
-        } catch {
-            print("EEEEEERROR")
-        }
-    }
-    
     func updateClassifications(for image: CIImage) {
         let orientation = CGImagePropertyOrientation(.up)
         let handler = VNImageRequestHandler(ciImage: image, orientation: orientation)
@@ -123,7 +74,6 @@ class HowToNameThisController
         
         let image = CIImage(cvPixelBuffer: pixelBuffer)
         updateClassifications(for: image)
-        startTrackingObject(for: image)
     }
     
     override func viewDidLoad() {
