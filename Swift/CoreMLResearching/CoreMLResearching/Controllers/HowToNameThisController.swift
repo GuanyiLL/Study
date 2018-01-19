@@ -17,6 +17,7 @@ class HowToNameThisController
 , ARSCNViewDelegate {
 
     @IBOutlet weak var arView: ARSCNView!
+    @IBOutlet weak var classificationLabel: UILabel!
     
     var displayLink: CADisplayLink!
     
@@ -37,21 +38,19 @@ class HowToNameThisController
     func processClassifications(for request: VNRequest, error: Error?) {
         DispatchQueue.main.async {
             guard let results = request.results else {
-//                self.label.text = "Error\n\(error!.localizedDescription)"
+                self.classificationLabel.text = "Error\n\(error?.localizedDescription ?? "")"
                 return
             }
             
             let classifications = results as! [VNClassificationObservation]
             if classifications.isEmpty {
-//                self.label.text = "Nothing recognized."
+                self.classificationLabel.text = "Nothing recognized."
             } else {
-                let topClassifications = classifications.first
+                let topClassifications = classifications.prefix(2)
                 let descriptions = topClassifications.map { classification in
                     return String(format: "  %@ - [%.2f]%%", classification.identifier, classification.confidence * 100)
                 }
-                
-//                print(descriptions)
-//                self.label.text = descriptions.joined(separator: "\n")
+                self.classificationLabel.text = descriptions.joined(separator: "\n")
             }
         }
     }
@@ -66,9 +65,15 @@ class HowToNameThisController
         }
     }
     
+    func renderer(_ renderer: SCNSceneRenderer, updateAtTime time: TimeInterval) {
+        refreshTheWorld()
+    }
+    
     @objc func refreshTheWorld() {
         guard let pixelBuffer = arView.session.currentFrame?.capturedImage else {
-            print("Error")
+            DispatchQueue.main.async {
+                self.classificationLabel.text = "Waiting..."
+            }
             return
         }
         
@@ -76,16 +81,48 @@ class HowToNameThisController
         updateClassifications(for: image)
     }
     
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        super.touchesBegan(touches, with: event)
+        guard let touch = touches.first else { return }
+        let results = arView.hitTest(touch.location(in: arView), types: [.featurePoint])
+        guard let hitFeature = results.last else { return }
+        let hitTransform = SCNMatrix4(hitFeature.worldTransform)
+        let hitPosition = SCNVector3Make(hitTransform.m41,
+                                         hitTransform.m42,
+                                         hitTransform.m43)
+        let target = SCNNode()
+        target.scale = SCNVector3(1/100.0,1/100.0,1/100.0)
+        let shape = SCNSphere(radius: 0.5)
+        let material = SCNMaterial()
+        material.diffuse.contents = UIColor.cyan
+        material.lightingModel = .phong
+        shape.firstMaterial = material
+        target.geometry = shape
+        target.position = hitPosition
+        
+//        let text = SCNText(string: "Test Content", extrusionDepth: 0.1)
+//        text.font = .systemFont(ofSize: 5)
+//        text.firstMaterial?.diffuse.contents = UIColor.cyan
+//        text.firstMaterial?.lightingModel = .constant
+//        text.firstMaterial?.isDoubleSided = true
+//        text.alignmentMode = kCAAlignmentCenter//位置
+//        text.truncationMode = kCATruncationMiddle//........
+//
+//        let textNode = SCNNode(geometry: text)
+//        textNode.scale = SCNVector3(1/100.0,1/100.0,1/100.0) // 坑来了
+//        textNode.position = SCNVector3Zero
+//        target.addChildNode(textNode)
+        
+        arView.scene.rootNode.addChildNode(target)
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
-        
         arView.delegate = self
         let scene = SCNScene()
         arView.scene = scene
         arView.autoenablesDefaultLighting = true
-        arView.debugOptions = [ARSCNDebugOptions.showWorldOrigin, ARSCNDebugOptions.showFeaturePoints]
+//        arView.debugOptions = [ARSCNDebugOptions.showWorldOrigin, ARSCNDebugOptions.showFeaturePoints]
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -95,14 +132,7 @@ class HowToNameThisController
         configuration.planeDetection = .horizontal
         configuration.isLightEstimationEnabled = true
         arView.session.run(configuration, options: [.resetTracking, .removeExistingAnchors])
-
-        displayLink = CADisplayLink(target: self, selector: #selector(HowToNameThisController.refreshTheWorld))
-        displayLink.add(to: RunLoop.current, forMode: .commonModes)
+//        displayLink = CADisplayLink(target: self, selector: #selector(HowToNameThisController.refreshTheWorld))
+//        displayLink.add(to: RunLoop.current, forMode: .commonModes)
     }
-    
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-        displayLink.invalidate()
-    }
-    
 }
