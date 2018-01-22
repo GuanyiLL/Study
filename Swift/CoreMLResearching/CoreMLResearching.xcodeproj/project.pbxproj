@@ -18,6 +18,7 @@
 		93B093E220075CAB0013B7A7 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 93B093E120075CAB0013B7A7 /* Assets.xcassets */; };
 		93B093E520075CAC0013B7A7 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 93B093E320075CAC0013B7A7 /* LaunchScreen.storyboard */; };
 		93E02037200DEDE50035D831 /* HowToNameThisController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93E02036200DEDE50035D831 /* HowToNameThisController.swift */; };
+		93FD85C5201595F2008C5229 /* Resnet50.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = 93FD85C4201595F2008C5229 /* Resnet50.mlmodel */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -34,6 +35,7 @@
 		93B093E420075CAC0013B7A7 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		93B093E620075CAC0013B7A7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		93E02036200DEDE50035D831 /* HowToNameThisController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HowToNameThisController.swift; sourceTree = "<group>"; };
+		93FD85C4201595F2008C5229 /* Resnet50.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; path = Resnet50.mlmodel; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -89,6 +91,7 @@
 				933BD550200C443800103AB0 /* Controllers */,
 				933BD54D200C43B900103AB0 /* Utilities */,
 				933BD54A200861C300103AB0 /* MobileNet.mlmodel */,
+				93FD85C4201595F2008C5229 /* Resnet50.mlmodel */,
 				93B093EC20075D7F0013B7A7 /* SupportingFiles */,
 			);
 			path = CoreMLResearching;
@@ -179,6 +182,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				933BD553200C59A700103AB0 /* MasterViewController.swift in Sources */,
+				93FD85C5201595F2008C5229 /* Resnet50.mlmodel in Sources */,
 				93B093DD20075CAB0013B7A7 /* CoreMLViewController.swift in Sources */,
 				93B093DB20075CAB0013B7A7 /* AppDelegate.swift in Sources */,
 				933BD54F200C440100103AB0 /* Utilities.swift in Sources */,

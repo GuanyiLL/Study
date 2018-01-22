@@ -23,7 +23,7 @@ class HowToNameThisController
     
     lazy var request: VNCoreMLRequest = {
         do {
-            let model = try VNCoreMLModel(for: MobileNet().model)
+            let model = try VNCoreMLModel(for: Resnet50().model)
             let request = VNCoreMLRequest(model: model, completionHandler: { [weak self] request, error in
                 guard let `self` = self else { return }
                 self.processClassifications(for: request, error: error)
@@ -97,7 +97,7 @@ class HowToNameThisController
                                          hitTransform.m42,
                                          hitTransform.m43)
         let target = SCNNode()
-        target.scale = SCNVector3(1/100.0,1/100.0,1/100.0)
+        target.scale = SCNVector3(0.01,0.01,0.01)
         let shape = SCNSphere(radius: 0.5)
         let material = SCNMaterial()
         material.diffuse.contents = UIColor.cyan
