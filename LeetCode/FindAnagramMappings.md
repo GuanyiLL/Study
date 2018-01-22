@@ -36,6 +36,6 @@ public:
             output[i] = index;
         }
         return output;
-        }
+    }
 };
 ```
