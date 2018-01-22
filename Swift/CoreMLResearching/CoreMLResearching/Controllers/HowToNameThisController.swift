@@ -19,7 +19,7 @@ class HowToNameThisController
     @IBOutlet weak var arView: ARSCNView!
     @IBOutlet weak var classificationLabel: UILabel!
     
-    var displayLink: CADisplayLink!
+    var lastPrediction = ""
     
     lazy var request: VNCoreMLRequest = {
         do {
@@ -51,6 +51,12 @@ class HowToNameThisController
                     return String(format: "  %@ - [%.2f]%%", classification.identifier, classification.confidence * 100)
                 }
                 self.classificationLabel.text = descriptions.joined(separator: "\n")
+                
+                if let mostLikelyResult = topClassifications.first?.identifier.split(separator: ",").first {
+                    self.lastPrediction = String(mostLikelyResult)
+                } else {
+                    self.lastPrediction = topClassifications.first?.identifier ?? ""
+                }
             }
         }
     }
@@ -100,19 +106,24 @@ class HowToNameThisController
         target.geometry = shape
         target.position = hitPosition
         
-//        let text = SCNText(string: "Test Content", extrusionDepth: 0.1)
-//        text.font = .systemFont(ofSize: 5)
-//        text.firstMaterial?.diffuse.contents = UIColor.cyan
-//        text.firstMaterial?.lightingModel = .constant
-//        text.firstMaterial?.isDoubleSided = true
-//        text.alignmentMode = kCAAlignmentCenter//位置
-//        text.truncationMode = kCATruncationMiddle//........
-//
-//        let textNode = SCNNode(geometry: text)
-//        textNode.scale = SCNVector3(1/100.0,1/100.0,1/100.0) // 坑来了
-//        textNode.position = SCNVector3Zero
-//        target.addChildNode(textNode)
+        let text = SCNText(string: self.lastPrediction, extrusionDepth: 0.1)
+        text.font = .systemFont(ofSize: 3)
         
+        let textMaterial = SCNMaterial()
+        textMaterial.diffuse.contents = UIColor.cyan
+        textMaterial.lightingModel = .constant
+        textMaterial.isDoubleSided = true
+        text.firstMaterial = textMaterial
+        
+        text.alignmentMode = kCAAlignmentCenter//位置
+        text.truncationMode = kCATruncationMiddle//........
+
+        let textNode = SCNNode(geometry: text)
+//        textNode.scale = SCNVector3(1/100.0,1/100.0,1/100.0) // 坑来了
+        let (minBound, maxBound) = textNode.boundingBox
+        textNode.position = SCNVector3Make( 0.0 - (maxBound.x - minBound.x)/2, 0.5, 0)
+        target.addChildNode(textNode)
+
         arView.scene.rootNode.addChildNode(target)
     }
     
@@ -122,7 +133,6 @@ class HowToNameThisController
         let scene = SCNScene()
         arView.scene = scene
         arView.autoenablesDefaultLighting = true
-//        arView.debugOptions = [ARSCNDebugOptions.showWorldOrigin, ARSCNDebugOptions.showFeaturePoints]
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -132,7 +142,5 @@ class HowToNameThisController
         configuration.planeDetection = .horizontal
         configuration.isLightEstimationEnabled = true
         arView.session.run(configuration, options: [.resetTracking, .removeExistingAnchors])
-//        displayLink = CADisplayLink(target: self, selector: #selector(HowToNameThisController.refreshTheWorld))
-//        displayLink.add(to: RunLoop.current, forMode: .commonModes)
     }
 }
