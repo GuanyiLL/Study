@@ -5,8 +5,9 @@ Given a binary search tree and the lowest and highest boundaries as L and R, tri
 #### Ex1
 
 > Input:
+>
 >    1
->   / \
+>  \/ \\
 >  0   2
 >
 >  L = 1
