@@ -7,6 +7,14 @@ Each letter in the magazine string can only be used once in your ransom note.
 #### Note:
 You may assume that both strings contain only lowercase letters.
 
+```
+canConstruct("a", "b") -> false
+canConstruct("aa", "ab") -> false
+canConstruct("aa", "aab") -> true
+
+```
+
+
 ## 思路
 
 magazine中的字母出现的次数大于等于ransomNote中的即可，而并不需要顺序一样，开始理解题意错误。例如：
