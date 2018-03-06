@@ -152,6 +152,102 @@ int LocateElem_SL(SLinkList S, ElemType e) {
 
 ```
 
+假设由终端输入集合元素，先建立表示集合A的静态链表S，而后再输入集合B的元素的同时查找S表，若存在和B相同的元素，则从表S中删除之，否则将此元素输入S表。
+将此操作分为3个步骤：
+1. 将整个数组空间初始化成一个链表；
+2. 从备用空间取得一个结点；
+3. 将空闲结点链结到备用链表上。
+
+```c
+void InitSpace_SL(SLinkList &space) {
+    // 将一维数组space中各分量链成一个备用链表，space[0].cur为头指针
+    // “0”表示空指针
+    for(i = 0; i < MAXSIZE - 1; i++) space[i].cur = i + 1;
+    space[MAXSIZE - 1].cur = 0;
+}
+
+int Malloc_SL(SLinkList &space) {
+    // 若备用空间链表非空，则返回分配的结点下标，否则返回0
+    i = space[0].cur;
+    if (space[0].cur) space[0].cur = space[i].cur;
+    return i;
+}
+
+void Free_SL(SLinkList &sapce, int k) {
+    // 将下标为k的空闲结点回收到备用链表
+    space[k].cur = space[0].cur; space[0].cur = k;
+}
+
+void difference(SLinkList &space, int &S) {
+    InitSapce_SL(space);            // 初始化备用空间
+    S = Malloc_SL(space);           // 生成S头结点
+    r = S;                          // r指向S的当前最后结点
+    scanf(m，n);                    // 输入A和B的元素个数
+    for(j = 1; j <= m; j++) {       // 建立集合A
+        i = Malloc_SL(space);       // 分配结点
+        scanf(space[i].data);       // 输入A的元素值
+        spcae[r].cur = i; r = i;    // 插入到尾表
+    }
+    space[r].cur = 0;               // 尾结点的指针为空
+    for(j = 1; j <= n; ++j) {       // 依次输入B的元素，若不存在当前表中，则插入，否则删除
+        scanf(b); p = S; k = space[S].cur;                  // k指向集合A中的第一个结点
+        while(k != space[r].cur && space[k].data != b) {    // 在当前表中查找
+            p = k;  = space[k].cur;
+        }
+    }
+    if (k == space[r].cur) {        // 当前表中不存在该元素，插入在r所指结点之后，切r的位置不变
+        i = Malloc_SL(space);
+        space[i].data = b;
+        space[i].cur = space[r].cur;
+        space[r].cur = i;
+    } else {                            // 该元素已在表中，删除之
+        space[p].cur = space[k].cur;
+        Free_SL(space, k);
+        if (r ==k) r = p;               // 若删除的是尾元素，则需修改尾指针
+    }
+}
+
+```
+### 循环链表
+**循环链表（Circular Linked List）**是另一种形式的链式存储结构。它的特点是表中最后一个结点的指针或指向头结点，整个链表形成一个环。
+### 双向链表
+在双向链表的结点中有两个指针域，其一指向直接后继，另一个指向前趋，C语言描述如下:
+```c
+
+typedef struct DuLNode {
+    ElemType    data;
+    struct DuLNode  *prior;
+    struct DuLnode  *next;
+}DuLNode, *DuLinkList;
+```
+
+双向链表中的插入与删除：
+
+```c
+Status ListInert_DuL(DuLinkList &L, int i, ElemType e) {
+    // 在带头结点的双链循环线性表L中的第i个位置之前插入元素e，
+    // i的合法值为 1 <= i <= 表长 + 1.
+    if (!(p - GetElemP_DuL(L, i)))          // 在L中确定第i个元素的位置指针p
+        return ERROR;
+    if (!(s = (DuLinkList)malloc(sizeof(DuLNode)))) return ERROR;
+    s->data = e;
+    s->prior = p->prior; p->prior->next = s;
+    s->next = p; p->prior = s;
+    return OK;
+}
+
+Status ListDelete_DuL(DuLinkList &L, int i, ElemType &e) {
+    if (!(p - GetElemP_DuL(L, i))) 
+        return ERROR
+    e = p->data;
+    p->prior->next = p->next;
+    p->next->prior = p->prior;
+    free(p);
+    return OK;
+}
+
+```
+
 
 
 
