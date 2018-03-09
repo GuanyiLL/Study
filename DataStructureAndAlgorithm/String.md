@@ -104,5 +104,89 @@ Status StrInsert(HString &S, int pos, HString T) {
 }// StrInsert
 
 ```
+基本操作算法描述：
 
+```c
+Status StrAssign(HString &T,char *chars) {
+    if (T.ch) free(T.ch);
+    for (i = 0,c = chars; c; ++i,++c); // 求chars的长度
+    if (!i) {T.ch = NULL; T.length = 0;}
+    else {
+        if (!(T.ch = (char *)malloc(i * sizeof(char))))
+            exit(OVERFLOW);
+        T.ch[0..i-1] = chars[0..i-1];
+        T.length = i;
+    }
+    return OK;
+}
 
+Status Concat(HString &T, HString S1,HString S2) {
+    if (T.ch) free(T.ch);
+    if (!(T.ch = (char *)malloc((S1.length + S2.length) * sizeof(char))))
+        exit(OVERFLOW);
+    T.ch[0..S1.length-1] = S1.ch[0..S2.length -1];
+    T.length = S1.length + S2.length;
+    T.ch[S1.length..T.length-1] = S2.ch[0..S2.length-1];
+    return OK;
+}
+
+Status SubString(HString &Sub, HString S, int pos, int len) {
+    if (pos < 1 || pos > S.length || len < 0 || len > S.length - pos + 1)
+        return ERROR;
+    if (Sub.ch) free(Sub.ch);
+    if (!len) {Sub.ch = NULL; Sub.length= 0;}
+    else {
+        Sub.ch = (char *)malloc(len * sizeof(char));
+        Sub.ch[0..len-1] = S[pos-1..pos+len-2];
+        Sub.length = len;
+    }
+    return OK;
+}
+
+```
+
+### 串的块链存储表示
+
+和线性表的链式存储结构相类似，也可以采用链表方式存储串值。由于串结构的特殊性--结构中的每个数据元素是一个字符，则用链表存储串值时，存在一个“结点大小”的问题，即每个结点可以存放一个字符，也可以存放多个字符。当结点大小大于1，由于串长不一定是结点大小的整数倍，则链表中的最后一个结点不一定全被串值占满，此时通常补上“#”或其它的非串值字符。
+
+为了便于进行串的操作，当以链表存储串值时，除头指针外还可附设一个尾指针指示链表中的最后一个结点，并给出当前串的长度。称如此定义的串存储结构为**块链结构**。
+```c
+//  ==== 串的块链存储表示 =======
+#define CHUNKSIZE   // ke由用户定义的块大小
+typedef struct Chunk {
+    char ch[CUNKSIZE];
+    struct Chunk *next;
+}Chunk;
+typedef struct {
+    Chunk *head *tail;        // 串的头尾指针
+    int curlen;               // 串的当前长度              
+}
+
+```
+```
+                串值所占的存储位
+串存储密度 =  -------------------
+                实际分配的存储位
+```
+显然，存储密度小，运算处理方便，然而，存储占用量大。如果在串处理过程中需进行内、外存交换，则会因为内外存交换操作过多而影响处理的总效率。串的字符集的大小也是一个重要因素。一般字符集小，则字符的机内编码就短，这也影响串值的存储方式的选取。
+
+## 串的模式匹配算法
+
+### 子串定位函数
+
+```c
+int Index(SString S, SString T, int pos) {
+    i = pos; j = 1;
+    while(i <= S[0]&&j<=T[0]) {
+        if (S[i] = T[j]) {++i; ++j}
+        else {i = i - j + 2; j = 1;}
+    }
+    if (j > T[0]) return i - T[0];
+    else return 0;
+}
+
+```
+当子串为‘00000001’主串为‘0000000000000000000000000000000000000000001’时，时间复杂度为O(mxn)。
+
+### 模式匹配的一种改进
+克努特-莫里斯-普拉特操作(简称KMP算法)。该算法时间复杂度为O(m+n)。
