@@ -230,6 +230,113 @@ typedof(a[90]); // undefined
 
 ## 函数
 
+定义一个基本函数：
+```js
+function add(x, y) {
+    var total = x + y;
+    return total;
+}
+add(); //NaN
+add(2, 3, 4); // 5 将前两个想家，4被忽略了
+```
+函数实际上是访问了函数体中一个名为`arguments`的内部对象，这个对象就如同一个类似于数组的对象一样，包括了所有被传入的参数。将该方法改写成一个能够接受任意个参数的形式：
+```js
+function add() {
+    var sum = 0;
+    for (var i = 0; j = arguments.length; i < j; i++) {
+        sum += arguments[i];
+    }
+    return sum;
+}
+
+add(2,3,4,5); // 14
+```
+创建一个球平均数的函数：
+```js
+function avg() {
+    var sum = 0;
+    for (var i = 0,j = arguments.length; i < j; i++) {
+        sum += arguments[i];
+    }
+    return sum / arguments.length;
+}
+
+avg(2,3,4,5); // 3.5
+```
+将传入参数改为支持数组：
+```js
+function avgArray(arr) {
+    var sum = 0;
+    for (var i = 0,j = arr.length; i < j; i++) {
+        sum += arr[i];
+    }
+    return sum / arr.length;
+}
+
+arrArray([2,3,4,5]); //3.5
+```
+但如果能重用我们已经创建的那个函数不是更好吗？幸运的是 JavaScript 允许使用任意函数对象的 `[apply](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Function/apply)`方法来调用该函数，并传递给它一个包含了参数的数组。
+
+```js
+avg.apply(null, [2, 3, 4, 5]); // 3.5
+```
+传给`apply()`的第二个参数是一个数组，它将被当作avg()的参数适用，至于第一个参数`null`放到后面讨论。
+js重的匿名函数：
+```js
+var avy = function() {
+    var sum = 0;
+    for (var i = 0; j = arguments.length; i < j; i++) {
+        sum += arguments[i];
+    }
+    return sum / arguments.length;
+};
+
+```
+这个函数在语义上与`function avg()`相同。
+
+类似C语言block的语法：
+```js
+var a = 1;
+var b = 2;
+(function(){
+    var b = 3;
+    a += b;
+ })();
+
+a; // 4
+b; // 2
+```
+js中的递归调用：
+```js
+function countChars(elm) {
+    if (elm.nodeType == 3) {
+        return elm.nodeValue.length;
+    }
+    var count = 0;
+    for (var i = 0,child; child = elm.childNodes[i]; i++) {
+        count += countChars(child);
+    }
+    return count;
+}
+
+```
+匿名函数的递归调用：
+```js
+var charsInBody = (function counter(elm) {
+    if (elm.nodeType == 3) {
+        return elm.nodeValue.length;
+    }
+    var count = 0;
+    for (var i = 0, child; child = elm.childNodes[i]; i++) {
+        count += counter(child);
+    }
+    return count;
+)}(document.body);
+
+```
+如上所提供的函数表达式的名称的作用域仅仅是该函数自身。这允许引擎去做更多的优化，并且这种实现更可读、友好。
+
+## 自定义对象
 
 
 
