@@ -138,7 +138,7 @@ do {
 ```
 `for`循环与C一致。
 
-`switch`
+`switch`基本与其它语言一致。
 ```js
 switch (1 + 3) {
     case 2 + 2:
@@ -150,4 +150,84 @@ switch (1 + 3) {
 ```
 
 ## 对象
+创建控对象：
+```js
+var obj = new Object();
+var obj = {};
+```
+通过字面量创建对象：
+```js
+var obj = {
+    name = "Carrot",
+    "for": "Max",
+    details:{
+        color: "orange",
+        size: 12
+    }
+}
+```
+访问对象：
+```js
+obj.details.color; // orange
+obj["details"]["size"]; //12
+```
+下面例子创建一个对象原型，Person，与这个原型的的实例，You。
+```js
+function Person(name, age) {
+    this.name = name;
+    this.age = age;
+}
+
+var You = new Person("You", 24);
+// 通过如下方式进行赋值和访问
+You.name = "Simon";
+var name = You.name;
+You["name"] = "Simon";
+var name2 = You["name"];
+```
+
+## 数组
+创建数组的两种方式：
+```js
+var a = new Array();
+a[0] = "dog";
+a[1] = "cat";
+a[2] = "hen";
+a.length; // 3
+
+var b = ["dog", "cat", "hen"];
+b.length; // 3
+
+// Array.length 不总是等于数组种元素的个数
+var a = ["dog", "cat", "hen"];
+a[100] = "fox";
+a.length; // 101
+
+// * 数组的长度是比数组元素最大索引值多一的数。
+// 如果试图访问一个不存在的数组索引，会得到`undefined`
+
+typedof(a[90]); // undefined
+
+```
+![Array完整文档](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array)
+
+常用方法：
+方法名称|描述
+a.toString()  | 返回一个包含数组中所有元素的字符串，每个元素通过逗号分隔
+a.toLocaleString() | 根据宿主地区语言，返回一个包含所有元素的字符串，以逗号分隔
+a.concat(item1[, item2[, ...[, itemN]]]) | 返回一个数组，数组包含原先的`a`,`item1`,`item2`...`itemN`中的所有元素
+a.join(sep) | 返回一个包含数组中所有元素的字符串，每个元素通过制定的sep分隔
+a.pop() | 删除并返回数组中最后一个元素
+a.push(item1,...,itemN) | 将参数中的元素追加至数组a。
+a.reverse() | 数组逆序
+a.shift() | 删除并返回数组中的等一个元素
+a.slice(start,end) | 返回子数组，以a[start]开头，以a[end]前一个元素结尾。
+a.sort([cmpfn]) | 依据`cmpfn`返回的结构进行排序，若未指定，按字符顺序比较
+a.splice(start,delcount[, item1[,...[, itemN]]]) | 从`start`开始，删除`delcount`个元素，然后插入所有的`item`
+a.unshift([item]) | 将`item`插入数组头部，返回数组新长度
+
+## 函数
+
+
+
 
