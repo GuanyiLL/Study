@@ -24,8 +24,8 @@ var d = Math.PI * (r + r)
 ```
 使用内置函数`parseInt()`将字符串转为整形。该函数的第二个参数表示进制：
 ```js
-paresInt("123",10); // 123
-paresInt("010",10); // 10
+parseInt("123",10); // 123
+parseFloatInt("010",10); // 10
 ```
 如果不传入第二个参数，2013年以前js实现会返回一个意外的结果：
 ```js
@@ -54,18 +54,31 @@ js还有两个特殊值`Infinity`（正无穷），与`-Infinity`（负无穷）
 ```
 可以使用`isFinite()`来判断变量是否位有穷数，如果返回类型为`Infinity`,`-Infinity`或`NaN`则返回`false`:
 ```js
-isFinity(1/0); //false
-isFinity(Infinity); // false
-isFinity(NaN); //false
-isFinity(-Infinity); //false
+isFinite(1/0); //false
+isFinite(Infinity); // false
+isFinite(NaN); //false
+isFinite(-Infinity); //false
 
-isFinity(0); //true
-isFinity(2e64); //true
+isFinite(0); //true
+isFinite(2e64); //true
 
-isFinity("0"); //true, 如果是纯数值类型检测，则返回false：Number.isFinity("0");
+isFinite("0"); //true, 如果是纯数值类型检测，则返回false：Number.isFinity("0");
 ```
 > Note: 
 > `parseInt()`和`parseFloat()`函数会尝试逐个解析字符串中的字符，直到遇上一个无法被解析成数字的字符，然后返回该字符前所有数字字符组成的数字。使用运算符"+"将字符串转换成数字，只要字符串中含有无法被解析成数字的字符，该字符串将被转换成`NaN`。
 
 ## 字符串
+js中的字符串是一串Unicode字符序列。它们是一串UTF-16编码单元的序列，每一个编码单元由一个16位二进制数表示。每一个Unicode字符由一个或两个编码单元来表示。
+获取字符串的长度：
+```js
+"hello".length;    //5
+```
+其它基本方法：
+```js
+"hello".charAt(0); //"h"
+"hello,world".replace("hello", "goodbye");  // "goodbye, world"
+"hello".toUpperCase();   // "HELLO"
+```
+
+## 其他类型
 
