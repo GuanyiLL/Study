@@ -95,6 +95,45 @@ void LineEdit() {
 }
 
 ```
+### Hanoi
+
+使用递归解决汉诺塔问题，规则:
+1. 一次只能移动一个圆盘
+2. 可以插在X，Y，Z中任意的塔座上
+3. 任何时刻都不能将一个较大的圆盘压在较小的圆盘之上
+
+算法分析：
+* 当只有一个盘子，只需要将X塔上的一个盘子移到Z塔上。
+* 当有两个盘子，先将X塔的1号盘子移动到Y塔上，再将X塔上的2号盘子移动到Z塔上，最后将Y塔上的盘子移动到Z塔上。
+* 当有三个盘子，将X上的1至2的盘子移动到Y塔上(借助Z塔)，然后将X塔上的3号盘子移动到Z塔上，最后将Y塔上两个盘子借助X塔移动到Z上。
+* 当有n个盘子，将X塔上编号1至n-1的盘子移动到Y塔上(借助Z塔)，然后将X塔上的n号盘子移动到Z塔上，最后将Y塔上的n-1个盘子借助X塔移动到Z塔上。
+
+```c
+i = 1; // 记录步数
+void move(int n, char from, char to) {
+  printf("第%d步：将%d号盘子%c---->%c\n", i++, n, from, to);
+}
+
+void hanoi(int n, char from, char depend_on, char to) {
+    if (n == 1) move(1, from, to);
+    else {
+        hanoi(n - 1, from, to, depend_on);     // 将X上编号为1至n-1的圆盘移动到Y，Z作为辅助塔
+        move(n, from, to);                      // 将编号为n的圆盘从X移动到Z
+        hanoi(n - 1, depend_on, from, to);      // 将Y上编号为1至n-1的圆盘移到Z，X作为辅助塔
+    }
+}
+
+void main() {
+    printf("舒服盘子的个数\n");
+    int n;
+    scanf("%d",&n);
+    char x = 'X', y = 'Y', z = 'Z';
+    printf("盘子移动情况如下：\n");
+    hanoi(n x, y, z);
+}
+
+```
+
 
 ## 队列
 
