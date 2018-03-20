@@ -190,5 +190,33 @@ int Index(SString S, SString T, int pos) {
 
 ### 模式匹配的一种改进
 克努特-莫里斯-普拉特操作(简称KMP算法)。该算法时间复杂度为O(m+n)。改进在于：每一趟匹配过程中出现字符比较不等时，不需回溯i指针，而是利用已经得到的“部分匹配”的结果将模式向右“滑动”尽可能远的一段距离后，继续进行比较。
+```c
+int Index_KMP(SString S, SString T, int pos) {
+
+    // 利用模式串的T的next函数求T在主串S中第pos个字符之后的位置的KMP算法，
+    // 其中，T非空，1<=pos<=StrLength(S);
+    i = pos; j = 1;
+    while(i <= S[0] && j <= T[0]) {
+        if (j == 0 || S[i] == T[j]) {++i; ++j;}
+        else j = next[j];
+    }
+    if (j > T[0]) return i - T[0];
+    else return 0;
+}
+
+// 寻找next[j]的具体位置
+void get_nextval(SString T, int nextval[]) {
+    i = 1; nextval[1] = 0; j = 0;
+    while(i < T[0]) {
+        if (j == 0 || T[i] == T[j]) {
+            ++i; ++j;
+            if (T[i] != T[j]) nextval[i] = j;
+            else nextval[i] = nextval[j];
+        }
+        else j = nextval[j];
+    }
+}
+
+```
 
 
