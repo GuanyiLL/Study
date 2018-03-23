@@ -113,3 +113,6 @@ typedef union {
     int    mu,nu,tu;            // 句真的行数列数和非零元个数
 } TSMatrix;
 ```
+
+
+转置运算是一种最简单的矩阵运算。对于一个`m x n`的矩阵M，它的转置矩阵T是一个`n x m`的矩阵，且T(i,j) = M(j, i), 1<=i<=n,1<=j<=m。 
