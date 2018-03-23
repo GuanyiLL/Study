@@ -116,3 +116,71 @@ typedef union {
 
 
 转置运算是一种最简单的矩阵运算。对于一个`m x n`的矩阵M，它的转置矩阵T是一个`n x m`的矩阵，且T(i,j) = M(j, i), 1<=i<=n,1<=j<=m。 
+```
+---------------------                            -----------------------
+i       j       v                                   i       j       v
+---------------------                            -----------------------
+1       2       12                                  1       3       -3
+1       3       9                                   1       6       15
+3       1       -3                                  2       1       12
+3       6       14                                  2       5       18
+4       3       24                                  3       1       9
+5       2       18                                  3       4       24
+6       1       15                                  4       6       -7
+6       4       -7                                  6       3       14
+----------------------                           -------------------------
+      a.data                                             b.data
+```
+矩阵置换的步骤：
+1. 将矩阵的行列值相互交换；
+2. 将每个三元组中的i和j互相调换；
+3. 重排三元组之间的次序。
+前两条比较容易，关键是第三条，即三元组是以T的行(M的列)为主序依次排列的。
+可以有两种处理方式：
+1. 按照b.data中三元祖的次序依次在a.data中找到相应的三元组进行置换。为了找到M的每一列中所有的非零元素，需要对其三元组表a.data从第一行起整个扫描一遍，由于a.data是以M的行序为主序来存放每个非零元素的，由此得到的则是b.data的顺序。
+```c
+Status TransposeSMatrix(TSMatrix M, TSMatrix &T) {
+    T.mu = M.nu; T.nu = M.mu; T.tu = M.tu;
+    if (T.tu) {
+        q = 1;
+        for (col = 1; col <= M.nu; ++col) {
+            for (p = 1;p<=M.tu;++p) {
+                if (M.data[p].j == col) {
+                    T.data[q].i = M.data[p].j; T.data[q].j = M.data[p].i;
+                    T.data[q].e = M.data[p].e; ++q;
+                }
+            }
+        }
+    }
+    return OK;
+}
+```
+此算法主要的工作是在`p`和`col`的两重循环中完成，时间复杂度为`O(nu * tu)`。当非零元的个数`tu`和`mu*nu`同数量级时，时间复杂度为`O(mu * nu^2)`，虽然节省了存储空间，但是时间复杂度提高，因此该算法仅适用于`tu <= mu * nu`的情况。
+
+2. a.data中三元组的次序进行置换，并将转置后的三元组置入b中恰当的位置。如果能预先确定矩阵M中每一列的第一个非零在b.data中应有的位置，那么在对a.data中的三元组依次做转置时，便可直接放到b.data中恰当的位置上去。为了确定这些位置，在转置前，应先求得M的每一列中非零元个数，进而求得每一列的第一个非零元在b.data中的位置。
+
+在此附设num和cpot两个向量。num[col]表示矩阵M中第col列中的非零元的个数，cpot[col]指示M中第col列的第一个非零元在b.data中的恰当位置。
+```
+cpot[1] = 1;
+
+cpot[col] = cpot[col -1] + num[col -1]   2 <= col <= a.nu
+```
+置换算法：
+```c
+Status FastTransposeSMatrix(TSMatrix M, TSMatrix &T) {
+    T.mu = M.nu; T.nu = M.mu; T.tu = M.tu;
+    if (T.tu) {
+        for (col = 1; col <= M.nu; ++col) num[col] = 0;
+        for (t = 1; t<=M.tu; ++t) ++num[M.data[t].j];
+        cpot = 1;
+
+        for (col = 2;col <= M.nu; ++col) cpot[col] = cpot[col - 1] + num[col - 1];
+        for (p = 1; p <= M.tu; ++p) {
+            col = M.data[p].j;     q = copt[col];
+            T.data[q].i = M.data[p].j; T.data[q].j = M.data[p].i;
+            T.data[q].e = M.data[p].e; ++cpot[col];
+        }
+    }
+    return OK;
+}
+```
