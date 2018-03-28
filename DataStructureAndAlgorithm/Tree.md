@@ -89,3 +89,75 @@ PreOrderTraverse(T, PrintElement) {
 }
 
 ```
+三种遍历方法的不同之处仅在于访问根结点和遍历左右子树的先后关系。仿照递归算法执行过程中递归工作栈的状态变化状况可直接写出相应的非递归算法。
+
+```c
+Status InOrderTraverse(BiTree T, Status(* Visit)(TElemType e)) {
+    // 采用二叉链表存储结构，Visit是对数据元素操作的应用函数
+    // 中序遍历二叉树T的非递归算法，对每个数据元素调用函数Visit。
+    InitStack(S); Push(S,T);
+    while(! StackEmpty(S)) {
+        while (GetTop(S, p) && p) Push(S, p->lchild); // 向左走到尽头
+        Pop(S, p);  // 空指针退栈
+        if (!StatckEmpty(S)) {
+            Pop(S,p); 
+            if(!Visit(p->data)) return ERROR;
+            Push(S, p->rchild);
+        }
+    }
+    return OK;
+}
+```
+
+```c
+Status InOrderTraverse(BiTree T, Status(* Visit)(TElemType e)) {
+    InitStack(S); p = T;
+    while(p ||!StackEmpty(S)) {
+        if (p) {
+            Push(S,p);
+            p = p->lchild;
+        } else {
+            Pop(S, p); if(!Visit(p->data)) 
+            return Error;
+        }
+        p = p->child;
+    }
+    return OK;
+}
+
+```
+使用先序遍历方法创建二叉树：
+```c
+Status CreateBiTree(BiTree &T) {
+    scanf(&ch);
+    if (ch == '') T = NULL;
+    else {
+        if (!(T = (BiTNode *)malloc(sizeof(BiTNode)))) exit(OVERFLOW);
+        T -> data = ch;
+        CreateBiTree(T->lchild);
+        CreateBiTree(T->rchild);
+    }
+    return OK;
+}
+```
+遍历二叉树的时间复杂度为O(n)。
+
+### 线索二叉树
+
+>试做如下规定：若结点有左子树，则其lchild域指示其左孩子，否则令lchild域指示其前驱；若结点有右子树，则其rchild域指示其右孩子，否则令rchild域指示其后继。为了避免混淆，尚需改变结点结构，增加两个标志位。
+
+```
+|--------|--------|------|------|--------|
+| lchild |  ltag  | data | rtag | rchild |
+|--------|--------|------|------|--------|
+```
+其中：
+```
+ltag = 0 lchild指向左孩子
+       1 lchild指向前驱
+
+rtag = 0 rchild指向右孩子
+       1 rchild指向后继
+```
+
+以这种结点结构构成的二叉链表作为二叉树的存储结构，叫做**线索链表**，其中指向结点前驱和后继的指针，叫做**线索**。加上线索的二叉树称之为**线索二叉树**。对二叉树以某种次序遍历使其变为线索二叉树的过程叫做**线索化**。
