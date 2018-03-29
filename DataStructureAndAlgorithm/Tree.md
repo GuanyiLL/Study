@@ -161,3 +161,19 @@ rtag = 0 rchild指向右孩子
 ```
 
 以这种结点结构构成的二叉链表作为二叉树的存储结构，叫做**线索链表**，其中指向结点前驱和后继的指针，叫做**线索**。加上线索的二叉树称之为**线索二叉树**。对二叉树以某种次序遍历使其变为线索二叉树的过程叫做**线索化**。
+
+在中序线索二叉树上遍历二叉树，虽然时间复杂度也为O(n)，但是常数因子要比上节的算法小，且不需要设栈。因此，若在某程序中所用二叉树需经常遍历或查找结点在便利所得线性序列中的前驱和后继，则应采用线索链表做存储结构。
+
+```c
+// ----- 二叉树的二叉线索存储表示 -----
+typedef enum {
+    Link, Thread
+}PointerTag; // Link == 0: 指针，Thread == 1: 线索
+
+typedef struct BiTrNode {
+    TElemType      data;
+    struct BiThrNode  *lchild, * rchild;  // 左右孩子指针
+    PointerTag     Ltag, Rtag;  // 左右标志
+}BiThrNode, *BiThrTree;
+
+```
