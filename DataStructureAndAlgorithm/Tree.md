@@ -177,3 +177,72 @@ typedef struct BiTrNode {
 }BiThrNode, *BiThrTree;
 
 ```
+
+双向线索链表为存储结构时对二叉树进行遍历的算法：
+
+```c
+Status InOrderTraverse.Thr(BitThrTree T, Status(* Visit)(TElemType e)) {
+    // T指向头结点，头结点的左链lchild指向根节点，可参见线索化算法
+    // 中序遍历二叉线索树T的非递归算法，对每个数据元素调用函数Visit。
+    p = T->lhild;
+    while(p != T) {
+        while(p -> Ltag == Link) p = p->lchild;
+        if (!Visit(p->data)) return ERROR;
+        while(p->RTag == Thread && p->rchild!=T) {
+            p = p->rchild; Visit(p->data);
+        }
+        p = p->rchild;
+    }
+    return OK;
+}
+```
+二叉树线索化的实质是将二叉链表中的空指针改为指向前驱或后继的线索，而前驱或后继的信息只有在遍历时才能得到，因此线索化的过程即为在遍历的过程中修改空指针的过程。为了几下遍历过程中的访问结点的先后关系，附设一个指针pre始终指向刚刚访问过的结点，若指针p指向当前访问的结点，则pre指向它的前驱。
+
+```c
+Status InOrderTreading(BitThrTree & Thrt, BiThrTree T) {
+    // 中序遍历二叉树T，并将其中序线索化，Thrt指向头结点。
+    if (!(Thrt = (BiThrTree)malloc(sizeof(BiThrNode)))) exit(OVERFLOW);
+    Thrt->Ltag = Link; Thrt->RTag = Thread;    // 建头结点
+    Thrt->rchild = Thrt;
+    if (!T) Thrt->lchild = Thrt;
+    else {
+        Thrt->lchild = T; pre = Thrt;
+        InThreading(T);
+        pre->rchild = Thrt; pre->RTag = Thread;
+        Thrt->rchild = pre;
+    }
+    return OK;
+}
+
+void InThreading(BiThrTree p) {
+    if (p) {
+        InThreading(p->lchild); // 左子树线索话
+        if (!p->lchild) {p->LTag = Thread; p->lchild = pre;}  // 前驱线索
+        if (!p->rchild) {pre->RTag = Thread;pre->rchild = p;} // 后继线索
+        pre = p;
+        InThreading(p->child) // 右子树线索化
+    }
+}
+
+```
+
+## 树和森林
+
+### 树的存储结构
+
+一、双亲表示法
+假设一组连续空间存储树的结点，同时在每个结点中附设一个指示器指示器指示其双亲结点在链表中的位置，其形式说明如下：
+
+```c
+// ----- 树的双亲表存储表示 ------
+#define MAX_TREE_SIZE 100
+typedef struct PTNode {
+    TElemType data;
+    int parent;     // 双亲位置域
+}PNode;
+typedef struct {
+    PTNode nodes[MAX_TREE_SIZE];
+    int n       // 结点数
+}PTree;
+```
+
