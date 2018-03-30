@@ -4,7 +4,8 @@
 
 ## 树的定义和基本术语
 
-**树(Tree)**是n(n >= 0)个结点的有限集。在任意一棵非空树中：
+**树(Tree)** 是n(n >= 0)
+
 1. 有且仅有一个特定的称为根(Root)的结点；
 2. 当n > 1时，其余结点可分为m(m >  0)个互不相交的有限集T1,T2,...,Tm,其中每一个集合本身又是一棵树，并且成为根的**子树(SubTree)**。
 
@@ -32,16 +33,17 @@
     2. 如果2i>n，则结点i无左孩子；否则其左孩子是结点2i。
     3. 如果2i+i>n，则结点在i无又孩子；否则其右孩子RCHILD(i)是结点2i+1.
 
-
 ### 存储结构
 
 #### 顺序存储结构
+
 ```c
 // ------ 二叉树的顺序存储结构 -------
 #define MAX_TREE_SIZE 100    // 二叉树的最大节点数
 typedef TElemType SqBiTree[MAX_TREE_SIZE]; // 0号单元存储根节点
 SqBiTree bt;
 ```
+
 用一组地质连续的存储单元一次自上而下、自左至右存储完全二叉树上的结点元素，即将完全二叉树上编号为i的结点元素存储在如上定义的唯一数组中下标为i-1的分量重。在最坏的情况下，一个深度为k且只有k个结点的单支树却需要长度为2^k-1的一维数组。
 
 #### 链式存储结构
@@ -56,23 +58,27 @@ SqBiTree bt;
 
 先序遍历二叉树的操作定义为:
 若二叉树为空，则空操作，否则：
+
 1. 访问根节点
 2. 先序遍历左子树
 3. 先序遍历右子树
 
 中序遍历二叉树的操作定义为：
 若二叉树为空，则空操作，否则：
+
 1. 中序遍历左子树
 2. 访问根节点
 3. 中序遍历右子树
 
 后序遍历二叉树的操作定义为：
 若二叉树为空，则空操作，否则：
+
 1. 后序遍历左子树
 2. 后续遍历右子树
 3. 访问根节点
 
 先序遍历二叉树递归算法：
+
 ```c
 Status PrintElement(TElemType e) {
     printf(e);
@@ -81,7 +87,7 @@ Status PrintElement(TElemType e) {
 
 PreOrderTraverse(T, PrintElement) {
     if (T) {
-        if (Visit(T->data)) 
+        if (Visit(T->data))
             if (PreOrderTraverse(T->data))
                 if (PreOrderTraverse(T->rchild, Visit)) return Ok;
         return ERROR;
@@ -89,6 +95,7 @@ PreOrderTraverse(T, PrintElement) {
 }
 
 ```
+
 三种遍历方法的不同之处仅在于访问根结点和遍历左右子树的先后关系。仿照递归算法执行过程中递归工作栈的状态变化状况可直接写出相应的非递归算法。
 
 ```c
@@ -100,16 +107,14 @@ Status InOrderTraverse(BiTree T, Status(* Visit)(TElemType e)) {
         while (GetTop(S, p) && p) Push(S, p->lchild); // 向左走到尽头
         Pop(S, p);  // 空指针退栈
         if (!StatckEmpty(S)) {
-            Pop(S,p); 
+            Pop(S,p);
             if(!Visit(p->data)) return ERROR;
             Push(S, p->rchild);
         }
     }
     return OK;
 }
-```
 
-```c
 Status InOrderTraverse(BiTree T, Status(* Visit)(TElemType e)) {
     InitStack(S); p = T;
     while(p ||!StackEmpty(S)) {
@@ -117,7 +122,7 @@ Status InOrderTraverse(BiTree T, Status(* Visit)(TElemType e)) {
             Push(S,p);
             p = p->lchild;
         } else {
-            Pop(S, p); if(!Visit(p->data)) 
+            Pop(S, p); if(!Visit(p->data))
             return Error;
         }
         p = p->child;
@@ -126,7 +131,9 @@ Status InOrderTraverse(BiTree T, Status(* Visit)(TElemType e)) {
 }
 
 ```
+
 使用先序遍历方法创建二叉树：
+
 ```c
 Status CreateBiTree(BiTree &T) {
     scanf(&ch);
@@ -140,19 +147,22 @@ Status CreateBiTree(BiTree &T) {
     return OK;
 }
 ```
+
 遍历二叉树的时间复杂度为O(n)。
 
 ### 线索二叉树
 
 >试做如下规定：若结点有左子树，则其lchild域指示其左孩子，否则令lchild域指示其前驱；若结点有右子树，则其rchild域指示其右孩子，否则令rchild域指示其后继。为了避免混淆，尚需改变结点结构，增加两个标志位。
 
-```
+```c
 |--------|--------|------|------|--------|
 | lchild |  ltag  | data | rtag | rchild |
 |--------|--------|------|------|--------|
 ```
+
 其中：
-```
+
+```c
 ltag = 0 lchild指向左孩子
        1 lchild指向前驱
 
@@ -196,6 +206,7 @@ Status InOrderTraverse.Thr(BitThrTree T, Status(* Visit)(TElemType e)) {
     return OK;
 }
 ```
+
 二叉树线索化的实质是将二叉链表中的空指针改为指向前驱或后继的线索，而前驱或后继的信息只有在遍历时才能得到，因此线索化的过程即为在遍历的过程中修改空指针的过程。为了几下遍历过程中的访问结点的先后关系，附设一个指针pre始终指向刚刚访问过的结点，若指针p指向当前访问的结点，则pre指向它的前驱。
 
 ```c
@@ -234,6 +245,7 @@ void InThreading(BiThrTree p) {
 假设一组连续空间存储树的结点，同时在每个结点中附设一个指示器指示器指示其双亲结点在链表中的位置，其形式说明如下：
 
 ```c
+
 // ----- 树的双亲表存储表示 ------
 #define MAX_TREE_SIZE 100
 typedef struct PTNode {
@@ -245,4 +257,13 @@ typedef struct {
     int n       // 结点数
 }PTree;
 ```
+
+二、孩子表示法
+由于树中每个结点可能有多棵子数，则可用多重链表，即每个结点有多个指针域，其中每个指针向一颗子树的根结点，此时链表中的结点可以有如下两种结点格式：
+
+||||||||
+| - | - | - | - | - | - | - |
+data|child1|child2|...|childd| 
+data|degree|child1|child2|...|childd
+||||||||
 
