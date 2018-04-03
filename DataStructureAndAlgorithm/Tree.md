@@ -263,7 +263,48 @@ typedef struct {
 
 ||||||||
 | - | - | - | - | - | - | - |
-data|child1|child2|...|childd| 
+data|child1|child2|...|childd|
 data|degree|child1|child2|...|childd
 ||||||||
 
+若采用第一种结点格式，则多重链表中的节点是同构的，d为树的度。由于树中很多节点的度小于d，所以链表中有很多空链域，空间较浪费，在一棵有n个结点度为k的树中必有`n(n-1)+1`个空链域。第二种方式，虽然能节约存储空间，但操作不方便。
+
+另一种办法是吧每个结点的孩子结点排列起来，看成是一个线性表，切以单链表做存储结构，则n个结点有n个孩子链表。
+
+```c
+// ----- 树的孩子链表存储表示 -----
+typedef struct CTNode {      // 孩子结点
+    int child;
+    struct CTNode *next;
+} *ChildPtr;
+
+typedef struct {
+    ElemType data;
+    ChildPtr firstchild; // 孩子链表头指针
+} CTBox;
+
+typedef struct {
+    CTBox nodes[MAX, TREE_SIZE];
+    int n,r;          // 节点数和根的位置
+}CTree;
+```
+
+与双亲表示法相反，孩子表示法便于涉及孩子的操作的实现，却不适用于PARENT操作。将两者结合一下。
+
+三、孩子兄弟表示法
+
+又称二叉树表示法，或二叉链表表示法。即二叉链表作数的存储结构。链表中结点的两个链域分别指向该结点的第一个孩子结点和下一个兄弟结点，分别命名为firstchild域和nextsibling域。
+
+```c
+// ----- 树的二叉链表存储表示------
+typedef struct CSNode {
+    ElemType data;
+    struct CSNode *firstchild, *nextsibling;
+}CSNode, *CSTree;
+```
+
+### 森林与二叉树的转换
+
+二叉树和树都可用二叉链表作为存储结构，则以二叉链表作为媒介可导出树与二叉树之间的一个对应关系。也就是说，给定一棵树，可以找到唯一的二叉树与之对应，从物理结构来看，域二叉链表相同，只是解释不同。
+
+![树与二叉树的对应关系](/img/Tree01.jpeg)
