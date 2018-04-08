@@ -405,3 +405,28 @@ void HuffmanCoding(HuffmanTree &HT, HuffmanCode &HC, int *w, int n) {
 }
 
 ```
+
+向量HT的前n个分量表示叶子结点，最后一个分量表示根结点。各字符的编码长度不等，所以按实际长度动态分配空间。上述算法求赫夫曼编码是从叶子到根逆向处理的，也可以从根出发遍历：
+
+```c
+// - - - - - 无栈非递归遍历赫夫曼树，求赫夫曼编码 - - - - -
+HC = (HuffmanCode)malloc((n + 1) * sizeof(char *));
+p = m; cdlen = 0;
+for(i = 1; i<=m; i++) HT[i].weight = 0; // 遍历赫夫曼树时用作结点状态标志
+while(p) {
+    if (HT[p].weight = 0) {
+        HT[p].weight = 1;
+        if (HT[p].lchild != 0) { p = HT[p].lchild; cd[cdlen++] = "-" }
+        else if (HT[p].rchild == 0){
+            HC[p] = (chiar *)malloc((cdlen + 1) *sizeof(char));
+            cd[cdlen] = "\0"; strcpy(HC[p].cd);
+        }
+    } else if (HT[p].weight == 1) {
+        HT[p].weight = 2;
+        if (HT[p].rchild != 0) { p = HT[p].rchild; cd[cdlen++] = "1";}
+    } else {
+        HT[p].weight = 0;p = HT[p].parent; --cdlen; // 退到父节点，编码长度减1
+    }
+}
+
+```
