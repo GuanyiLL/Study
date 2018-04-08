@@ -346,4 +346,62 @@ typedef struct CSNode {
 
 从树中一个结点到另一个结点之间的分支构成这两个结点之间的路径，路径上的分支数目称**路径长度**。路径长度是从树跟到每一节点的路径长度之和。完全二叉树就是这种路径长度最短的二叉树。
 
-结点的带权路径长度为从该结点到树根之间的路径长度与度与结点上权的乘积。树的带权路径长度为树中所有叶子结点的带权路径长度之和，通常记做![path](/img/Huffman01.png)。
+结点的带权路径长度为从该结点到树根之间的路径长度与度与结点上权的乘积。树的带权路径长度为树中所有叶子结点的带权路径长度之和，通常记做
+
+![path](/img/Huffman01.png)
+
+算法实现如下：
+
+1. 根据给定的n个权值{w1,w2,...,wn}构成n棵二叉树的集合F={T1,T2,...,Tn}，其中每棵二叉树Ti中只有一个带权为wi的根结点，其左右子树均为空。
+2. 在F中选取两棵根节点的权值最小的树作为左右子树构造一棵新的二叉树，且置新的二叉树的根结点的权值为其左右子树上根结点的权值之和。
+3. 在F中删除这两棵树，同事将新得到的二叉树加入F中。
+4. 重复2，3步，直到F只剩一棵树为止。这棵树便是huffman树。
+
+![haffman02](/img/Huffman02.jpg)
+
+### 赫夫曼编码
+
+若要设计长短不等的编码，则必须是任一个字符的编码都不是另一个字符的编码的前缀，这种编码称作**前缀编码**。
+
+设计电文总长最短的二进制前缀编码即为以n种字符出现的频率作权，设计一颗huffman树的问题，由此得到的二进制前缀编码便称为赫夫曼编码。
+
+由于赫夫曼树中没有度为1的结点，则一颗有n个叶子结点的赫夫曼树共有2n-1个结点，可以存储在一个大小为2n-1的一维数组中。如何选定结点结构？由于在构成赫夫曼树之后，为求编码需从叶子结点出发走一条从叶子到根的路径；而为译码需从根出发走一条从根到叶子的路径。则对每个结点而言，即需知双亲的信息，又需知孩子结点的信息。由此，设计下述存储结构：
+
+```c
+// - - - - haffman tree and haffman code presentation - - - -
+typedef struct {
+    unsigned int weight;
+    unsigned int parent, lchild, rchild;
+} HTNode, *HuffmanTree;
+typedef char ** HuffmanCode;
+
+void HuffmanCoding(HuffmanTree &HT, HuffmanCode &HC, int *w, int n) {
+    // w存放n个字符的权值(均>0)，构造赫夫曼树HT，并求出n个字符的赫夫曼编码HC。
+    if (n <= 1) return;
+    m = 2 * n - 1;
+    HT = (HuffmanTree)malloc((m + 1) * sizeof(HTNode)); // 0号单元未用
+    for (p = HT, i = 1; i <= n; ++i, ++p, ++w) *p = { *w, 0,0,0};
+    for (;i<=m; ++i, ++p)  *p = {0,0,0,0};
+    for (i = n + 1;i <= m; ++i) {   // 构建heffman树
+        //HT[1..i-1]选择parent为0且weight最小的两个结点，其序号分别为s1和s2.
+        Select(HT, i-1, s1, s2);
+        HT[s1].parent = i; HT[s2].parent = i;
+        HT[i].lchild = s1; Ht[i].rchild = s2;
+        HT[i].weight = HT[s1].weight + HT[s2].weight;
+    }
+    // - - - - 从叶子到根逆向求每个字符的赫夫曼编码 - - - -
+    HC = (HuffmanCode)malloc((n+1) * sizeof(char *)); // 分配n个字符编码的头指针向量
+    cd = (char *)malloc(n * sizeof(char)); // 分配求编码的工作空间
+    cd[n -1] = '\0';        // 编码结束符
+    for (i = 1; i <= n; ++i) {          // 逐个字符求赫夫曼编码
+        start = n-1;                // 编码结束位置
+        for (c = i; f = HT[i].parent;f != 0;c = f,f = HT[f].parent) // 从叶子到根逆向求编码
+            if (HT[f].lchild == c) cd[--start] = "0";
+            else cd[--start] = "1";
+        HC[i] = (char *)malloc((n-start) * sizeof(char)); // 为第i个字符编码分配空间
+        strcpy(HC[i], &cd[start]);    // 从cd复制编码到HC
+    }
+    free(cd);    // 释放工作空间
+}
+
+```
