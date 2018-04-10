@@ -41,3 +41,19 @@ int Search_Seq(SSTable ST, KeyType key) {
 
 **定义:**为确定记录在查找表中的位置，需和给定值进行比较的关键字个数的期望值称为查找算法在查找成功时的**平均查找长度(Average Search Length)**。
 
+### 有序表的查找
+
+**折半查找(Binary Search)**的查找过程是:先确定待查记录所在的范围，然后逐步缩小范围直到找到或找不到该记录为止。
+
+```c
+int Search_Bin(SSTable ST,KeyType key) {
+    low = 1; high = ST.length;
+    while(low <= high) {
+        mid = (low + high) / 2;
+        if EQ(key, ST.elem[mid].key) return mid;
+        else if LT(key,ST.elem[mid].key) high = mid - 1;
+        else low = mid + 1;
+    }
+    return 0;
+}
+```
