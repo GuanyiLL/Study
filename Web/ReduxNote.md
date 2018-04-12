@@ -157,6 +157,7 @@ function todoApp(state = initialState, action) {
 ```
 
 注意：
+
 1. 不要修改`state`,使用`Object.assign()`新建了一个副本。不能这样使用`Object.assign(state, {visibilityFilter: action.filter})`，因为它会改变第一个参数的值，必须把第一个参数设置为空对象。也可以使用对象展开云算符从而使用`{...state,...newstate}`达到同样的目的。
 2. 在`default`情况下返回旧的`state`。遇到未知的`action`时，一定要返回旧的`state`。
 
@@ -199,6 +200,7 @@ function todoApp(state = initialState, action) {
 如上，不直接修改`state`中的字段，而是返回新对象。新的`todos`对象就相当于旧的`todos`在末尾加上新建的`todo`。而这个新的`todo`又是基于`action`中的数据创建的。
 
 最后,`TOGGLE_TODO`的实现也很好理解：
+
 ```js
 case TOGGLE_TODO:
   return Object.assign({}, state, {
@@ -356,4 +358,3 @@ let store = createStore(todoApp, window.STATE_FROM_SERVER)
 2. `Redux store`调用传入的`reducer`函数。
 3. 根`reducer`应该把多个子`reducer`输出合并成一个单一的`state`树。
 4. `Redux store`保存了根`reducer`返回的完整`state`树。
-
