@@ -77,7 +77,7 @@ int Search_Bin(SSTable ST,KeyType key) {
 ### 静态树查找
 
 之前对有序表的查找性能的讨论是在“等概率”的前提下进行的。如果各记录的查找概率不等，按照之前的算法性能未必是最优的。如果只考虑查找成功的情况，则是查找性能达到最佳的判定树是其带权内路径长度PH值
-![SearchTable03](/img/SeartchTable03.png)
+![SearchTable03](/img/SeartchTable03)
 取最小值得二叉树。其中：n为二叉树上的结点个数；hi为第i个结点在二叉树上的层次数；节点的权wi=cpi(i=1,2,...,n)，其中pi为结点的查找概率，c为常量。称PH值取最小的二叉树为**静态最优查找树(Static Optimal Search Tree)**。
 
 构造次优查找树的递归算法：
