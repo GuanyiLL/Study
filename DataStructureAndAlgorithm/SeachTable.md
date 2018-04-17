@@ -136,5 +136,3 @@ Status CreateSOSTree(SOSTree &T, SSTable ST) {
 
 ### 二叉排序树和平衡二叉树
 
-
-
