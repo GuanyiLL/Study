@@ -93,11 +93,48 @@ Status SecondOptimal(BitTree &T, ElemType R[],float sw[],int low, int high) {
         }
     }
     if (!(T = (BiTree)malloc(sizeof(BiTNode)))) return ERROR;
-    T->data = R[i];
-    if (i == low) T->lchild = NULL;
-    else SecondOptimal(T->lchild, R, sw, low, i-1);
-    if (i == high) T->rchild = NULL;
-    else SecondOptmal(T->rchild, R, sw, i+1, high);
+    T->data = R[i];             // 生成结点
+    if (i == low) T->lchild = NULL;  // 左子树空
+    else SecondOptimal(T->lchild, R, sw, low, i-1); // 构造左子树
+    if (i == high) T->rchild = NULL;  // 右子树空
+    else SecondOptmal(T->rchild, R, sw, i+1, high); // 构造右子树
     return OK;
 }
 ```
+
+由于在构造次优查找树的过程中，没有考察单个关键字的相应权值，则有可能出现被选为根的关键字的权值比它相邻的关键字的权值小。此时应作适当调整：选取临近的权值较大的关键字作次优查找树的根节点。
+
+从次优查找树的结构特点可见，其查找过程类似于折半查找。若次优查找树为空，则查找不成功，否则，首先将给定值key和其根节点关键字相比，若相等，则查找成功，改根结点的记录即为所求；否则将根据给定值key小于或大于根节点的关键字而分别在左子树或右子树中继续查找直至查找成功或不成功为止。
+
+在记录的查找概率不等时，可用次优查找树表示静态查找树，固又称静态树表，按有序表构造次优查找树的算法：
+
+```c
+typedef BiTree SOSTree;
+Status CreateSOSTree(SOSTree &T, SSTable ST) {
+    if (ST.length == 0) T = NULL;
+    else {
+        FindSW(sw,ST);
+        SecondOpiamal(T, ST.elem, sw, 1, ST.length);
+    }
+    return OK;
+}
+```
+
+### 索引顺序表查找
+
+索引顺序表如下：
+
+![SearchTable04](/img/SearchTable04.jpg)
+
+如图，一个表及其索引表，表中18个记录，分为了三个子表，对每个子表建立一个索引项，其中包括两项内容：关键字项和指针项。索引表按关键字有序，则表或者有序或者分块有序。分块有序指后一个表中所有记录的关键字均大于前一个子表中的最大关键字。
+
+分块查找过程分为两步，先确定待查找记录所在块，然后在块中顺序查找。由于索引项组成的索引表按关键字有序，则确定块的查找可以用顺序查找，亦可用折半查找，而块中记录是任意排列的，则在块中只能顺序查找。
+
+## 动态表查找
+
+动态查找表的特点是，表结构本身是在查找过程中动态生成了的，即对给定值key，若表中存在其关键字等于key的记录，则查找成功返回，否则插入关键字等于key的记录。
+
+### 二叉排序树和平衡二叉树
+
+
+
