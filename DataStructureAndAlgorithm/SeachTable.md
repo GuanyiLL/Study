@@ -1,6 +1,6 @@
 # 查找
 
-**查找表(Search Table)** 是由同一类型的数据元素构成的集合。由于"集合"中的数据元素之间存在着完全松散的关系，因此查找表示一种非常灵便的数据结构。
+**查找表(Search Table)**是由同一类型的数据元素构成的集合。由于"集合"中的数据元素之间存在着完全松散的关系，因此查找表示一种非常灵便的数据结构。
 
 查找表常用操作：
 
@@ -43,7 +43,7 @@ int Search_Seq(SSTable ST, KeyType key) {
 
 ### 有序表的查找
 
-**折半查找(Binary Search)** 的查找过程是:先确定待查记录所在的范围，然后逐步缩小范围直到找到或找不到该记录为止。
+**折半查找(Binary Search)**的查找过程是:先确定待查记录所在的范围，然后逐步缩小范围直到找到或找不到该记录为止。
 
 ```c
 int Search_Bin(SSTable ST,KeyType key) {
@@ -78,7 +78,7 @@ int Search_Bin(SSTable ST,KeyType key) {
 
 之前对有序表的查找性能的讨论是在“等概率”的前提下进行的。如果各记录的查找概率不等，按照之前的算法性能未必是最优的。如果只考虑查找成功的情况，则是查找性能达到最佳的判定树是其带权内路径长度PH值
 
-![SearchTable03](/img/SearchTable03.png)
+![SearchTable03](/img/SearchTable03)
 
 取最小值得二叉树。其中：n为二叉树上的结点个数；hi为第i个结点在二叉树上的层次数；节点的权wi=cpi(i=1,2,...,n)，其中pi为结点的查找概率，c为常量。称PH值取最小的二叉树为**静态最优查找树(Static Optimal Search Tree)**。
 
