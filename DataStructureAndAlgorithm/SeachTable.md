@@ -136,10 +136,91 @@ Status CreateSOSTree(SOSTree &T, SSTable ST) {
 
 ### 二叉排序树和平衡二叉树
 
-一、二叉排序树及其查找过程
+#### 二叉排序树及其查找过程
+
 **二叉排序树(Binary Sort Tree)**或者是一棵空树；或者是具有下列性质的二叉树：
 
 1. 若他的左子树不为空，则左子树上所有结点的值均小于它的根结点的值；
 2. 若它的右子树不为空，则右子树上所有的值均大于它的根节点的值；
 3. 它的左、右子树也分别为二叉排序树。
 
+二叉排序树又称二叉查找树，根据上述定义结构特点可见，它的查找过程和次优二叉树类似。通常，可取二叉链表作为二叉排序树的存储结构，则上述查找过程过程如下：
+
+```c
+BiTree(BiTree T,KeyType key) {
+    if ((!T) || EQ(key,T->data.key)) return (T);
+    else if (LT(key,T->data.key)) return(SearchBST(T->lchild,key)); 
+    else return SearchBST(T->rchild,key);
+}
+```
+
+#### 二叉排序树的插入和删除
+
+算法如下：
+
+```c
+Status SearchBST(BiTree T, KeyType key, BiTree f, BiTree &p) {
+    /*
+        在根指针T所指二叉排序树中递归地查找其关键字等于key的元素，若查找成功，则指针p指向该数据元素结点，并返回TRUE，否则指针p指向查找路径上访问的最后一个结点并返回FALSE，指针f指向T的双亲，其初始调用值为NULL
+    */
+    if (!T) {p = f;return FALSE;}
+    else if EQ(key, T->data.key) {p = T;return TRUE;}
+    else if LT(key, T->data.key) SearchBST(T->lchild,key,T,p);
+    else SearchBST(T->rchild,key,T,p);
+}
+
+Status Insert BST(BiTree &T, ElemType e) {
+    /*
+        当二叉排序树T中不存在关键字等于e.key的数据元素时，插入e并返回TRUE，否则返回FALSE
+    */
+    if (!SearchBST(T, e.key, NULL, p)) {
+        s = (BiTree)malloc(sizeof(BiTree));
+        s->data = e; s->lchild = s->rchild = NULL;
+        if (!p) T = s;      // 被插结点*s为新的根节点
+        else if LT(e.key, p->data.key) p->lchild = s; // 被插结点*s为左孩子
+        else p->rchild = s;   // 被插结点*s为右孩子
+        return TURE;
+    }
+    else return FALSE;   // 树种已有关键字结点，不再插入
+}
+
+```
+
+一个无序序列可以通过构造一颗二叉排序树而变成一个有序序列，构造树的过程即为对无序序列进行排序的过程。不仅如此，从上面的插入过程还可以看到，每次插入的新节点都是二叉排序树上新的叶子节点，则在进行插入操作时，不比移动其他结点，仅需改动某个结点的指针，由空变为非空即可。
+
+删除操作算法如下：
+
+```c
+Status DeleteBST(BiTree &T, KeyType key) {
+    /*
+        若二叉排序树T中存在关键字等于key的数据元素时，则删除该数据元素结点，并返回TRUE，否则返回FALSE；
+    */
+    if (!T) return FALSE;
+    else {
+        if EQ(key, T->data.key) Delete(T);
+        else if LT(key, T->data.key) DeleteBST(T->lchild,key);
+        else DeleteBST(T->richild, key);
+        return TRUE;
+    }
+}
+
+void DeleteBST(BiTree &p) {
+    // 从二叉排序树中删除结点p，并重新接它的左或右子树
+    if (!p->richild) {
+        q = p; p = p->lchild; free(q);
+    } else if (!p->child) {
+        q = p; p = p->rchild; free(q);
+    } else {
+        q = p; s = p->lchild;
+        while(s->rchild) { q = s; s = s->rchild } // 转左，然后向右到尽头
+        p->data = s->data; // s指向被删除结点的“前驱”
+        if (q!=p) q->rchild = s->lchild; // 重接*q的右子树
+        else q->lchild = s->lchild;   // 重接*q的左子树
+    }
+}
+
+```
+
+#### 平衡二叉树
+
+**平衡二叉树(Balanced Binary Tree)**又称AVL树。
