@@ -224,3 +224,7 @@ void DeleteBST(BiTree &p) {
 #### 平衡二叉树
 
 **平衡二叉树(Balanced Binary Tree)**又称AVL树。
+
+### B-和B+树
+
+### 哈希表
