@@ -1,5 +1,3 @@
-<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=default"></script>
-
 # Sort
 
 * 内部排序：待排序记录存放在计算机存储器中进行的排序过程
@@ -41,20 +39,85 @@
 void BInsertSort(SqList &L) {
     //对顺序表L作折半插入排序
     for (i = 2; i <= L.length; ++i) {
-        L.r[0] = L.r[i];
+        L.r[0] = L.r[i];            // 将L.r[i]暂存到L.r[0]
         low = 1; high = i - 1;
-        while(low <= high) {
-            m = (low + high) / 2;
-            if LT(L.r[0].key, L.r[m].key) high = m - 1;
-            else low = m + 1;
+        while(low <= high) {        // 在r[low..high]中折半查找有序插入的位置
+            m = (low + high) / 2;   // 折半
+            if LT(L.r[0].key, L.r[m].key) high = m - 1; // 插入点在底半区
+            else low = m + 1;  // 插入点在高半区
         }
-        for (j = i - 1; j >= high + 1; --j) L.r[j + 1] = L.r[j];
-        L.r[high + 1] = L.r[0];
+        for (j = i - 1; j >= high + 1; --j) L.r[j + 1] = L.r[j];  // 记录后移
+        L.r[high + 1] = L.r[0];  // 插入
     }
 }
 ```
 
 折半插入所需附加存储空间和直接插入排序相同，从时间上比较，折半插入排序仅减少了关键字间的比较次数，儿记录的移动次数不变。因此时间复杂度仍然为$O(n^2)$。
 
-#### 2-路插入排序
+### 插入表排序
 
+存储结构如下 ：
+
+```c
+#define SIZE 100        // 静态链表容量
+typedef struct {
+    RcdType rc;         // 记录项
+    int next;           // 指针项
+}SLNode;
+typedef struct {
+    SLNode r[SIZE];     // 0号单元为表头结点
+    int length;         // 链表当前长度
+}SLinkListType;
+```
+
+算法如下：
+
+```c
+void Arrange(SLinkListType &SL) {
+    /*
+        根据静态链表SL中各结点的指针值调整记录位置，使得SL中记录按关键字非递减减有序顺序排列
+    */
+    p = SL.r[0].next;                   // p指示第一个记录的当前位置
+    for (i = 1; i<SL.length; ++i) {     // SL.r[1..i-1]中记录已按关键字有序排列，第i个记录在SL中的当前位置应不小于i
+        while(p < i) p = SL.r[p].next;  // 找到第i个记录，并用p指示其在SL中当前位置
+        q = SL.r[p].next;    // 指示尚未调整的表尾
+        if (p!=i) {
+            SL.r[p]<-->SL.r[i];     // 交换记录，使第i个记录到位
+            SL.r[i].next = p;       // 指向被移走的记录，使得以后可由while循环找回
+        }
+        p = q;  // p指示尚未调整的表尾，为找第i+1个记录作准备
+    }
+}
+
+```
+
+## 希尔排序
+
+希尔排序又称“缩小增量排序”(Diminishing Increment Sort)，它也是一种属于插入排序类的方法，但在时间效率上有较大改进。
+
+它的基本思想：先将整个待排记录序列分割成若干个子序列分别进行直接插入排序，待整个序列中的记录“基本有序”时，在对全体进行一次直接插入排序。
+
+```c
+void ShellInsert(SqList &L, int dk) {
+    /*
+        对顺序表L做一趟希尔插入排序。本算法适合一趟直接插入排序比，做了以下修改：
+            1. 前后记录位置的增量是dk，而不是1；
+            2. r[0]只是暂存单元，不是哨兵。当j<=0时，插入位置已找到。
+    */
+    for (i = dk + 1; i <= L.length; ++i) {
+        if LT(L.r[i].key, L.r[i - dk].key) {        // 将L.r[i]插入有序增量子表
+            L.r[0] = L.r[i];
+            for (j = i - dk; j > 0 && LT(L.r[0].key, L.r[j].key); j -= dk)
+                L.r[j+dk] = L.r[j];     // 记录后移，查找插入位置
+            L.r[j + dk] = L.r[0];       // 插入
+        }
+    }
+}
+
+void ShellSort(SqList &L, int dlta[], int) {
+    // 按增量序列 dlta[0..t-1]对顺序表L作希尔排序
+    for (k = 0; k < t; ++t) {
+        ShellInsert(L, dlta[k]);  // 一趟增量为dlta[k]的插入排序
+    }
+}
+```
