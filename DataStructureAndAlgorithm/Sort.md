@@ -100,7 +100,7 @@ void Arrange(SLinkListType &SL) {
 ```c
 void ShellInsert(SqList &L, int dk) {
     /*
-        对顺序表L做一趟希尔插入排序。本算法适合一趟直接插入排序比，做了以下修改：
+        对顺序表L做一趟希尔插入排序。本算法适合一趟直接插入排序相比，做了以下修改：
             1. 前后记录位置的增量是dk，而不是1；
             2. r[0]只是暂存单元，不是哨兵。当j<=0时，插入位置已找到。
     */
@@ -119,5 +119,46 @@ void ShellSort(SqList &L, int dlta[], int) {
     for (k = 0; k < t; ++t) {
         ShellInsert(L, dlta[k]);  // 一趟增量为dlta[k]的插入排序
     }
+}
+```
+
+希尔排序的分析是一个复杂的问题，因为它的时间是所取“增量”序列的函数，涉及一些数学上尚未解决的难题。有人指出，当增量序列为$dlta[k]=2^{t-k+1}$时，希尔排序的时间复杂度为$O(n^{3/2})$，t为排序趟数，$1\leq\;k\leq\;t\leq\; \lfloor log(n+1)\rfloor$。
+
+还有人在大量实验基础上推出：当N在某个特定范围内，希尔排序所需的比较和移动次数约为$n^{1.3}$，当$n\to\infty$时，可减少到$n(logn)^{2}$。增量序列中的值没有除1之外的公因子，并且最后一个增量值必须等于1。
+
+## 快速排序
+
+```c
+int Partition(SqList &L,int low, int high) {
+    /*
+        交换顺序表L中子表r[low..high]的记录，枢轴记录到位，并返回其所在位置，此时在它之前(后)的记录均不大(小)于它
+    */
+    L.r[0] = L.r[low]; // 用子表的第一个记录做枢轴记录
+    pivotkey = L.r[low].key;        // 枢轴记录关键字
+    while(low < high) {             // 从表的两端交替地向中间扫描
+        while(low < high && L.r[high].key >= pivotkey) --high;              // 将比枢轴记录小的移动到低端
+        while(low < high && L.r[low].key <= pivotkey) ++low;
+        L.r[high] = L.r[low];       // 将比枢轴记录大的记录移到高端
+    }
+    L.r[low] = L.r[0];          // 枢轴记录到位
+    return low;                 // 返回枢轴位置
+}
+```
+
+递归形式：
+
+```c
+void QSort(SqList &L,int low, int high) {
+    // 对顺序表L中的子序列L.r[low..high]作快速排序
+    if (low < high) {                   // 长度大于1
+        pivotloc = Partition(L, low, high)  // 将L.r[low..high] 一分为二
+        QSort(L, low, pivotloc-1);      // 对低子表递归排序，pivotloc是枢轴位置
+        QSort(L, pivotloc+1, high);     // 对高子表递归排序
+    }
+}
+
+void QuickSort(SqList &L) {
+    // 对顺序表L作快速排序
+    QSort(L, 1, L.length);
 }
 ```
