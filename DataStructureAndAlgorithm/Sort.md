@@ -162,3 +162,22 @@ void QuickSort(SqList &L) {
     QSort(L, 1, L.length);
 }
 ```
+
+快速排序的平均时间为$T_{avg}(n)=knlnn$,其中n为待排序序列中记录的个数，k为某个常数，经验证明，在所有同数量级的此类(先进的)排序方法中，快速排序的常数因子k最小。因此，就平均时间而言，快速排序是目前被认为是最好的一种内部排序方法。
+
+## 选择排序
+
+**选择排序(Selection Sort)**的基本思想是:每一趟在n - i + 1(i=1,..,n-1)个记录中选取关键字最小的记录作为有序序列中第i个记录。其中最简单、且为读者最熟悉的是**简单选择排序(Simple Selection Sort)**。
+
+```c
+void SelectSort(SqList &L) {
+    for (i = 1; i < L.length; ++i) {
+        j = SelectionMinKey(L, i);
+        if (i != j) L.r[i] <--> L.r[j];
+    }
+}
+```
+
+### 堆排序
+
+**堆排序(HeapSort)**只需要一个记录大小的辅助空间，每个待排序的记录仅占有一个存储空间。
