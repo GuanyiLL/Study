@@ -181,3 +181,29 @@ void SelectSort(SqList &L) {
 ### 堆排序
 
 **堆排序(HeapSort)**只需要一个记录大小的辅助空间，每个待排序的记录仅占有一个存储空间。
+
+```c
+typedef SqList HeapType; // 堆采用顺序存储表示
+void HeapAdjust(HeapType &H, int s, int m) {
+    /*
+        已知H.r[s..m]中记录的关键字除H.r[s].key之外均满足堆的定义，本函数调整H.r[s]的关键字，使H.r[s..m]成为一个大顶堆
+    */
+    rc = H.r[s];
+    for (j = 2 * s;j <= m;j *= 2) {
+        if (j < m && LT(H.r[j].key,H.r[j+1].key)) ++j; // j为key较大的记录的下标
+        if (!LT(rc.key,H.r[j].key)) break; // rc 应插入在位置s上
+        H.r[s] = H.r[j]; s = j;
+    }
+    H.r[s] = rc;
+}
+
+void HeapSort(HeapType &H) {
+    // 对顺序表H进行堆排序
+    for (i = H.length / 2; i > 0; --i) // 把H.r[1..H.length]建成大堆顶
+        HeapAdjust(H, i, H.length);
+    for (i = H.length; i > 1; --i) {
+        H.r[1] <--> H.r[i];   // 将堆顶记录和当前未经排序子序列Hr[1..i]中最后一个记录相互交换
+        HeapAdjust(H, 1, i-1); // 将H.r[1..i-1] 重新调整为大堆顶
+    }
+}
+```
