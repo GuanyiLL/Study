@@ -207,3 +207,39 @@ void HeapSort(HeapType &H) {
     }
 }
 ```
+
+### 归并排序
+
+**归并排序(Merging Sort)**是又一类不同的排序算法。“归并”的含义是将两个或两个以上的有序表组合成一个新的有序表。其时间复杂度为$O(nlogn)$。
+
+```c
+void Merge(RcdType SR[], RcdType &TR[],int i, int m,int n) {
+    // 将有序的SR[i..m]和SR[m+1..n]归并为有序的TR[i..n]
+    for(j = m + 1, k = i; i <= m && j <= n; ++k) {  // 将SR中记录由小到大地并入TR
+        if LQ(SR[i].key,SR[j].key) TR[k] = SR[i++];
+        else TR[k] = SR[j++];
+    }
+    if (j <= m) TR[k..n] = SR[i..m];    // 将剩余的SR[i..m]复制到TR
+    if (j <= n) TR[k..n] = SR[j..n];    // 将剩余的SR[j..n]复制到TR
+}
+```
+
+递归形式：
+
+```c
+void MSort(RcdType SR[], RcdType &TR1[], int s, int t) {
+    // 将SR[s..t]归并排序为TR[s..t]
+    if (s == t) TR1[s] = SR[s];
+    else {
+        m = (s+t)/2;    //  将SR[s..t]平分为SR[s..m]和SR[m+1..t]
+        MSort(SR, TR2, s, m);   // 递归地将SR[s..m]归并为有序的TR2[s..m]
+        MSort(SR, TR2, m + 1, t);   // 递归地将SR[m+1..t]归并为有序的TR2[m+1..t]
+        Merge(TR2, TR1, s, m, t);   // 将TR2[s..m]和TR2[m+1..t]归并到TR1[s..t]
+    }
+}
+
+void MergeSort(SqList &L) {
+    // 对顺序表L作归并排序
+    MSort(L.r,L.r,1,L.length);
+}
+```
