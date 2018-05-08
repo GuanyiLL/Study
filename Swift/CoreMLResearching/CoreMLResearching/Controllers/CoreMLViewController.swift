@@ -13,9 +13,9 @@ class CoreMLViewController: UIViewController {
     @IBOutlet weak var imageView: UIImageView!
     @IBOutlet weak var label: UILabel!
     
-    let model = MobileNet()
     override func viewDidLoad() {
         super.viewDidLoad()
+        let model = MobileNet()
         let input = imageView.image!.pixelBuffer(width: 224, height: 224)
         do {
             let output = try model.prediction(image: input!)
