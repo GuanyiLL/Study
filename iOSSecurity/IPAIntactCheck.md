@@ -1,20 +1,20 @@
-# 应用完整性检查
+# 应用完整性检查调查
 
-场景：在越狱手机中，直接替换资源文件，然后重新启动app，加载了被替换的资源，app没有警告。
+场景：在越狱手机中，直接替换资源文件，然后重新启动app，加载了被替换的资源，app没有作出警告。
 
 通过网络调查，目前市面上的方法大致分为三种：
-
+
 * 将app包中的CodeResources文件放到服务端，app启动时下载与本地bundle文件夹内的文件做比较
 * 检测app的cryptid值来看是否加密
 * 对比资源文件的md5值
 
-第一种方法中提到的CodeResources文件是Xcode在对IPA包做签名时的产物。
+第一种方法：CodeResources文件是Xcode在对IPA包做签名时的产物。打包之后可以再`ProjectName.app/_CodeSignature/CodeResources`路径下找到。
 
-![CodeResource](/img/codeResource.png)
+![CodeResource](../img/codeResource.png)
 
-该文件为plist文件，files中存储了资源文件在签名之后的加密值，最终以base64编码显示，但是解码之后得到的仍然是乱码，因此只能在打包后将此文件交给后端，app启动后通过网络请求下载该文件，然后与本地的文件做比较。
+该文件为plist文件，其中存储了资源文件在签名之后的加密值，最终以base64编码显示，但是解码之后得到的仍然是乱码，因此只能在打包后将此文件交给后端，app启动后通过网络请求下载该文件，然后与本地的文件中的值做比较。
 
-第二种办法，由于通过App Store上架的应用，苹果会对IPA包做数字加密处理，通过比较cryptid可以来判断该应用是否为App Store下载的应用，但是对于直接替换资源文件，不会对加密产生影响，因此该方法只能用于验证加密。
+第二种办法，由于通过App Store上架的应用，苹果会对IPA包做数字加密处理，通过比较cryptid可以来判断该应用是否为App Store下载的应用，但是对于直接替换资源文件，不会对加密状态产生影响，因此该方法只能用于验证加密状态。
 
 ```c
 #if TARGET_IPHONE_SIMULATOR && !defined(LC_ENCRYPTION_INFO)
@@ -60,6 +60,47 @@ static BOOL isEncrypted () {
 }
 ```
 
-第三种办法，在编译期间，使用shell命令，遍历所有资源图片，并计算其MD5值，然后以图片名字为key，写入一个plist文件中，app启动后，遍历自身bundle资源图片，进行MD5计算，然后比较。但是由于Xcode默认开启PNG图片压缩处理，需要将其关闭，现有应用IPA包将增加0.3MB的空间。
+第三种办法，在编译期间，使用shell命令，遍历所有资源图片，并计算其MD5值，然后以图片名字为key，写入一个plist文件中，app启动后，遍历自身bundle资源图片，进行MD5计算与比较。但是由于Xcode默认开启PNG图片压缩处理，需要将其关闭
 
-安卓端所采用的方法，为计算整个APK包的文件大小，app启动后，获取APK包的路径，然后计算其MD5的值，iOS在使用这一方法时，读取bundle路径的.app文件，在转为NSData的时候会失败，因为系统只允许对未打开的文件进行操作。
+![compressPNG](../img/compressPNG.jpg)
+
+打包之后对比现有应用，IPA包将增加0.3MB的空间。
+
+```sh
+MD5File="$PROJECT_DIR/Resource/sources_encodes.plist"
+function encodeFiles () {
+    for file in `ls $1`
+    do
+    if [ -d $1"/"$file ]
+    then
+        encodeFiles $1"/"$file
+    else
+        file_name=`basename $file`
+        if [[ $file_name =~ ".png" ]]
+        then
+        md5value=`md5 -q $1"/"$file`
+        echo $file_name $md5value
+        /usr/libexec/PlistBuddy -c "Add:$file_name string $md5value" $MD5File
+        fi
+    fi
+    done
+}
+
+rm -f $MD5File
+
+cat>$MD5File <<EOF
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple Computer//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+
+<plist version="1.0">
+<dict>
+
+</dict>
+</plist>
+EOF
+
+folder="$PROJECT_DIR/Resource/"
+encodeFiles $folder
+```
+
+安卓端所采用的方法，为计算整个APK包的文件大小，app启动后，获取APK包的路径，然后计算其MD5的值进行比较，iOS在使用这一方法时，读取bundle路径的.app文件，在转为NSData的时候会失败，因为系统只允许对未打开的文件进行操作。
