@@ -66,6 +66,8 @@ static BOOL isEncrypted () {
 
 打包之后对比现有应用，IPA包将增加0.3MB的空间。
 
+shell代码如下：
+
 ```sh
 MD5File="$PROJECT_DIR/Resource/sources_encodes.plist"
 function encodeFiles () {
