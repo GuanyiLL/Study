@@ -12,7 +12,7 @@ import SceneKit
 import CoreML
 import Vision
 
-class HowToNameThisController
+class ScanWorldController
 : UIViewController
 , ARSCNViewDelegate {
 
