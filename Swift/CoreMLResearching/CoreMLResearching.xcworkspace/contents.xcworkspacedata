@@ -2,9 +2,6 @@
 <Workspace
    version = "1.0">
    <FileRef
-      location = "group:CoreMLResearching.playground">
-   </FileRef>
-   <FileRef
       location = "group:CoreMLResearching.xcodeproj">
    </FileRef>
 </Workspace>
