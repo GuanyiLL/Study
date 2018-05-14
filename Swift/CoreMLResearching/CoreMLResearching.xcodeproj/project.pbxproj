@@ -9,7 +9,6 @@
 /* Begin PBXBuildFile section */
 		933BD54B200861C300103AB0 /* MobileNet.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = 933BD54A200861C300103AB0 /* MobileNet.mlmodel */; };
 		933BD54F200C440100103AB0 /* Utilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = 933BD54E200C440100103AB0 /* Utilities.swift */; };
-		933BD553200C59A700103AB0 /* MasterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 933BD552200C59A700103AB0 /* MasterViewController.swift */; };
 		933BD555200C5B0200103AB0 /* VisionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 933BD554200C5B0200103AB0 /* VisionViewController.swift */; };
 		933BD557200C5B7D00103AB0 /* LinguisticTaggerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 933BD556200C5B7D00103AB0 /* LinguisticTaggerViewController.swift */; };
 		93B093DB20075CAB0013B7A7 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93B093DA20075CAB0013B7A7 /* AppDelegate.swift */; };
@@ -24,7 +23,6 @@
 /* Begin PBXFileReference section */
 		933BD54A200861C300103AB0 /* MobileNet.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; path = MobileNet.mlmodel; sourceTree = "<group>"; };
 		933BD54E200C440100103AB0 /* Utilities.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Utilities.swift; sourceTree = "<group>"; };
-		933BD552200C59A700103AB0 /* MasterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MasterViewController.swift; sourceTree = "<group>"; };
 		933BD554200C5B0200103AB0 /* VisionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VisionViewController.swift; sourceTree = "<group>"; };
 		933BD556200C5B7D00103AB0 /* LinguisticTaggerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LinguisticTaggerViewController.swift; sourceTree = "<group>"; };
 		93B093D720075CAB0013B7A7 /* CoreMLResearching.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CoreMLResearching.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -61,7 +59,6 @@
 			isa = PBXGroup;
 			children = (
 				93B093DC20075CAB0013B7A7 /* CoreMLViewController.swift */,
-				933BD552200C59A700103AB0 /* MasterViewController.swift */,
 				933BD554200C5B0200103AB0 /* VisionViewController.swift */,
 				933BD556200C5B7D00103AB0 /* LinguisticTaggerViewController.swift */,
 				93E02036200DEDE50035D831 /* HowToNameThisController.swift */,
@@ -181,7 +178,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				933BD553200C59A700103AB0 /* MasterViewController.swift in Sources */,
 				93FD85C5201595F2008C5229 /* Resnet50.mlmodel in Sources */,
 				93B093DD20075CAB0013B7A7 /* CoreMLViewController.swift in Sources */,
 				93B093DB20075CAB0013B7A7 /* AppDelegate.swift in Sources */,
