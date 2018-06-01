@@ -78,7 +78,7 @@
     [beautifyFilter setFrameProcessingCompletionBlock:^(GPUImageOutput *output, CMTime time){
         __strong typeof (self) strongSelf = weakSelf;
         dispatch_async([GPUImageContext sharedContextQueue], ^{
-            [strongSelf.element update];
+        [strongSelf.element update];
         });
     }];
     [self.view addSubview:self.canvasView];
@@ -217,7 +217,6 @@
     _videoCamera = [[GPUImageVideoCamera alloc] initWithSessionPreset:AVCaptureSessionPreset1280x720 cameraPosition:AVCaptureDevicePositionFront];
     _videoCamera.outputImageOrientation = [UIApplication sharedApplication].statusBarOrientation;
     [_videoCamera addAudioInputsAndOutputs];
-    _videoCamera.delegate = self;
     _videoCamera.horizontallyMirrorRearFacingCamera = NO;
     _videoCamera.horizontallyMirrorFrontFacingCamera = YES;
     return _videoCamera;
