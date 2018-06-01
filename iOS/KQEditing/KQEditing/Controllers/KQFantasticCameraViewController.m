@@ -23,6 +23,7 @@
 @property (nonatomic) GPUImageVideoCamera *videoCamera;
 
 @property (nonatomic) GPUImageBeautifyFilter *beautyFilter;
+@property (nonatomic , strong) GPUImageAddBlendFilter *blendFilter;
 @property (nonatomic) GPUImageFilterGroup *filter;
 
 @property (nonatomic) GPUImageView *displayView;
@@ -37,7 +38,9 @@
 
 @property (nonatomic) NSMutableDictionary *faceViews;
 @property (nonatomic) UIImageView *paster;
+
 @property (nonatomic) GPUImageUIElement *element;
+@property (nonatomic) UIView *canvasView;
 
 @end
 
@@ -50,10 +53,20 @@
     self.sessionQueue = dispatch_queue_create("session queue", DISPATCH_QUEUE_SERIAL);
     self.faceViews = [NSMutableDictionary dictionary];
     
+    self.canvasView = [[UIView alloc] initWithFrame:self.view.bounds];
+    UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 40, 20)];
+    label.text = @"GGGGG";
+    [self.canvasView addSubview:label];
     
-    self.beautyFilter = [[GPUImageBeautifyFilter alloc] init];
-    [self.videoCamera addTarget:self.beautyFilter];
-    [self.beautyFilter addTarget:self.displayView];
+    self.element = [[GPUImageUIElement alloc] initWithView:self.canvasView];
+    
+    
+    GPUImageBeautifyFilter *beautifyFilter = [[GPUImageBeautifyFilter alloc] init];
+    [self.videoCamera addTarget:beautifyFilter];
+    self.blendFilter = [[GPUImageAddBlendFilter alloc] init];
+    [beautifyFilter addTarget:self.blendFilter];
+    [self.element addTarget:self.blendFilter];
+    [beautifyFilter addTarget:self.displayView];
     
     [self.videoCamera startCameraCapture];
     
@@ -68,8 +81,23 @@
         [output setMetadataObjectsDelegate:self queue:dispatch_get_main_queue()];
     }
     
-    NSDictionary *detectorOptions = [[NSDictionary alloc] initWithObjectsAndKeys:CIDetectorAccuracyLow, CIDetectorAccuracy, nil];
-    self.faceDetector = [CIDetector detectorOfType:CIDetectorTypeFace context:nil options:detectorOptions];
+    __weak typeof (self) weakSelf = self;
+    [beautifyFilter setFrameProcessingCompletionBlock:^(GPUImageOutput *output, CMTime time){
+        __strong typeof (self) strongSelf = weakSelf;
+        dispatch_async([GPUImageContext sharedContextQueue], ^{
+            UIView *f = strongSelf.faceViews.allValues.firstObject;
+            dispatch_async(dispatch_get_main_queue(), ^{
+                label.frame = CGRectMake(f.frame.origin.x, f.top - 20, 40, 20);
+            });
+            [strongSelf.element updateWithTimestamp:time];
+        });
+    }];
+    
+    [self.view addSubview:self.canvasView];
+    
+//
+//    NSDictionary *detectorOptions = [[NSDictionary alloc] initWithObjectsAndKeys:CIDetectorAccuracyLow, CIDetectorAccuracy, nil];
+//    self.faceDetector = [CIDetector detectorOfType:CIDetectorTypeFace context:nil options:detectorOptions];
 }
 
 - (void)refresh {
