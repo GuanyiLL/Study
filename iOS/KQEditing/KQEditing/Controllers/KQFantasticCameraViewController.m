@@ -13,7 +13,7 @@
 #import "GPUImageBeautifyFilter.h"
 #import <CoreImage/CoreImage.h>
 
-@interface KQFantasticCameraViewController () <GPUImageVideoCameraDelegate,AVCaptureMetadataOutputObjectsDelegate>
+@interface KQFantasticCameraViewController () <AVCaptureMetadataOutputObjectsDelegate>
 
 @property (nonatomic) UIButton *backButton;
 @property (nonatomic) UIButton *changeCamera;
@@ -22,22 +22,15 @@
 @property (nonatomic) dispatch_queue_t sessionQueue;
 @property (nonatomic) GPUImageVideoCamera *videoCamera;
 
-@property (nonatomic) GPUImageBeautifyFilter *beautyFilter;
-@property (nonatomic , strong) GPUImageAddBlendFilter *blendFilter;
-@property (nonatomic) GPUImageFilterGroup *filter;
-
+@property (nonatomic) GPUImageAddBlendFilter *blendFilter;
 @property (nonatomic) GPUImageView *displayView;
 @property (nonatomic) GPUImageMovieWriter *movieWriter;
 @property (nonatomic) NSURL *movieURL;
-@property (nonatomic,copy) NSString *moviePath;
+@property (nonatomic, copy) NSString *moviePath;
 @property (nonatomic) NSTimer *timer;
 @property (nonatomic, assign) BOOL isRecording;
 
-@property (nonatomic) CIDetector *faceDetector;
-@property (nonatomic, assign) BOOL faceThinking;
-
 @property (nonatomic) NSMutableDictionary *faceViews;
-@property (nonatomic) UIImageView *paster;
 
 @property (nonatomic) GPUImageUIElement *element;
 @property (nonatomic) UIView *canvasView;
@@ -53,22 +46,22 @@
     self.sessionQueue = dispatch_queue_create("session queue", DISPATCH_QUEUE_SERIAL);
     self.faceViews = [NSMutableDictionary dictionary];
     
-    self.canvasView = [[UIView alloc] initWithFrame:self.view.bounds];
-    UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 40, 20)];
-    label.text = @"GGGGG";
-    [self.canvasView addSubview:label];
-    
     self.element = [[GPUImageUIElement alloc] initWithView:self.canvasView];
+    self.canvasView = [[UIView alloc] initWithFrame:self.view.bounds];
     
+    [self.videoCamera startCameraCapture];
+    
+    UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(100, 100, 100, 100)];
+    label.text = @"aaaa";
+    [self.canvasView addSubview:label];
     
     GPUImageBeautifyFilter *beautifyFilter = [[GPUImageBeautifyFilter alloc] init];
     [self.videoCamera addTarget:beautifyFilter];
     self.blendFilter = [[GPUImageAddBlendFilter alloc] init];
     [beautifyFilter addTarget:self.blendFilter];
     [self.element addTarget:self.blendFilter];
-    [beautifyFilter addTarget:self.displayView];
     
-    [self.videoCamera startCameraCapture];
+    [beautifyFilter addTarget:self.displayView];
     
     AVCaptureMetadataOutput *output = [[AVCaptureMetadataOutput alloc] init];
     if ([self.videoCamera.captureSession canAddOutput:output]) {
@@ -85,25 +78,11 @@
     [beautifyFilter setFrameProcessingCompletionBlock:^(GPUImageOutput *output, CMTime time){
         __strong typeof (self) strongSelf = weakSelf;
         dispatch_async([GPUImageContext sharedContextQueue], ^{
-            UIView *f = strongSelf.faceViews.allValues.firstObject;
-            dispatch_async(dispatch_get_main_queue(), ^{
-                label.frame = CGRectMake(f.frame.origin.x, f.top - 20, 40, 20);
-            });
-            [strongSelf.element updateWithTimestamp:time];
+            [strongSelf.element update];
         });
     }];
-    
     [self.view addSubview:self.canvasView];
-    
-//
-//    NSDictionary *detectorOptions = [[NSDictionary alloc] initWithObjectsAndKeys:CIDetectorAccuracyLow, CIDetectorAccuracy, nil];
-//    self.faceDetector = [CIDetector detectorOfType:CIDetectorTypeFace context:nil options:detectorOptions];
 }
-
-- (void)refresh {
-  
-}
-
 
 - (void)viewDidLayoutSubviews {
     [super viewDidLayoutSubviews];
@@ -136,9 +115,9 @@
         
         if (self.isRecording) {
             self.isRecording = NO;
-            [self.beautyFilter removeTarget:self.movieWriter];
-            self.videoCamera.audioEncodingTarget = nil;
             [self.movieWriter finishRecording];
+            [self.blendFilter removeTarget:self.movieWriter];
+            self.videoCamera.audioEncodingTarget = nil;
             UISaveVideoAtPathToSavedPhotosAlbum(self.moviePath, nil, nil, nil);
             return;
         }
@@ -148,9 +127,10 @@
         self.moviePath = [defultPath stringByAppendingPathComponent:[self getVideoNameWithType:@"mp4"]];
         self.movieURL = [NSURL fileURLWithPath:self.moviePath];
         unlink([self.moviePath UTF8String]);
+        
         self.movieWriter = [[GPUImageMovieWriter alloc] initWithMovieURL:self.movieURL size:CGSizeMake(720, 1280)];
         self.movieWriter.encodingLiveVideo = YES;
-        [self.beautyFilter addTarget:self.movieWriter];
+        [self.blendFilter addTarget:self.movieWriter];
         self.videoCamera.audioEncodingTarget = self.movieWriter;
         [self.movieWriter startRecording];
     });
@@ -170,7 +150,6 @@
     return videoCache;
 }
 
-
 -(NSString *)getVideoNameWithType:(NSString *)fileType {
     NSTimeInterval now = [[NSDate date] timeIntervalSince1970];
     NSDateFormatter *formatter = [[NSDateFormatter alloc]init];
@@ -181,153 +160,18 @@
     return fileName;
 }
 
-- (void)grepFacesForSampleBuffer:(CMSampleBufferRef)sampleBuffer{
-    self.faceThinking = TRUE;
-    NSLog(@"Faces thinking");
-    CVPixelBufferRef pixelBuffer = CMSampleBufferGetImageBuffer(sampleBuffer);
-    CFDictionaryRef attachments = CMCopyDictionaryOfAttachments(kCFAllocatorDefault, sampleBuffer, kCMAttachmentMode_ShouldPropagate);
-    CIImage *convertedImage = [[CIImage alloc] initWithCVPixelBuffer:pixelBuffer options:(__bridge NSDictionary *)attachments];
-    
-    if (attachments)
-        CFRelease(attachments);
-    NSDictionary *imageOptions = nil;
-    UIDeviceOrientation curDeviceOrientation = [[UIDevice currentDevice] orientation];
-    int exifOrientation;
-    
-    /* kCGImagePropertyOrientation values
-     The intended display orientation of the image. If present, this key is a CFNumber value with the same value as defined
-     by the TIFF and EXIF specifications -- see enumeration of integer constants.
-     The value specified where the origin (0,0) of the image is located. If not present, a value of 1 is assumed.
-     
-     used when calling featuresInImage: options: The value for this key is an integer NSNumber from 1..8 as found in kCGImagePropertyOrientation.
-     If present, the detection will be done based on that orientation but the coordinates in the returned features will still be based on those of the image. */
-    
-    enum {
-        PHOTOS_EXIF_0ROW_TOP_0COL_LEFT            = 1, //   1  =  0th row is at the top, and 0th column is on the left (THE DEFAULT).
-        PHOTOS_EXIF_0ROW_TOP_0COL_RIGHT            = 2, //   2  =  0th row is at the top, and 0th column is on the right.
-        PHOTOS_EXIF_0ROW_BOTTOM_0COL_RIGHT      = 3, //   3  =  0th row is at the bottom, and 0th column is on the right.
-        PHOTOS_EXIF_0ROW_BOTTOM_0COL_LEFT       = 4, //   4  =  0th row is at the bottom, and 0th column is on the left.
-        PHOTOS_EXIF_0ROW_LEFT_0COL_TOP          = 5, //   5  =  0th row is on the left, and 0th column is the top.
-        PHOTOS_EXIF_0ROW_RIGHT_0COL_TOP         = 6, //   6  =  0th row is on the right, and 0th column is the top.
-        PHOTOS_EXIF_0ROW_RIGHT_0COL_BOTTOM      = 7, //   7  =  0th row is on the right, and 0th column is the bottom.
-        PHOTOS_EXIF_0ROW_LEFT_0COL_BOTTOM       = 8  //   8  =  0th row is on the left, and 0th column is the bottom.
-    };
-    BOOL isUsingFrontFacingCamera = FALSE;
-    AVCaptureDevicePosition currentCameraPosition = [self.videoCamera cameraPosition];
-    
-    if (currentCameraPosition != AVCaptureDevicePositionBack)
-    {
-        isUsingFrontFacingCamera = TRUE;
-    }
-    
-    switch (curDeviceOrientation) {
-        case UIDeviceOrientationPortraitUpsideDown:  // Device oriented vertically, home button on the top
-            exifOrientation = PHOTOS_EXIF_0ROW_LEFT_0COL_BOTTOM;
-            break;
-        case UIDeviceOrientationLandscapeLeft:       // Device oriented horizontally, home button on the right
-            if (isUsingFrontFacingCamera)
-                exifOrientation = PHOTOS_EXIF_0ROW_BOTTOM_0COL_RIGHT;
-            else
-                exifOrientation = PHOTOS_EXIF_0ROW_TOP_0COL_LEFT;
-            break;
-        case UIDeviceOrientationLandscapeRight:      // Device oriented horizontally, home button on the left
-            if (isUsingFrontFacingCamera)
-                exifOrientation = PHOTOS_EXIF_0ROW_TOP_0COL_LEFT;
-            else
-                exifOrientation = PHOTOS_EXIF_0ROW_BOTTOM_0COL_RIGHT;
-            break;
-        case UIDeviceOrientationPortrait:            // Device oriented vertically, home button on the bottom
-        default:
-            exifOrientation = PHOTOS_EXIF_0ROW_RIGHT_0COL_TOP;
-            break;
-    }
-    
-    imageOptions = [NSDictionary dictionaryWithObject:[NSNumber numberWithInt:exifOrientation] forKey:CIDetectorImageOrientation];
-    
-    NSLog(@"Face Detector %@", [self.faceDetector description]);
-    NSLog(@"converted Image %@", [convertedImage description]);
-    NSArray *features = [self.faceDetector featuresInImage:convertedImage options:imageOptions];
-    
-    
-    // get the clean aperture
-    // the clean aperture is a rectangle that defines the portion of the encoded pixel dimensions
-    // that represents image data valid for display.
-    CMFormatDescriptionRef fdesc = CMSampleBufferGetFormatDescription(sampleBuffer);
-    CGRect clap = CMVideoFormatDescriptionGetCleanAperture(fdesc, false /*originIsTopLeft == false*/);
-    
-    
-    [self GPUVCWillOutputFeatures:features forClap:clap andOrientation:curDeviceOrientation];
-    self.faceThinking = FALSE;
-}
-
-- (void)GPUVCWillOutputFeatures:(NSArray*)featureArray forClap:(CGRect)clap
-                 andOrientation:(UIDeviceOrientation)curDeviceOrientation
-{
-    dispatch_async(dispatch_get_main_queue(), ^{
-        NSLog(@"Did receive array");
-        
-        CGRect previewBox = self.view.frame;
-        
-        for (CIFaceFeature *faceFeature in featureArray) {
-            
-            // find the correct position for the square layer within the previewLayer
-            // the feature box originates in the bottom left of the video frame.
-            // (Bottom right if mirroring is turned on)
-            NSLog(@"%@", NSStringFromCGRect([faceFeature bounds]));
-            
-            //Update face bounds for iOS Coordinate System
-            CGRect faceRect = [faceFeature bounds];
-            
-            // flip preview width and height
-            CGFloat temp = faceRect.size.width;
-            faceRect.size.width = faceRect.size.height;
-            faceRect.size.height = temp;
-            temp = faceRect.origin.x;
-            faceRect.origin.x = faceRect.origin.y;
-            faceRect.origin.y = temp;
-            // scale coordinates so they fit in the preview box, which may be scaled
-            CGFloat widthScaleBy = previewBox.size.width / clap.size.height;
-            CGFloat heightScaleBy = previewBox.size.height / clap.size.width;
-            faceRect.size.width *= widthScaleBy;
-            faceRect.size.height *= heightScaleBy;
-            faceRect.origin.x *= widthScaleBy;
-            faceRect.origin.y *= heightScaleBy;
-            
-            faceRect = CGRectOffset(faceRect, previewBox.origin.x, previewBox.origin.y);
-            
-            // create a UIView using the bounds of the face
-//            UIView *faceView = [[UIView alloc] initWithFrame:faceRect];
-//
-//            // add a border around the newly created UIView
-//            faceView.layer.borderWidth = 1;
-//            faceView.layer.borderColor = [[UIColor redColor] CGColor];
-//
-//            // add the new view to create a box around the face
-//            [self.view addSubview:faceView];
-            
-        }
-    });
-    
-}
-
 #pragma mark- Delegate
-
-- (void)willOutputSampleBuffer:(CMSampleBufferRef)sampleBuffer {
-//    if (!self.faceThinking) {
-//        CFAllocatorRef allocator = CFAllocatorGetDefault();
-//        CMSampleBufferRef sbufCopyOut;
-//        CMSampleBufferCreateCopy(allocator,sampleBuffer,&sbufCopyOut);
-//        [self performSelectorInBackground:@selector(grepFacesForSampleBuffer:)
-//                               withObject:CFBridgingRelease(sbufCopyOut)];
-//    }
-}
 
 - (void)captureOutput:(AVCaptureOutput *)captureOutput didOutputMetadataObjects:(NSArray *)metadataObjects fromConnection:(AVCaptureConnection *)connection {
     
     for (NSString *faceID in self.faceViews) {
-        UIView *v = self.faceViews[faceID];
-        [v removeFromSuperview];
+        NSDictionary *d = self.faceViews[faceID];
+        UIView *f = d[@"face"];
+        [f removeFromSuperview];
+        UIImageView *l = d[@"imageView"];
+        [l removeFromSuperview];
     }
+
     
     for (AVMetadataFaceObject *face in metadataObjects) {
         
@@ -343,16 +187,24 @@
         
         faceRect = CGRectOffset(faceRect, previewBox.origin.x, previewBox.origin.y);
         
-        UIView * faceView = self.faceViews[[NSString stringWithFormat:@"%zd",face.faceID]];
+        NSDictionary *dic = self.faceViews[[NSString stringWithFormat:@"%zd",face.faceID]];
+        
+        UIView *faceView = dic[@"face"];
+        UIImageView *imageView = dic[@"imageView"];
         if (faceView == nil) {
             faceView = [[UIView alloc] init];
-            self.faceViews[[NSString stringWithFormat:@"%zd",face.faceID]] = faceView;
             faceView.layer.borderColor = [UIColor redColor].CGColor;
             faceView.layer.borderWidth = 1;
             faceView.backgroundColor = [UIColor clearColor];
+            
+            imageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 80, 80)];
+            imageView.image = [UIImage imageNamed:@"test.gif"];
+            self.faceViews[[NSString stringWithFormat:@"%zd",face.faceID]] = @{@"face":faceView, @"imageView":imageView};
         }
         [self.view addSubview:faceView];
+        [self.canvasView addSubview:imageView];
         faceView.frame = faceRect;
+        imageView.frame = CGRectMake(faceView.frame.origin.x + faceView.width / 2 - 40, faceView.top - 100, 80, 80);
     }
 }
 
