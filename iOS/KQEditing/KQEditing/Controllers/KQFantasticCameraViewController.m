@@ -17,21 +17,23 @@
 
 @property (nonatomic) UIButton *backButton;
 @property (nonatomic) UIButton *changeCamera;
+@property (nonatomic) UILabel *timeLabel;
 @property (nonatomic) KQRecordButton *recoredButton;
 
 @property (nonatomic) dispatch_queue_t sessionQueue;
 @property (nonatomic) GPUImageVideoCamera *videoCamera;
+@property (nonatomic, assign) BOOL isRecording;
+@property (nonatomic) NSURL *movieURL;
+@property (nonatomic, copy) NSString *moviePath;
 
 @property (nonatomic) GPUImageAddBlendFilter *blendFilter;
 @property (nonatomic) GPUImageView *displayView;
 @property (nonatomic) GPUImageMovieWriter *movieWriter;
-@property (nonatomic) NSURL *movieURL;
-@property (nonatomic, copy) NSString *moviePath;
-@property (nonatomic) NSTimer *timer;
-@property (nonatomic, assign) BOOL isRecording;
+
+@property (nonatomic) CADisplayLink *link;
+@property (nonatomic, assign) NSUInteger videoSeconds;
 
 @property (nonatomic) NSMutableDictionary *faceViews;
-
 @property (nonatomic) GPUImageUIElement *element;
 @property (nonatomic) UIView *canvasView;
 
@@ -82,14 +84,57 @@
 - (void)viewDidLayoutSubviews {
     [super viewDidLayoutSubviews];
     self.backButton.frame = CGRectMake(20, 40, 40, 40);
-    self.changeCamera.frame = CGRectMake(CGRectGetWidth([UIScreen mainScreen].bounds) - 60, self.backButton.top, 40, 40);
-    self.recoredButton.frame = CGRectMake(self.view.width / 2 - 60 / 2, self.view.height - 60 - 34 , 60, 60);
+    self.changeCamera.frame = CGRectMake(CGRectGetWidth([UIScreen mainScreen].bounds) - 60,
+                                         self.backButton.top,
+                                         40,
+                                         40);
+    self.recoredButton.frame = CGRectMake(self.view.width / 2 - 60 / 2,
+                                          self.view.height - 60 - 34,
+                                          60,
+                                          60);
+    self.timeLabel.frame = CGRectMake(0, 0, self.view.width, 20 + 34);
 }
-
 
 - (void)viewDidDisappear:(BOOL)animated {
     [self.videoCamera stopCameraCapture];
     [super viewDidDisappear:animated];
+}
+
+#pragma mark- Methods
+
+-(NSString *)getVideoPathCache {
+    NSString *videoCache = [NSTemporaryDirectory() stringByAppendingString:@"videos"];
+    BOOL isDir = NO;
+    NSFileManager *fileManager = [NSFileManager defaultManager];
+    BOOL existed = [fileManager fileExistsAtPath:videoCache isDirectory:&isDir];
+    if (!existed) {
+        [fileManager createDirectoryAtPath:videoCache withIntermediateDirectories:YES attributes:nil error:nil];
+    }
+    return videoCache;
+}
+
+-(NSString *)getVideoNameWithType:(NSString *)fileType {
+    NSTimeInterval now = [[NSDate date] timeIntervalSince1970];
+    NSDateFormatter *formatter = [[NSDateFormatter alloc]init];
+    [formatter setDateFormat:@"YYMMDD HHmmss"];
+    NSDate *nowDate = [NSDate dateWithTimeIntervalSince1970:now];
+    NSString *timeStr = [formatter stringFromDate:nowDate];
+    NSString *fileName = [NSString stringWithFormat:@"video_%@.%@",timeStr,fileType];
+    return fileName;
+}
+
+- (void)refreshTimeLabel {
+    NSLog(@"%@",[NSDate date]);
+    self.videoSeconds++;
+    
+    NSInteger hours = self.videoSeconds / 360;
+    NSInteger minutes = self.videoSeconds / 60 % 60;
+    NSInteger seconds = self.videoSeconds % 60;
+    
+    NSString *time = [NSString stringWithFormat:@"%zd:%zd:%zd",hours,minutes,seconds];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        self.timeLabel.text = time;
+    });
 }
 
 #pragma mark- Actions
@@ -103,6 +148,7 @@
 }
 
 - (void)recordAction:(id)sender {
+
     dispatch_async(self.sessionQueue, ^{
         if ([sender isKindOfClass:[KQRecordButton class]]) {
             ((KQRecordButton *)sender).isRecording = !self.isRecording;
@@ -111,11 +157,17 @@
         if (self.isRecording) {
             self.isRecording = NO;
             [self.movieWriter finishRecording];
+            self.videoSeconds = 0;
             [self.blendFilter removeTarget:self.movieWriter];
             self.videoCamera.audioEncodingTarget = nil;
             UISaveVideoAtPathToSavedPhotosAlbum(self.moviePath, nil, nil, nil);
+            [self.link invalidate];
+            self.link = nil;
             return;
         }
+        
+        self.link = [CADisplayLink displayLinkWithTarget:self selector:@selector(refreshTimeLabel)];
+        [self.link addToRunLoop:[NSRunLoop currentRunLoop] forMode:NSRunLoopCommonModes];
         
         self.isRecording = YES;
         NSString *defultPath = [self getVideoPathCache];
@@ -131,30 +183,6 @@
     });
 }
 
-#pragma mark- Method
-
--(NSString *)getVideoPathCache {
-    NSString *videoCache = [NSTemporaryDirectory() stringByAppendingString:@"videos"];
-    BOOL isDir =NO;
-    NSFileManager *fileManager = [NSFileManager defaultManager];
-    BOOL existed = [fileManager fileExistsAtPath:videoCache isDirectory:&isDir];
-    if (!existed) {
-        [fileManager createDirectoryAtPath:videoCache withIntermediateDirectories:YES attributes:nil error:nil];
-    }
-
-    return videoCache;
-}
-
--(NSString *)getVideoNameWithType:(NSString *)fileType {
-    NSTimeInterval now = [[NSDate date] timeIntervalSince1970];
-    NSDateFormatter *formatter = [[NSDateFormatter alloc]init];
-    [formatter setDateFormat:@"YYMMDD HHmmss"];
-    NSDate *nowDate = [NSDate dateWithTimeIntervalSince1970:now];
-    NSString *timeStr = [formatter stringFromDate:nowDate];
-    NSString *fileName = [NSString stringWithFormat:@"video_%@.%@",timeStr,fileType];
-    return fileName;
-}
-
 #pragma mark- Delegate
 
 - (void)captureOutput:(AVCaptureOutput *)captureOutput didOutputMetadataObjects:(NSArray *)metadataObjects fromConnection:(AVCaptureConnection *)connection {
@@ -166,7 +194,6 @@
         UIImageView *l = d[@"imageView"];
         [l removeFromSuperview];
     }
-
     
     for (AVMetadataFaceObject *face in metadataObjects) {
         
@@ -179,7 +206,6 @@
         temp = faceRect.origin.x * self.view.height;
         faceRect.origin.x = faceRect.origin.y * self.view.width;
         faceRect.origin.y = temp;
-        
         faceRect = CGRectOffset(faceRect, previewBox.origin.x, previewBox.origin.y);
         
         NSDictionary *dic = self.faceViews[[NSString stringWithFormat:@"%zd",face.faceID]];
@@ -188,7 +214,7 @@
         UIImageView *imageView = dic[@"imageView"];
         if (faceView == nil) {
             faceView = [[UIView alloc] init];
-            faceView.layer.borderColor = [UIColor redColor].CGColor;
+            faceView.layer.borderColor = [UIColor yellowColor].CGColor;
             faceView.layer.borderWidth = 1;
             faceView.backgroundColor = [UIColor clearColor];
             
@@ -196,10 +222,13 @@
             imageView.image = [UIImage imageNamed:@"test.gif"];
             self.faceViews[[NSString stringWithFormat:@"%zd",face.faceID]] = @{@"face":faceView, @"imageView":imageView};
         }
-        [self.view addSubview:faceView];
+        [self.canvasView addSubview:faceView];
         [self.canvasView addSubview:imageView];
         faceView.frame = faceRect;
-        imageView.frame = CGRectMake(faceView.frame.origin.x + faceView.width / 2 - 40, faceView.top - 100, 80, 80);
+        imageView.frame = CGRectMake(faceView.frame.origin.x + faceView.width / 2 - 40,
+                                     faceView.top - 100,
+                                     80,
+                                     80);
     }
 }
 
@@ -261,6 +290,20 @@
     [_recoredButton addTarget:self action:@selector(recordAction:) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:_recoredButton];
     return _recoredButton;
+}
+
+- (UILabel *)timeLabel {
+    if (_timeLabel) {
+        return _timeLabel;
+    }
+    _timeLabel = [[UILabel alloc] initWithFrame:CGRectZero];
+    _timeLabel.backgroundColor = [UIColor colorWithWhite:0 alpha:0.5];
+    _timeLabel.textColor = [UIColor whiteColor];
+    _timeLabel.font = [UIFont systemFontOfSize:12];
+    _timeLabel.textAlignment = NSTextAlignmentCenter;
+    _timeLabel.hidden = YES;
+    [self.view addSubview:_timeLabel];
+    return _timeLabel;
 }
 
 @end

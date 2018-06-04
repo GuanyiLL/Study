@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		9317A10C20C51C100056FC26 /* libGPUImage.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9317A10A20C51C0F0056FC26 /* libGPUImage.a */; };
+		9317A10D20C51C100056FC26 /* usr in Resources */ = {isa = PBXBuildFile; fileRef = 9317A10B20C51C0F0056FC26 /* usr */; };
 		936A98C820AEAB4800319E9B /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 936A98C720AEAB4800319E9B /* AppDelegate.m */; };
 		936A98CB20AEAB4800319E9B /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 936A98CA20AEAB4800319E9B /* ViewController.m */; };
 		936A98CE20AEAB4800319E9B /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 936A98CC20AEAB4800319E9B /* Main.storyboard */; };
@@ -49,8 +51,6 @@
 		936A996C20B6B9D800319E9B /* UIImage+KQAddition.m in Sources */ = {isa = PBXBuildFile; fileRef = 936A996B20B6B9D800319E9B /* UIImage+KQAddition.m */; };
 		936A997A20BBB4A800319E9B /* KQFantasticCameraViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 936A997920BBB4A800319E9B /* KQFantasticCameraViewController.m */; };
 		93FDF70520BBFC880018F73B /* KQRecordButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 93FDF70420BBFC880018F73B /* KQRecordButton.m */; };
-		93FDF70F20BCF6F80018F73B /* libGPUImage.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 93FDF70D20BCF6F70018F73B /* libGPUImage.a */; };
-		93FDF71020BCF6F80018F73B /* usr in Resources */ = {isa = PBXBuildFile; fileRef = 93FDF70E20BCF6F80018F73B /* usr */; };
 		93FDF71320BCF76A0018F73B /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 93FDF71220BCF7690018F73B /* QuartzCore.framework */; };
 		93FDF71520BCF7700018F73B /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 93FDF71420BCF7700018F73B /* AVFoundation.framework */; };
 		93FDF71720BCF7770018F73B /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 93FDF71620BCF7770018F73B /* OpenGLES.framework */; };
@@ -64,6 +64,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		9317A10A20C51C0F0056FC26 /* libGPUImage.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libGPUImage.a; sourceTree = "<group>"; };
+		9317A10B20C51C0F0056FC26 /* usr */ = {isa = PBXFileReference; lastKnownFileType = folder; path = usr; sourceTree = "<group>"; };
 		936A98C320AEAB4800319E9B /* KQEditing.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = KQEditing.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		936A98C620AEAB4800319E9B /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		936A98C720AEAB4800319E9B /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -125,8 +127,6 @@
 		936A997920BBB4A800319E9B /* KQFantasticCameraViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = KQFantasticCameraViewController.m; sourceTree = "<group>"; };
 		93FDF70320BBFC880018F73B /* KQRecordButton.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = KQRecordButton.h; sourceTree = "<group>"; };
 		93FDF70420BBFC880018F73B /* KQRecordButton.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = KQRecordButton.m; sourceTree = "<group>"; };
-		93FDF70D20BCF6F70018F73B /* libGPUImage.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libGPUImage.a; sourceTree = "<group>"; };
-		93FDF70E20BCF6F80018F73B /* usr */ = {isa = PBXFileReference; lastKnownFileType = folder; path = usr; sourceTree = "<group>"; };
 		93FDF71220BCF7690018F73B /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		93FDF71420BCF7700018F73B /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		93FDF71620BCF7770018F73B /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
@@ -146,6 +146,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				93FDF71520BCF7700018F73B /* AVFoundation.framework in Frameworks */,
+				9317A10C20C51C100056FC26 /* libGPUImage.a in Frameworks */,
 				93FDF72120BCF79C0018F73B /* CoreMedia.framework in Frameworks */,
 				93FDF71F20BCF7940018F73B /* Foundation.framework in Frameworks */,
 				93FDF71D20BCF78D0018F73B /* UIKit.framework in Frameworks */,
@@ -153,13 +154,21 @@
 				93FDF71920BCF7800018F73B /* CoreVideo.framework in Frameworks */,
 				93FDF71720BCF7770018F73B /* OpenGLES.framework in Frameworks */,
 				93FDF71320BCF76A0018F73B /* QuartzCore.framework in Frameworks */,
-				93FDF70F20BCF6F80018F73B /* libGPUImage.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		9317A10920C51BED0056FC26 /* GPUImage */ = {
+			isa = PBXGroup;
+			children = (
+				9317A10A20C51C0F0056FC26 /* libGPUImage.a */,
+				9317A10B20C51C0F0056FC26 /* usr */,
+			);
+			path = GPUImage;
+			sourceTree = "<group>";
+		};
 		936A98BA20AEAB4800319E9B = {
 			isa = PBXGroup;
 			children = (
@@ -180,8 +189,7 @@
 		936A98C520AEAB4800319E9B /* KQEditing */ = {
 			isa = PBXGroup;
 			children = (
-				93FDF70D20BCF6F70018F73B /* libGPUImage.a */,
-				93FDF70E20BCF6F80018F73B /* usr */,
+				9317A10920C51BED0056FC26 /* GPUImage */,
 				936A995E20B5501300319E9B /* Resources */,
 				936A98E920AEDD8D00319E9B /* Filter */,
 				936A98E620AEBF4E00319E9B /* Controllers */,
@@ -390,12 +398,12 @@
 				936A995020B54FF800319E9B /* sticker_8@2x.png in Resources */,
 				936A995320B54FF800319E9B /* sticker_10@2x.png in Resources */,
 				936A994D20B54FF800319E9B /* sticker_9@2x.png in Resources */,
-				93FDF71020BCF6F80018F73B /* usr in Resources */,
 				936A994C20B54FF800319E9B /* sticker_6@2x.png in Resources */,
 				936A98D320AEAB5000319E9B /* LaunchScreen.storyboard in Resources */,
 				93FDF72D20BFD5110018F73B /* test.gif in Resources */,
 				936A994A20B54FF800319E9B /* sticker_15@2x.png in Resources */,
 				936A995A20B54FF800319E9B /* sticker_13@2x.png in Resources */,
+				9317A10D20C51C100056FC26 /* usr in Resources */,
 				936A994F20B54FF800319E9B /* sticker_7@2x.png in Resources */,
 				936A996220B55CD000319E9B /* ic_circle_close@2x.png in Resources */,
 				936A98D020AEAB5000319E9B /* Assets.xcassets in Resources */,
@@ -574,7 +582,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = MBNHL4TFE7;
 				GCC_PREFIX_HEADER = "$(SRCROOT)/$(PROJECT)/SupportingFiles/PrefixHeader.pch";
-				HEADER_SEARCH_PATHS = "$(SRCROOT)/$(PRODUCT_NAME)/usr/local/include";
+				HEADER_SEARCH_PATHS = "$(SRCROOT)/$(PRODUCT_NAME)/GPUImage/usr/local/include";
 				INFOPLIST_FILE = KQEditing/SupportingFiles/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -598,7 +606,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = MBNHL4TFE7;
 				GCC_PREFIX_HEADER = "$(SRCROOT)/$(PROJECT)/SupportingFiles/PrefixHeader.pch";
-				HEADER_SEARCH_PATHS = "$(SRCROOT)/$(PRODUCT_NAME)/usr/local/include";
+				HEADER_SEARCH_PATHS = "$(SRCROOT)/$(PRODUCT_NAME)/GPUImage/usr/local/include";
 				INFOPLIST_FILE = KQEditing/SupportingFiles/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
