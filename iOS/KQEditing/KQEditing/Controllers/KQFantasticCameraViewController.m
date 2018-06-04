@@ -46,21 +46,16 @@
     self.sessionQueue = dispatch_queue_create("session queue", DISPATCH_QUEUE_SERIAL);
     self.faceViews = [NSMutableDictionary dictionary];
     
-    self.element = [[GPUImageUIElement alloc] initWithView:self.canvasView];
     self.canvasView = [[UIView alloc] initWithFrame:self.view.bounds];
+    self.element = [[GPUImageUIElement alloc] initWithView:self.canvasView];
     
     [self.videoCamera startCameraCapture];
-    
-    UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(100, 100, 100, 100)];
-    label.text = @"aaaa";
-    [self.canvasView addSubview:label];
-    
+
     GPUImageBeautifyFilter *beautifyFilter = [[GPUImageBeautifyFilter alloc] init];
     [self.videoCamera addTarget:beautifyFilter];
     self.blendFilter = [[GPUImageAddBlendFilter alloc] init];
     [beautifyFilter addTarget:self.blendFilter];
     [self.element addTarget:self.blendFilter];
-    
     [beautifyFilter addTarget:self.displayView];
     
     AVCaptureMetadataOutput *output = [[AVCaptureMetadataOutput alloc] init];
@@ -78,7 +73,7 @@
     [beautifyFilter setFrameProcessingCompletionBlock:^(GPUImageOutput *output, CMTime time){
         __strong typeof (self) strongSelf = weakSelf;
         dispatch_async([GPUImageContext sharedContextQueue], ^{
-        [strongSelf.element update];
+        [strongSelf.element updateWithTimestamp:time];
         });
     }];
     [self.view addSubview:self.canvasView];
@@ -228,7 +223,7 @@
     }
     _displayView = [[GPUImageView alloc] initWithFrame:[UIScreen mainScreen].bounds];
     _displayView.fillMode = kGPUImageFillModePreserveAspectRatioAndFill;
-    self.view = _displayView;
+    [self.view addSubview: _displayView];
     return _displayView;
 }
 
