@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		9317A10C20C51C100056FC26 /* libGPUImage.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9317A10A20C51C0F0056FC26 /* libGPUImage.a */; };
 		9317A10D20C51C100056FC26 /* usr in Resources */ = {isa = PBXBuildFile; fileRef = 9317A10B20C51C0F0056FC26 /* usr */; };
+		9317A11520C51E000056FC26 /* KQEditingTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 9317A11420C51E000056FC26 /* KQEditingTests.m */; };
 		936A98C820AEAB4800319E9B /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 936A98C720AEAB4800319E9B /* AppDelegate.m */; };
 		936A98CB20AEAB4800319E9B /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 936A98CA20AEAB4800319E9B /* ViewController.m */; };
 		936A98CE20AEAB4800319E9B /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 936A98CC20AEAB4800319E9B /* Main.storyboard */; };
@@ -63,9 +64,22 @@
 		93FDF72D20BFD5110018F73B /* test.gif in Resources */ = {isa = PBXBuildFile; fileRef = 93FDF72C20BFD5100018F73B /* test.gif */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXContainerItemProxy section */
+		9317A11720C51E000056FC26 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 936A98BB20AEAB4800319E9B /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 936A98C220AEAB4800319E9B;
+			remoteInfo = KQEditing;
+		};
+/* End PBXContainerItemProxy section */
+
 /* Begin PBXFileReference section */
 		9317A10A20C51C0F0056FC26 /* libGPUImage.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libGPUImage.a; sourceTree = "<group>"; };
 		9317A10B20C51C0F0056FC26 /* usr */ = {isa = PBXFileReference; lastKnownFileType = folder; path = usr; sourceTree = "<group>"; };
+		9317A11220C51DFF0056FC26 /* KQEditingTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = KQEditingTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		9317A11420C51E000056FC26 /* KQEditingTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = KQEditingTests.m; sourceTree = "<group>"; };
+		9317A11620C51E000056FC26 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		936A98C320AEAB4800319E9B /* KQEditing.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = KQEditing.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		936A98C620AEAB4800319E9B /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		936A98C720AEAB4800319E9B /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -141,6 +155,13 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		9317A10F20C51DFF0056FC26 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		936A98C020AEAB4800319E9B /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -169,10 +190,20 @@
 			path = GPUImage;
 			sourceTree = "<group>";
 		};
+		9317A11320C51E000056FC26 /* KQEditingTests */ = {
+			isa = PBXGroup;
+			children = (
+				9317A11420C51E000056FC26 /* KQEditingTests.m */,
+				9317A11620C51E000056FC26 /* Info.plist */,
+			);
+			path = KQEditingTests;
+			sourceTree = "<group>";
+		};
 		936A98BA20AEAB4800319E9B = {
 			isa = PBXGroup;
 			children = (
 				936A98C520AEAB4800319E9B /* KQEditing */,
+				9317A11320C51E000056FC26 /* KQEditingTests */,
 				936A98C420AEAB4800319E9B /* Products */,
 				93FDF71120BCF7660018F73B /* Frameworks */,
 			);
@@ -182,6 +213,7 @@
 			isa = PBXGroup;
 			children = (
 				936A98C320AEAB4800319E9B /* KQEditing.app */,
+				9317A11220C51DFF0056FC26 /* KQEditingTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -331,6 +363,24 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		9317A11120C51DFF0056FC26 /* KQEditingTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 9317A11920C51E000056FC26 /* Build configuration list for PBXNativeTarget "KQEditingTests" */;
+			buildPhases = (
+				9317A10E20C51DFF0056FC26 /* Sources */,
+				9317A10F20C51DFF0056FC26 /* Frameworks */,
+				9317A11020C51DFF0056FC26 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				9317A11820C51E000056FC26 /* PBXTargetDependency */,
+			);
+			name = KQEditingTests;
+			productName = KQEditingTests;
+			productReference = 9317A11220C51DFF0056FC26 /* KQEditingTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 		936A98C220AEAB4800319E9B /* KQEditing */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 936A98D920AEAB5000319E9B /* Build configuration list for PBXNativeTarget "KQEditing" */;
@@ -357,6 +407,10 @@
 				LastUpgradeCheck = 0930;
 				ORGANIZATIONNAME = yiguan;
 				TargetAttributes = {
+					9317A11120C51DFF0056FC26 = {
+						CreatedOnToolsVersion = 9.3;
+						TestTargetID = 936A98C220AEAB4800319E9B;
+					};
 					936A98C220AEAB4800319E9B = {
 						CreatedOnToolsVersion = 9.3;
 					};
@@ -376,11 +430,19 @@
 			projectRoot = "";
 			targets = (
 				936A98C220AEAB4800319E9B /* KQEditing */,
+				9317A11120C51DFF0056FC26 /* KQEditingTests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		9317A11020C51DFF0056FC26 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		936A98C120AEAB4800319E9B /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -418,6 +480,14 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		9317A10E20C51DFF0056FC26 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				9317A11520C51E000056FC26 /* KQEditingTests.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		936A98BF20AEAB4800319E9B /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -445,6 +515,14 @@
 		};
 /* End PBXSourcesBuildPhase section */
 
+/* Begin PBXTargetDependency section */
+		9317A11820C51E000056FC26 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 936A98C220AEAB4800319E9B /* KQEditing */;
+			targetProxy = 9317A11720C51E000056FC26 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
 /* Begin PBXVariantGroup section */
 		936A98CC20AEAB4800319E9B /* Main.storyboard */ = {
 			isa = PBXVariantGroup;
@@ -465,6 +543,44 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
+		9317A11A20C51E000056FC26 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = MBNHL4TFE7;
+				INFOPLIST_FILE = KQEditingTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.yiguan.KQEditingTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/KQEditing.app/KQEditing";
+			};
+			name = Debug;
+		};
+		9317A11B20C51E000056FC26 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = MBNHL4TFE7;
+				INFOPLIST_FILE = KQEditingTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.yiguan.KQEditingTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/KQEditing.app/KQEditing";
+			};
+			name = Release;
+		};
 		936A98D720AEAB5000319E9B /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -584,6 +700,7 @@
 				GCC_PREFIX_HEADER = "$(SRCROOT)/$(PROJECT)/SupportingFiles/PrefixHeader.pch";
 				HEADER_SEARCH_PATHS = "$(SRCROOT)/$(PRODUCT_NAME)/GPUImage/usr/local/include";
 				INFOPLIST_FILE = KQEditing/SupportingFiles/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -608,6 +725,7 @@
 				GCC_PREFIX_HEADER = "$(SRCROOT)/$(PROJECT)/SupportingFiles/PrefixHeader.pch";
 				HEADER_SEARCH_PATHS = "$(SRCROOT)/$(PRODUCT_NAME)/GPUImage/usr/local/include";
 				INFOPLIST_FILE = KQEditing/SupportingFiles/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -626,6 +744,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		9317A11920C51E000056FC26 /* Build configuration list for PBXNativeTarget "KQEditingTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				9317A11A20C51E000056FC26 /* Debug */,
+				9317A11B20C51E000056FC26 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		936A98BE20AEAB4800319E9B /* Build configuration list for PBXProject "KQEditing" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (

@@ -79,6 +79,15 @@
         });
     }];
     [self.view addSubview:self.canvasView];
+    
+    self.link = [CADisplayLink displayLinkWithTarget:self selector:@selector(refreshTimeLabel)];
+    if (@available(iOS 10.0, *)) {
+        self.link.preferredFramesPerSecond = 1;
+    } else {
+        self.link.frameInterval = 1;
+    }
+    [self.link addToRunLoop:[NSRunLoop currentRunLoop] forMode:NSRunLoopCommonModes];
+    self.link.paused = YES;
 }
 
 - (void)viewDidLayoutSubviews {
@@ -92,7 +101,15 @@
                                           self.view.height - 60 - 34,
                                           60,
                                           60);
-    self.timeLabel.frame = CGRectMake(0, 0, self.view.width, 20 + 34);
+    self.timeLabel.frame = CGRectMake(0,
+                                      CGRectGetHeight([[UIApplication sharedApplication] statusBarFrame]),
+                                      self.view.width,
+                                      20 + 34);
+}
+
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+    [self.view bringSubviewToFront:self.timeLabel];
 }
 
 - (void)viewDidDisappear:(BOOL)animated {
@@ -124,17 +141,15 @@
 }
 
 - (void)refreshTimeLabel {
-    NSLog(@"%@",[NSDate date]);
-    self.videoSeconds++;
-    
-    NSInteger hours = self.videoSeconds / 360;
+    NSInteger hours = self.videoSeconds / 3600;
     NSInteger minutes = self.videoSeconds / 60 % 60;
     NSInteger seconds = self.videoSeconds % 60;
     
-    NSString *time = [NSString stringWithFormat:@"%zd:%zd:%zd",hours,minutes,seconds];
+    NSString *time = [NSString stringWithFormat:@"%02zd:%02zd:%02zd",hours,minutes,seconds];
     dispatch_async(dispatch_get_main_queue(), ^{
         self.timeLabel.text = time;
     });
+    self.videoSeconds++;
 }
 
 #pragma mark- Actions
@@ -156,20 +171,19 @@
         
         if (self.isRecording) {
             self.isRecording = NO;
+//            self.timeLabel.hidden = YES;
             [self.movieWriter finishRecording];
             self.videoSeconds = 0;
             [self.blendFilter removeTarget:self.movieWriter];
             self.videoCamera.audioEncodingTarget = nil;
             UISaveVideoAtPathToSavedPhotosAlbum(self.moviePath, nil, nil, nil);
-            [self.link invalidate];
-            self.link = nil;
+            self.link.paused = YES;
             return;
         }
         
-        self.link = [CADisplayLink displayLinkWithTarget:self selector:@selector(refreshTimeLabel)];
-        [self.link addToRunLoop:[NSRunLoop currentRunLoop] forMode:NSRunLoopCommonModes];
-        
         self.isRecording = YES;
+        self.link.paused = NO;
+//        self.timeLabel.hidden = NO;
         NSString *defultPath = [self getVideoPathCache];
         self.moviePath = [defultPath stringByAppendingPathComponent:[self getVideoNameWithType:@"mp4"]];
         self.movieURL = [NSURL fileURLWithPath:self.moviePath];
@@ -301,7 +315,8 @@
     _timeLabel.textColor = [UIColor whiteColor];
     _timeLabel.font = [UIFont systemFontOfSize:12];
     _timeLabel.textAlignment = NSTextAlignmentCenter;
-    _timeLabel.hidden = YES;
+//    _timeLabel.hidden = YES;
+    _timeLabel.text = @"00:00:00";
     [self.view addSubview:_timeLabel];
     return _timeLabel;
 }
