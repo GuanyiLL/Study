@@ -37,6 +37,13 @@
     }
 }
 
+- (void)testResource {
+    NSString *resourcePath = [[NSBundle mainBundle] resourcePath];
+    NSString *configJSON =[NSString stringWithFormat:@"%@/hanfumei-800/config.json", resourcePath];
+    NSData *data = [NSData dataWithContentsOfFile:configJSON];
+    NSDictionary *dic = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:nil];
+}
+
 - (void)testPerformanceExample {
     // This is an example of a performance test case.
     [self measureBlock:^{

@@ -26,7 +26,7 @@
 @property (nonatomic) NSURL *movieURL;
 @property (nonatomic, copy) NSString *moviePath;
 
-@property (nonatomic) GPUImageAddBlendFilter *blendFilter;
+@property (nonatomic) GPUImageNormalBlendFilter *blendFilter;
 @property (nonatomic) GPUImageView *displayView;
 @property (nonatomic) GPUImageMovieWriter *movieWriter;
 
@@ -36,6 +36,12 @@
 @property (nonatomic) NSMutableDictionary *faceViews;
 @property (nonatomic) GPUImageUIElement *element;
 @property (nonatomic) UIView *canvasView;
+@property (nonatomic) NSMutableArray *imageArray;
+
+@property (nonatomic) CADisplayLink *gifLink;
+@property (nonatomic) CGFloat period;
+@property (nonatomic, assign) NSUInteger gifIndex;
+@property (nonatomic) UIImage *currentGIFImage;
 
 @end
 
@@ -48,6 +54,15 @@
     self.sessionQueue = dispatch_queue_create("session queue", DISPATCH_QUEUE_SERIAL);
     self.faceViews = [NSMutableDictionary dictionary];
     
+    self.imageArray = [NSMutableArray array];
+    NSString *resourcePath = [[NSBundle mainBundle] resourcePath];
+    NSString *configJSON =[NSString stringWithFormat:@"%@/hanfumei-800/config.json", resourcePath];
+    NSData *data = [NSData dataWithContentsOfFile:configJSON];
+    NSDictionary *gifConfig = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:nil];
+    for (NSInteger i = 0; i < [gifConfig[@"c"] integerValue]; i++) {
+        [self.imageArray addObject:[UIImage imageWithContentsOfFile:[NSString stringWithFormat:@"%@/hanfumei-800/hanfumei%zd.png",resourcePath,i]]];
+    }
+    
     self.canvasView = [[UIView alloc] initWithFrame:self.view.bounds];
     self.element = [[GPUImageUIElement alloc] initWithView:self.canvasView];
     
@@ -55,7 +70,7 @@
 
     GPUImageBeautifyFilter *beautifyFilter = [[GPUImageBeautifyFilter alloc] init];
     [self.videoCamera addTarget:beautifyFilter];
-    self.blendFilter = [[GPUImageAddBlendFilter alloc] init];
+    self.blendFilter = [[GPUImageNormalBlendFilter alloc] init];
     [beautifyFilter addTarget:self.blendFilter];
     [self.element addTarget:self.blendFilter];
     [beautifyFilter addTarget:self.displayView];
@@ -84,10 +99,19 @@
     if (@available(iOS 10.0, *)) {
         self.link.preferredFramesPerSecond = 1;
     } else {
-        self.link.frameInterval = 1;
+        self.link.frameInterval = 60;
     }
     [self.link addToRunLoop:[NSRunLoop currentRunLoop] forMode:NSRunLoopCommonModes];
     self.link.paused = YES;
+    
+    self.gifLink = [CADisplayLink displayLinkWithTarget:self selector:@selector(refreshGIF)];
+    if (@available(iOS 10.0, *)) {
+        self.gifLink.preferredFramesPerSecond = 8;
+    } else {
+        self.gifLink.frameInterval = 7.5;
+    }
+    [self.gifLink addToRunLoop:[NSRunLoop currentRunLoop] forMode:NSRunLoopCommonModes];
+    self.gifLink.paused = NO;
 }
 
 - (void)viewDidLayoutSubviews {
@@ -152,6 +176,13 @@
     self.videoSeconds++;
 }
 
+- (void)refreshGIF {
+    NSInteger idx = self.gifIndex % self.imageArray.count;
+    self.currentGIFImage = self.imageArray[idx];
+    self.gifIndex++;
+//    NSLog(@"Refresh GIF index=%zd now=%@",self.gifIndex, [NSDate date]);
+}
+
 #pragma mark- Actions
 
 - (void)back:(id)sender {
@@ -210,34 +241,38 @@
     }
     
     for (AVMetadataFaceObject *face in metadataObjects) {
-        
         CGRect faceRect = face.bounds;
-        CGRect previewBox = self.view.bounds;
-        
         CGFloat temp = faceRect.size.width * self.view.height;
         faceRect.size.width = faceRect.size.height * self.view.width;
         faceRect.size.height = temp;
         temp = faceRect.origin.x * self.view.height;
         faceRect.origin.x = faceRect.origin.y * self.view.width;
         faceRect.origin.y = temp;
-        faceRect = CGRectOffset(faceRect, previewBox.origin.x, previewBox.origin.y);
+    NSLog(@"\n\nBefore%@\nAfter%@\n\n",NSStringFromCGRect(face.bounds),NSStringFromCGRect(faceRect));
         
         NSDictionary *dic = self.faceViews[[NSString stringWithFormat:@"%zd",face.faceID]];
         
         UIView *faceView = dic[@"face"];
         UIImageView *imageView = dic[@"imageView"];
+        
         if (faceView == nil) {
             faceView = [[UIView alloc] init];
             faceView.layer.borderColor = [UIColor yellowColor].CGColor;
             faceView.layer.borderWidth = 1;
             faceView.backgroundColor = [UIColor clearColor];
             
-            imageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 80, 80)];
-            imageView.image = [UIImage imageNamed:@"test.gif"];
+            imageView = [[UIImageView alloc] initWithFrame:CGRectZero];
+//            imageView.image = [UIImage imageNamed:@"test.gif"];
             self.faceViews[[NSString stringWithFormat:@"%zd",face.faceID]] = @{@"face":faceView, @"imageView":imageView};
+            self.gifIndex = 0;
+            imageView.image = self.imageArray[0];
         }
-        [self.canvasView addSubview:faceView];
+
+        
+        [self.view addSubview:faceView];
         [self.canvasView addSubview:imageView];
+        imageView.image = self.currentGIFImage;
+//        NSLog(@"gif index = %zd",self.gifIndex);
         faceView.frame = faceRect;
         imageView.frame = CGRectMake(faceView.frame.origin.x + faceView.width / 2 - 40,
                                      faceView.top - 100,

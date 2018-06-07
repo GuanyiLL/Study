@@ -10,6 +10,7 @@
 		9317A10C20C51C100056FC26 /* libGPUImage.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9317A10A20C51C0F0056FC26 /* libGPUImage.a */; };
 		9317A10D20C51C100056FC26 /* usr in Resources */ = {isa = PBXBuildFile; fileRef = 9317A10B20C51C0F0056FC26 /* usr */; };
 		9317A11520C51E000056FC26 /* KQEditingTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 9317A11420C51E000056FC26 /* KQEditingTests.m */; };
+		9317A14920C640EB0056FC26 /* hanfumei-800 in Resources */ = {isa = PBXBuildFile; fileRef = 9317A14820C640EA0056FC26 /* hanfumei-800 */; };
 		936A98C820AEAB4800319E9B /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 936A98C720AEAB4800319E9B /* AppDelegate.m */; };
 		936A98CB20AEAB4800319E9B /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 936A98CA20AEAB4800319E9B /* ViewController.m */; };
 		936A98CE20AEAB4800319E9B /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 936A98CC20AEAB4800319E9B /* Main.storyboard */; };
@@ -80,6 +81,7 @@
 		9317A11220C51DFF0056FC26 /* KQEditingTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = KQEditingTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		9317A11420C51E000056FC26 /* KQEditingTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = KQEditingTests.m; sourceTree = "<group>"; };
 		9317A11620C51E000056FC26 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		9317A14820C640EA0056FC26 /* hanfumei-800 */ = {isa = PBXFileReference; lastKnownFileType = folder; path = "hanfumei-800"; sourceTree = "<group>"; };
 		936A98C320AEAB4800319E9B /* KQEditing.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = KQEditing.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		936A98C620AEAB4800319E9B /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		936A98C720AEAB4800319E9B /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -318,6 +320,7 @@
 		936A995E20B5501300319E9B /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				9317A14820C640EA0056FC26 /* hanfumei-800 */,
 				93FDF72C20BFD5100018F73B /* test.gif */,
 				936A996020B55CD000319E9B /* ic_circle_close@2x.png */,
 				936A995F20B55CCF00319E9B /* ic_circle_stretch@2x.png */,
@@ -457,6 +460,7 @@
 				936A994920B54FF800319E9B /* sticker_11@2x.png in Resources */,
 				936A995520B54FF800319E9B /* sticker_20@2x.png in Resources */,
 				936A994B20B54FF800319E9B /* sticker_18@2x.png in Resources */,
+				9317A14920C640EB0056FC26 /* hanfumei-800 in Resources */,
 				936A995020B54FF800319E9B /* sticker_8@2x.png in Resources */,
 				936A995320B54FF800319E9B /* sticker_10@2x.png in Resources */,
 				936A994D20B54FF800319E9B /* sticker_9@2x.png in Resources */,

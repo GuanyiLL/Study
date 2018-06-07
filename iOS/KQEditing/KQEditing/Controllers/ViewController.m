@@ -22,8 +22,8 @@ UICollectionViewDelegate
 
 @property (nonatomic) UIButton *editPhotoButton;
 @property (nonatomic) UIButton *fantasticCameraButton;
-@property (nonatomic) UIImageView *imageView;
 
+@property (nonatomic) UIImageView *imageView;
 @property (nonatomic) NSMutableArray *imgArray;
 @property (nonatomic) UICollectionView *collection;
 
@@ -40,11 +40,12 @@ UICollectionViewDelegate
     [super viewDidLayoutSubviews];
     self.editPhotoButton.frame = CGRectMake(10, 100, 200, 100);
     self.fantasticCameraButton.frame = CGRectMake(self.editPhotoButton.x, self.editPhotoButton.bottom + 10, self.editPhotoButton.width, self.editPhotoButton.height);
-    
-    
-    
     self.imageView.frame = CGRectMake(self.fantasticCameraButton.frame.origin.x, self.fantasticCameraButton.bottom + 20, 200, 200);
     self.collection.frame = CGRectMake(0, self.view.height - 80 - 34, self.view.width, 80);
+}
+
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
 }
 
 #pragma mark- Action
@@ -123,7 +124,6 @@ UICollectionViewDelegate
     return _fantasticCameraButton;
 }
 
-
 #warning test gif split
 
 - (NSMutableArray *)imgArray {
@@ -153,9 +153,6 @@ UICollectionViewDelegate
     }
     //释放sourec
     CFRelease(sourec);
-
-    
-    
     return _imgArray;
 }
 
