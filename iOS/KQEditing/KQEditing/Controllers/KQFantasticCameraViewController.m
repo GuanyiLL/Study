@@ -50,7 +50,17 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.view.backgroundColor = [UIColor whiteColor];
-    self.navigationController.navigationBarHidden = YES;
+    self.navigationController.navigationBarHidden = NO;
+    [self.navigationController.navigationBar setBarTintColor:[UIColor colorWithWhite:0 alpha:1]];
+    self.navigationController.navigationBar.barStyle = UIStatusBarStyleLightContent;
+    
+    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:self.backButton];
+    
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:self.changeCamera];
+
+    self.navigationItem.titleView = self.timeLabel;
+    
+    
     self.sessionQueue = dispatch_queue_create("session queue", DISPATCH_QUEUE_SERIAL);
     self.faceViews = [NSMutableDictionary dictionary];
     
@@ -116,19 +126,15 @@
 
 - (void)viewDidLayoutSubviews {
     [super viewDidLayoutSubviews];
-    self.backButton.frame = CGRectMake(20, 40, 40, 40);
-    self.changeCamera.frame = CGRectMake(CGRectGetWidth([UIScreen mainScreen].bounds) - 60,
-                                         self.backButton.top,
-                                         40,
-                                         40);
+    CGFloat iphonexMargin = kDevice_Is_iPhoneX ? 34 : 0;
     self.recoredButton.frame = CGRectMake(self.view.width / 2 - 60 / 2,
-                                          self.view.height - 60 - 34,
+                                          self.view.height - 60 - iphonexMargin,
                                           60,
                                           60);
     self.timeLabel.frame = CGRectMake(0,
-                                      CGRectGetHeight([[UIApplication sharedApplication] statusBarFrame]),
+                                      0,
                                       self.view.width,
-                                      20 + 34);
+                                      44 + CGRectGetHeight([[UIApplication sharedApplication] statusBarFrame]));
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -180,7 +186,6 @@
     NSInteger idx = self.gifIndex % self.imageArray.count;
     self.currentGIFImage = self.imageArray[idx];
     self.gifIndex++;
-//    NSLog(@"Refresh GIF index=%zd now=%@",self.gifIndex, [NSDate date]);
 }
 
 #pragma mark- Actions
@@ -202,19 +207,19 @@
         
         if (self.isRecording) {
             self.isRecording = NO;
-//            self.timeLabel.hidden = YES;
+            self.link.paused = YES;
+            self.timeLabel.text = @"";
             [self.movieWriter finishRecording];
             self.videoSeconds = 0;
             [self.blendFilter removeTarget:self.movieWriter];
             self.videoCamera.audioEncodingTarget = nil;
             UISaveVideoAtPathToSavedPhotosAlbum(self.moviePath, nil, nil, nil);
-            self.link.paused = YES;
             return;
         }
         
         self.isRecording = YES;
         self.link.paused = NO;
-//        self.timeLabel.hidden = NO;
+        self.timeLabel.text = @"00:00:00";
         NSString *defultPath = [self getVideoPathCache];
         self.moviePath = [defultPath stringByAppendingPathComponent:[self getVideoNameWithType:@"mp4"]];
         self.movieURL = [NSURL fileURLWithPath:self.moviePath];
@@ -248,7 +253,6 @@
         temp = faceRect.origin.x * self.view.height;
         faceRect.origin.x = faceRect.origin.y * self.view.width;
         faceRect.origin.y = temp;
-    NSLog(@"\n\nBefore%@\nAfter%@\n\n",NSStringFromCGRect(face.bounds),NSStringFromCGRect(faceRect));
         
         NSDictionary *dic = self.faceViews[[NSString stringWithFormat:@"%zd",face.faceID]];
         
@@ -260,24 +264,31 @@
             faceView.layer.borderColor = [UIColor yellowColor].CGColor;
             faceView.layer.borderWidth = 1;
             faceView.backgroundColor = [UIColor clearColor];
-            
             imageView = [[UIImageView alloc] initWithFrame:CGRectZero];
-//            imageView.image = [UIImage imageNamed:@"test.gif"];
             self.faceViews[[NSString stringWithFormat:@"%zd",face.faceID]] = @{@"face":faceView, @"imageView":imageView};
             self.gifIndex = 0;
             imageView.image = self.imageArray[0];
         }
-
+    
+        CGSize imgSize = imageView.image.size;
+        /*photo w:700 h:756 */
+        /* face w:200 h:180 y:340*/
+        
+        CGFloat widthScale = faceRect.size.width / 160;
+        
+        imgSize.width = widthScale * imgSize.width;
+        imgSize.height = widthScale * imgSize.height;
         
         [self.view addSubview:faceView];
         [self.canvasView addSubview:imageView];
         imageView.image = self.currentGIFImage;
-//        NSLog(@"gif index = %zd",self.gifIndex);
         faceView.frame = faceRect;
-        imageView.frame = CGRectMake(faceView.frame.origin.x + faceView.width / 2 - 40,
-                                     faceView.top - 100,
-                                     80,
-                                     80);
+        imageView.frame = CGRectMake(faceView.frame.origin.x + faceView.width / 2 - imgSize.width / 2 - 3,
+                                     faceView.top - 150
+                                     ,
+                                     imgSize.width,
+                                     imgSize.height);
+        
     }
 }
 
@@ -310,11 +321,11 @@
         return _backButton;
     }
     _backButton = [UIButton buttonWithType:UIButtonTypeSystem];
+    _backButton.frame = CGRectMake(0, 0, 44, 44);
     [_backButton setTitle:@"X" forState:UIControlStateNormal];
     [_backButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     _backButton.titleLabel.font = [UIFont boldSystemFontOfSize:30];
     [_backButton addTarget:self action:@selector(back:) forControlEvents:UIControlEventTouchUpInside];
-    [self.view addSubview:_backButton];
     return _backButton;
 }
 
@@ -323,11 +334,11 @@
         return _changeCamera;
      }
     _changeCamera = [UIButton buttonWithType:UIButtonTypeSystem];
+    _changeCamera.frame = CGRectMake(0, 0, 44, 44);
     [_changeCamera setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     [_changeCamera setTitle:@"T" forState:UIControlStateNormal];
     [_changeCamera addTarget:self action:@selector(changeCamera:) forControlEvents:UIControlEventTouchUpInside];
     _changeCamera.titleLabel.font = [UIFont boldSystemFontOfSize:30];
-    [self.view addSubview:_changeCamera];
     return _changeCamera;
 }
 
@@ -346,12 +357,9 @@
         return _timeLabel;
     }
     _timeLabel = [[UILabel alloc] initWithFrame:CGRectZero];
-    _timeLabel.backgroundColor = [UIColor colorWithWhite:0 alpha:0.5];
     _timeLabel.textColor = [UIColor whiteColor];
-    _timeLabel.font = [UIFont systemFontOfSize:12];
+    _timeLabel.font = [UIFont systemFontOfSize:14];
     _timeLabel.textAlignment = NSTextAlignmentCenter;
-//    _timeLabel.hidden = YES;
-    _timeLabel.text = @"00:00:00";
     [self.view addSubview:_timeLabel];
     return _timeLabel;
 }
