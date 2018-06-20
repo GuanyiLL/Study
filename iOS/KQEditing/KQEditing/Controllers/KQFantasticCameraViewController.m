@@ -12,99 +12,94 @@
 #import "GPUImage.h"
 #import "GPUImageBeautifyFilter.h"
 #import <CoreImage/CoreImage.h>
+#import "KQGIFItem.h"
 
-@interface KQFantasticCameraViewController () <AVCaptureMetadataOutputObjectsDelegate>
+CGFloat const buttonWidth = 44;
+CGFloat const recoredButtonWidth = 60;
 
+@interface KQFantasticCameraViewController ()
+<
+AVCaptureMetadataOutputObjectsDelegate,
+UICollectionViewDataSource,
+UICollectionViewDelegate
+>
+
+/* UI */
 @property (nonatomic) UIButton *backButton;
 @property (nonatomic) UIButton *changeCamera;
 @property (nonatomic) UILabel *timeLabel;
 @property (nonatomic) KQRecordButton *recoredButton;
 
+/* 摄像头、滤镜 */
 @property (nonatomic) dispatch_queue_t sessionQueue;
 @property (nonatomic) GPUImageVideoCamera *videoCamera;
-@property (nonatomic, assign) BOOL isRecording;
-@property (nonatomic) NSURL *movieURL;
-@property (nonatomic, copy) NSString *moviePath;
-
 @property (nonatomic) GPUImageNormalBlendFilter *blendFilter;
 @property (nonatomic) GPUImageView *displayView;
+
+/* 视频录制 */
+@property (nonatomic) BOOL isRecording;
+@property (nonatomic) NSURL *movieURL;
+@property (nonatomic, copy) NSString *moviePath;
 @property (nonatomic) GPUImageMovieWriter *movieWriter;
-
 @property (nonatomic) CADisplayLink *link;
-@property (nonatomic, assign) NSUInteger videoSeconds;
+@property (nonatomic) NSUInteger videoSeconds;
 
+/* gif贴纸相关 */
+@property (nonatomic) UICollectionView *pasterSelector;
 @property (nonatomic) NSMutableDictionary *faceViews;
 @property (nonatomic) GPUImageUIElement *element;
 @property (nonatomic) UIView *canvasView;
 @property (nonatomic) NSMutableArray *imageArray;
-
 @property (nonatomic) CADisplayLink *gifLink;
 @property (nonatomic) CGFloat period;
-@property (nonatomic, assign) NSUInteger gifIndex;
+@property (nonatomic) NSUInteger gifIndex;
 @property (nonatomic) UIImage *currentGIFImage;
+@property (nonatomic,copy) NSArray *GIFPasters;
+@property (nonatomic) NSInteger pasterIndex;
 
 @end
 
 @implementation KQFantasticCameraViewController
 
+#pragma mark- Lifecycle
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.view.backgroundColor = [UIColor whiteColor];
-    self.navigationController.navigationBarHidden = NO;
-    [self.navigationController.navigationBar setBarTintColor:[UIColor colorWithWhite:0 alpha:1]];
-    self.navigationController.navigationBar.barStyle = UIStatusBarStyleLightContent;
-    
-    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:self.backButton];
-    
-    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:self.changeCamera];
+    [self configNavigationController];
+    [self initializeData];
+    [self initializeTimer];
+    [self initializeCamera];
+}
 
-    self.navigationItem.titleView = self.timeLabel;
+- (void)viewDidLayoutSubviews {
+    [super viewDidLayoutSubviews];
+    CGFloat iphonexMargin = kDevice_Is_iPhoneX ? 34 : 0;
+    self.recoredButton.frame = CGRectMake(self.view.width / 2 - recoredButtonWidth / 2,
+                                          self.view.height - recoredButtonWidth - iphonexMargin,
+                                          recoredButtonWidth,
+                                          recoredButtonWidth);
+    self.timeLabel.frame = CGRectMake(0,
+                                      0,
+                                      self.view.width,
+                                      buttonWidth + CGRectGetHeight([[UIApplication sharedApplication] statusBarFrame]));
     
-    
-    self.sessionQueue = dispatch_queue_create("session queue", DISPATCH_QUEUE_SERIAL);
-    self.faceViews = [NSMutableDictionary dictionary];
-    
-    self.imageArray = [NSMutableArray array];
-    NSString *resourcePath = [[NSBundle mainBundle] resourcePath];
-    NSString *configJSON =[NSString stringWithFormat:@"%@/hanfumei-800/config.json", resourcePath];
-    NSData *data = [NSData dataWithContentsOfFile:configJSON];
-    NSDictionary *gifConfig = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:nil];
-    for (NSInteger i = 0; i < [gifConfig[@"c"] integerValue]; i++) {
-        [self.imageArray addObject:[UIImage imageWithContentsOfFile:[NSString stringWithFormat:@"%@/hanfumei-800/hanfumei%zd.png",resourcePath,i]]];
-    }
-    
-    self.canvasView = [[UIView alloc] initWithFrame:self.view.bounds];
-    self.element = [[GPUImageUIElement alloc] initWithView:self.canvasView];
-    
-    [self.videoCamera startCameraCapture];
+    self.pasterSelector.frame = CGRectMake(0, self.recoredButton.top - 80, self.view.width, 40);
+}
 
-    GPUImageBeautifyFilter *beautifyFilter = [[GPUImageBeautifyFilter alloc] init];
-    [self.videoCamera addTarget:beautifyFilter];
-    self.blendFilter = [[GPUImageNormalBlendFilter alloc] init];
-    [beautifyFilter addTarget:self.blendFilter];
-    [self.element addTarget:self.blendFilter];
-    [beautifyFilter addTarget:self.displayView];
-    
-    AVCaptureMetadataOutput *output = [[AVCaptureMetadataOutput alloc] init];
-    if ([self.videoCamera.captureSession canAddOutput:output]) {
-        [self.videoCamera.captureSession addOutput:output];
-    }
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+    [self.view bringSubviewToFront:self.timeLabel];
+}
 
-    NSArray* supportTypes = output.availableMetadataObjectTypes;
-    if ([supportTypes containsObject:AVMetadataObjectTypeFace]) {
-        [output setMetadataObjectTypes:@[AVMetadataObjectTypeFace]];
-        [output setMetadataObjectsDelegate:self queue:dispatch_get_main_queue()];
-    }
-    
-    __weak typeof (self) weakSelf = self;
-    [beautifyFilter setFrameProcessingCompletionBlock:^(GPUImageOutput *output, CMTime time){
-        __strong typeof (self) strongSelf = weakSelf;
-        dispatch_async([GPUImageContext sharedContextQueue], ^{
-        [strongSelf.element updateWithTimestamp:time];
-        });
-    }];
-    [self.view addSubview:self.canvasView];
-    
+- (void)viewDidDisappear:(BOOL)animated {
+    [self.videoCamera stopCameraCapture];
+    [super viewDidDisappear:animated];
+}
+
+#pragma mark- Methods
+
+- (void)initializeTimer {
     self.link = [CADisplayLink displayLinkWithTarget:self selector:@selector(refreshTimeLabel)];
     if (@available(iOS 10.0, *)) {
         self.link.preferredFramesPerSecond = 1;
@@ -124,30 +119,68 @@
     self.gifLink.paused = NO;
 }
 
-- (void)viewDidLayoutSubviews {
-    [super viewDidLayoutSubviews];
-    CGFloat iphonexMargin = kDevice_Is_iPhoneX ? 34 : 0;
-    self.recoredButton.frame = CGRectMake(self.view.width / 2 - 60 / 2,
-                                          self.view.height - 60 - iphonexMargin,
-                                          60,
-                                          60);
-    self.timeLabel.frame = CGRectMake(0,
-                                      0,
-                                      self.view.width,
-                                      44 + CGRectGetHeight([[UIApplication sharedApplication] statusBarFrame]));
+- (void)initializeCamera {
+    self.canvasView = [[UIView alloc] initWithFrame:self.view.bounds];
+    self.element = [[GPUImageUIElement alloc] initWithView:self.canvasView];
+    
+    [self.videoCamera startCameraCapture];
+    
+    GPUImageBeautifyFilter *beautifyFilter = [[GPUImageBeautifyFilter alloc] init];
+    [self.videoCamera addTarget:beautifyFilter];
+    self.blendFilter = [[GPUImageNormalBlendFilter alloc] init];
+    [beautifyFilter addTarget:self.blendFilter];
+    [self.element addTarget:self.blendFilter];
+    [beautifyFilter addTarget:self.displayView];
+    
+    AVCaptureMetadataOutput *output = [[AVCaptureMetadataOutput alloc] init];
+    if ([self.videoCamera.captureSession canAddOutput:output]) {
+        [self.videoCamera.captureSession addOutput:output];
+    }
+    
+    NSArray* supportTypes = output.availableMetadataObjectTypes;
+    if ([supportTypes containsObject:AVMetadataObjectTypeFace]) {
+        [output setMetadataObjectTypes:@[AVMetadataObjectTypeFace]];
+        [output setMetadataObjectsDelegate:self queue:dispatch_get_main_queue()];
+    }
+    
+    __weak typeof (self) weakSelf = self;
+    [beautifyFilter setFrameProcessingCompletionBlock:^(GPUImageOutput *output, CMTime time){
+        __strong typeof (self) strongSelf = weakSelf;
+        dispatch_async([GPUImageContext sharedContextQueue], ^{
+            if (self.imageArray.count == 0) return;
+            [strongSelf.element updateWithTimestamp:time];
+        });
+    }];
+    [self.view addSubview:self.canvasView];
 }
 
-- (void)viewDidAppear:(BOOL)animated {
-    [super viewDidAppear:animated];
-    [self.view bringSubviewToFront:self.timeLabel];
+- (void)initializeData {
+    self.sessionQueue = dispatch_queue_create("session queue", DISPATCH_QUEUE_SERIAL);
+    self.faceViews = [NSMutableDictionary dictionary];
+    self.imageArray = [NSMutableArray array];
+    NSString *resourcePath = [[NSBundle mainBundle] resourcePath];
+    NSString *imgPath =[NSString stringWithFormat:@"%@/hanfumei-800/icon.png", resourcePath];
+    self.GIFPasters = @[[UIImage imageNamed:@"border_normal"],[UIImage imageWithContentsOfFile:imgPath]];
 }
 
-- (void)viewDidDisappear:(BOOL)animated {
-    [self.videoCamera stopCameraCapture];
-    [super viewDidDisappear:animated];
+- (void)loadGIFS {
+    NSString *resourcePath = [[NSBundle mainBundle] resourcePath];
+    NSString *configJSON =[NSString stringWithFormat:@"%@/hanfumei-800/config.json", resourcePath];
+    NSData *data = [NSData dataWithContentsOfFile:configJSON];
+    NSDictionary *gifConfig = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:nil];
+    for (NSInteger i = 0; i < [gifConfig[@"c"] integerValue]; i++) {
+        [self.imageArray addObject:[UIImage imageWithContentsOfFile:[NSString stringWithFormat:@"%@/hanfumei-800/hanfumei%zd.png",resourcePath,i]]];
+    }
 }
 
-#pragma mark- Methods
+- (void)configNavigationController {
+    self.navigationController.navigationBarHidden = NO;
+    [self.navigationController.navigationBar setBarTintColor:[UIColor colorWithWhite:0 alpha:1]];
+    self.navigationController.navigationBar.barStyle = UIStatusBarStyleLightContent;
+    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:self.backButton];
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:self.changeCamera];
+    self.navigationItem.titleView = self.timeLabel;
+}
 
 -(NSString *)getVideoPathCache {
     NSString *videoCache = [NSTemporaryDirectory() stringByAppendingString:@"videos"];
@@ -183,6 +216,7 @@
 }
 
 - (void)refreshGIF {
+    if (self.imageArray.count == 0) return;
     NSInteger idx = self.gifIndex % self.imageArray.count;
     self.currentGIFImage = self.imageArray[idx];
     self.gifIndex++;
@@ -264,32 +298,55 @@
             faceView.layer.borderColor = [UIColor yellowColor].CGColor;
             faceView.layer.borderWidth = 1;
             faceView.backgroundColor = [UIColor clearColor];
+            faceView.userInteractionEnabled = NO;
             imageView = [[UIImageView alloc] initWithFrame:CGRectZero];
             self.faceViews[[NSString stringWithFormat:@"%zd",face.faceID]] = @{@"face":faceView, @"imageView":imageView};
-            self.gifIndex = 0;
-            imageView.image = self.imageArray[0];
         }
     
         CGSize imgSize = imageView.image.size;
-        /*photo w:700 h:756 */
-        /* face w:200 h:180 y:340*/
-        
-        CGFloat widthScale = faceRect.size.width / 160;
+        CGFloat widthScale = faceRect.size.width / 170;
         
         imgSize.width = widthScale * imgSize.width;
         imgSize.height = widthScale * imgSize.height;
         
         [self.view addSubview:faceView];
-        [self.canvasView addSubview:imageView];
+        if (self.imageArray.count > 0) {
+            [self.canvasView addSubview:imageView];
+        }
         imageView.image = self.currentGIFImage;
         faceView.frame = faceRect;
         imageView.frame = CGRectMake(faceView.frame.origin.x + faceView.width / 2 - imgSize.width / 2 - 3,
-                                     faceView.top - 150
-                                     ,
+                                     faceView.top - 150,
                                      imgSize.width,
                                      imgSize.height);
         
     }
+}
+
+#pragma mark- DataSource
+
+- (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
+    return 2;
+}
+
+- (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
+    KQGIFItem *cell = [collectionView dequeueReusableCellWithReuseIdentifier:KQGIFItem.reuseIdentifier forIndexPath:indexPath];
+    cell.imageView.image = self.GIFPasters[indexPath.row];
+    cell.index = indexPath.row;
+    [cell kq_selected:indexPath.row == self.gifIndex];
+    cell.imageView.image = self.GIFPasters[indexPath.row];
+    cell.didSelectIndex = ^(NSInteger idx) {
+        if (idx & self.pasterIndex) return;
+        KQGIFItem *lastItem = (KQGIFItem *)[collectionView cellForItemAtIndexPath:[NSIndexPath indexPathForRow:self.pasterIndex inSection:0]];
+        [lastItem kq_selected:NO];
+        self.pasterIndex = idx;
+        if (idx == 0) {
+            [self.imageArray removeAllObjects];
+        } else {
+            [self loadGIFS];
+        }
+    };
+    return cell;
 }
 
 #pragma mark- Getter
@@ -313,6 +370,7 @@
     _displayView = [[GPUImageView alloc] initWithFrame:[UIScreen mainScreen].bounds];
     _displayView.fillMode = kGPUImageFillModePreserveAspectRatioAndFill;
     [self.view addSubview: _displayView];
+    self.view.clipsToBounds = YES;
     return _displayView;
 }
 
@@ -321,7 +379,7 @@
         return _backButton;
     }
     _backButton = [UIButton buttonWithType:UIButtonTypeSystem];
-    _backButton.frame = CGRectMake(0, 0, 44, 44);
+    _backButton.frame = CGRectMake(0, 0, buttonWidth, buttonWidth);
     [_backButton setTitle:@"X" forState:UIControlStateNormal];
     [_backButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     _backButton.titleLabel.font = [UIFont boldSystemFontOfSize:30];
@@ -334,7 +392,7 @@
         return _changeCamera;
      }
     _changeCamera = [UIButton buttonWithType:UIButtonTypeSystem];
-    _changeCamera.frame = CGRectMake(0, 0, 44, 44);
+    _changeCamera.frame = CGRectMake(0, 0, buttonWidth, buttonWidth);
     [_changeCamera setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     [_changeCamera setTitle:@"T" forState:UIControlStateNormal];
     [_changeCamera addTarget:self action:@selector(changeCamera:) forControlEvents:UIControlEventTouchUpInside];
@@ -362,6 +420,26 @@
     _timeLabel.textAlignment = NSTextAlignmentCenter;
     [self.view addSubview:_timeLabel];
     return _timeLabel;
+}
+
+- (UICollectionView *)pasterSelector {
+    if (_pasterSelector) {
+        return _pasterSelector;
+    }
+    UICollectionViewFlowLayout *layout = [[UICollectionViewFlowLayout alloc] init];
+    layout.minimumLineSpacing = 10;
+    layout.headerReferenceSize = CGSizeMake(self.view.width / 2 - 20, 0);
+    layout.footerReferenceSize = CGSizeMake(self.view.width / 2 - 20, 0);
+    layout.minimumInteritemSpacing = 0;
+    layout.itemSize = CGSizeMake(40, 40);
+    layout.scrollDirection = UICollectionViewScrollDirectionHorizontal;
+    _pasterSelector = [[UICollectionView alloc] initWithFrame:CGRectZero collectionViewLayout:layout];
+    _pasterSelector.delegate = self;
+    _pasterSelector.dataSource = self;
+    _pasterSelector.backgroundColor = [UIColor clearColor];
+    [_pasterSelector registerClass:[KQGIFItem class] forCellWithReuseIdentifier:KQGIFItem.reuseIdentifier];
+    [self.view addSubview:_pasterSelector];
+    return _pasterSelector;
 }
 
 @end

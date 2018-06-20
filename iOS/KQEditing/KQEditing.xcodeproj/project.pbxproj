@@ -11,6 +11,8 @@
 		9317A10D20C51C100056FC26 /* usr in Resources */ = {isa = PBXBuildFile; fileRef = 9317A10B20C51C0F0056FC26 /* usr */; };
 		9317A11520C51E000056FC26 /* KQEditingTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 9317A11420C51E000056FC26 /* KQEditingTests.m */; };
 		9317A14920C640EB0056FC26 /* hanfumei-800 in Resources */ = {isa = PBXBuildFile; fileRef = 9317A14820C640EA0056FC26 /* hanfumei-800 */; };
+		935E95B120D8EFB40095D4E2 /* KQGIFItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 935E95B020D8EFB40095D4E2 /* KQGIFItem.m */; };
+		935E95B320D8FC140095D4E2 /* border_normal@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 935E95B220D8FC140095D4E2 /* border_normal@2x.png */; };
 		936A98C820AEAB4800319E9B /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 936A98C720AEAB4800319E9B /* AppDelegate.m */; };
 		936A98CB20AEAB4800319E9B /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 936A98CA20AEAB4800319E9B /* ViewController.m */; };
 		936A98CE20AEAB4800319E9B /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 936A98CC20AEAB4800319E9B /* Main.storyboard */; };
@@ -82,6 +84,9 @@
 		9317A11420C51E000056FC26 /* KQEditingTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = KQEditingTests.m; sourceTree = "<group>"; };
 		9317A11620C51E000056FC26 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		9317A14820C640EA0056FC26 /* hanfumei-800 */ = {isa = PBXFileReference; lastKnownFileType = folder; path = "hanfumei-800"; sourceTree = "<group>"; };
+		935E95AF20D8EFB40095D4E2 /* KQGIFItem.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = KQGIFItem.h; sourceTree = "<group>"; };
+		935E95B020D8EFB40095D4E2 /* KQGIFItem.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = KQGIFItem.m; sourceTree = "<group>"; };
+		935E95B220D8FC140095D4E2 /* border_normal@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "border_normal@2x.png"; sourceTree = "<group>"; };
 		936A98C320AEAB4800319E9B /* KQEditing.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = KQEditing.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		936A98C620AEAB4800319E9B /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		936A98C720AEAB4800319E9B /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -270,6 +275,8 @@
 				936A98E320AEB82C00319E9B /* KQFilterItem.m */,
 				936A992B20B5393F00319E9B /* KQItem.h */,
 				936A992C20B5393F00319E9B /* KQItem.m */,
+				935E95AF20D8EFB40095D4E2 /* KQGIFItem.h */,
+				935E95B020D8EFB40095D4E2 /* KQGIFItem.m */,
 			);
 			path = Cells;
 			sourceTree = "<group>";
@@ -320,6 +327,7 @@
 		936A995E20B5501300319E9B /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				935E95B220D8FC140095D4E2 /* border_normal@2x.png */,
 				9317A14820C640EA0056FC26 /* hanfumei-800 */,
 				93FDF72C20BFD5100018F73B /* test.gif */,
 				936A996020B55CD000319E9B /* ic_circle_close@2x.png */,
@@ -471,6 +479,7 @@
 				936A995A20B54FF800319E9B /* sticker_13@2x.png in Resources */,
 				9317A10D20C51C100056FC26 /* usr in Resources */,
 				936A994F20B54FF800319E9B /* sticker_7@2x.png in Resources */,
+				935E95B320D8FC140095D4E2 /* border_normal@2x.png in Resources */,
 				936A996220B55CD000319E9B /* ic_circle_close@2x.png in Resources */,
 				936A98D020AEAB5000319E9B /* Assets.xcassets in Resources */,
 				936A98CE20AEAB4800319E9B /* Main.storyboard in Resources */,
@@ -504,6 +513,7 @@
 				936A993320B5409100319E9B /* KQPasterSelector.m in Sources */,
 				936A98F420B2746F00319E9B /* UIView+KQAddition.m in Sources */,
 				936A997A20BBB4A800319E9B /* KQFantasticCameraViewController.m in Sources */,
+				935E95B120D8EFB40095D4E2 /* KQGIFItem.m in Sources */,
 				936A992A20B51DA400319E9B /* KQPaster.m in Sources */,
 				93FDF72420BCFB920018F73B /* GPUImageBeautifyFilter.m in Sources */,
 				936A996520B5690500319E9B /* KQPasterCoordinator.m in Sources */,

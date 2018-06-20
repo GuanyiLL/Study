@@ -10,7 +10,6 @@
 
 @interface KQItem : UICollectionViewCell
 
-@property (nonatomic) UIImage *paster;
 @property (nonatomic) UIImageView *imageView;
 
 @end
