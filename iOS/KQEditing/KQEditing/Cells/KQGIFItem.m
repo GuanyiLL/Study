@@ -25,7 +25,6 @@
 }
 
 - (void)kq_selected:(BOOL)selected {
-    if (_isSelected & selected) return;
     _isSelected = selected;
     self.imageView.layer.borderColor = selected ? [UIColor redColor].CGColor : [UIColor whiteColor].CGColor;
 }
@@ -35,7 +34,6 @@
     UITapGestureRecognizer *gesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didTap:)];
     [a addGestureRecognizer:gesture];
     a.layer.borderWidth = 2;
-    a.layer.borderColor = [UIColor whiteColor].CGColor;
     a.clipsToBounds = YES;
     a.userInteractionEnabled = YES;
     return a;

@@ -333,10 +333,10 @@ UICollectionViewDelegate
     KQGIFItem *cell = [collectionView dequeueReusableCellWithReuseIdentifier:KQGIFItem.reuseIdentifier forIndexPath:indexPath];
     cell.imageView.image = self.GIFPasters[indexPath.row];
     cell.index = indexPath.row;
-    [cell kq_selected:indexPath.row == self.gifIndex];
+    [cell kq_selected:indexPath.row == self.pasterIndex];
     cell.imageView.image = self.GIFPasters[indexPath.row];
     cell.didSelectIndex = ^(NSInteger idx) {
-        if (idx & self.pasterIndex) return;
+        if (idx == self.pasterIndex) return;
         KQGIFItem *lastItem = (KQGIFItem *)[collectionView cellForItemAtIndexPath:[NSIndexPath indexPathForRow:self.pasterIndex inSection:0]];
         [lastItem kq_selected:NO];
         self.pasterIndex = idx;
@@ -437,6 +437,8 @@ UICollectionViewDelegate
     _pasterSelector.delegate = self;
     _pasterSelector.dataSource = self;
     _pasterSelector.backgroundColor = [UIColor clearColor];
+    _pasterSelector.showsHorizontalScrollIndicator = NO;
+    _pasterSelector.showsHorizontalScrollIndicator = NO;
     [_pasterSelector registerClass:[KQGIFItem class] forCellWithReuseIdentifier:KQGIFItem.reuseIdentifier];
     [self.view addSubview:_pasterSelector];
     return _pasterSelector;
