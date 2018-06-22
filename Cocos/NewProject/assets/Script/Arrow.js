@@ -12,7 +12,10 @@ cc.Class({
     extends: cc.Component,
 
     properties: {
-
+        helloWorld: {
+            default: null,
+            serializable: false
+        }
     },
 
     // LIFE-CYCLE CALLBACKS:
@@ -23,17 +26,12 @@ cc.Class({
     },
 
     onCollisionEnter: function (other) {
-        cc.log('onCollisionEnter');
+        // cc.log('onCollisionEnter');
+        if (this.helloWorld) {
+            this.helloWorld.hasCrashed = true;
+        }
     },
-
-    onCollisionStay: function (other) {
-        // cc.log('onCollisionStay');
-    },
-
-    onCollisionExit: function () {
-        cc.log('onCollisionExit');
-    },
-
+    
     start () {
 
     },

@@ -12,7 +12,8 @@ cc.Class({
             type: cc.Prefab
         },
 
-        currentArrow: null
+        currentArrow: null,
+        hasCrashed: false
     },
 
     onLoad: function () {
@@ -25,9 +26,14 @@ cc.Class({
         preArrow.setPosition(cc.p(0, -500));
 
         this.node.on('touchend',function(event){
+            this.hasCrashed = false;
             var shoot = cc.moveTo(0.2, cc.p(0, this.circle.y));
             var finished = cc.callFunc(function(){
-                this.circle.getComponent('Circle').createNewArrow();
+                if  (this.hasCrashed) {
+                    cc.log('Crashed!   Crashed!    Crashed!    Crashed!');
+                } else {
+                    this.circle.getComponent('Circle').createNewArrow();
+                }
                 this.currentArrow.destroy();
                 this.initializeCurrentArrow();
             }, this);
@@ -39,6 +45,7 @@ cc.Class({
 
     initializeCurrentArrow: function () {
         var newArrow = cc.instantiate(this.arrowPrefab);
+        newArrow.getComponent('Arrow').helloWorld = this;
         this.node.addChild(newArrow);
         newArrow.setPosition(cc.p(0, -250));
         this.currentArrow = newArrow;

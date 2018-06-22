@@ -250,6 +250,7 @@
     "arrowPrefab": {
       "__uuid__": "f37c9853-02a5-4ad0-a1c5-8761db2e4633"
     },
-    "currentArrow": null
+    "currentArrow": null,
+    "hasCrashed": false
   }
 ]
