@@ -14,12 +14,24 @@ cc.Class({
     properties: {
         rotationSpeed: 0,
         defaultArrawCount: 0,
+        arrowPrefab: {
+            default: null,
+            type: cc.Prefab
+        },
     },
 
     onLoad: function () {
         var anim = this.getComponent(cc.Animation);
 
         anim.play('rotation');
+    },
+
+    createNewArrow: function () {
+        var arrow = cc.instantiate(this.arrowPrefab);
+        this.node.addChild(arrow);
+
+        arrow.setPosition(cc.p(0,0));
+        arrow.rotation = -this.node.rotation;
     },
 
     update (dt) {

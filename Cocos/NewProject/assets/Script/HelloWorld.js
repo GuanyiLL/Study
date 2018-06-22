@@ -13,7 +13,6 @@ cc.Class({
         },
 
         currentArrow: null
-        
     },
 
     onLoad: function () {
@@ -28,13 +27,7 @@ cc.Class({
         this.node.on('touchend',function(event){
             var shoot = cc.moveTo(0.2, cc.p(0, this.circle.y));
             var finished = cc.callFunc(function(){
-                var arrow = cc.instantiate(this.arrowPrefab);
-                this.circle.addChild(arrow);
-
-                arrow.setPosition(cc.p(0,0));
-
-                arrow.rotation = -this.circle.rotation;
-
+                this.circle.getComponent('Circle').createNewArrow();
                 this.currentArrow.destroy();
                 this.initializeCurrentArrow();
             }, this);
