@@ -22,7 +22,6 @@ cc.Class({
 
     onLoad: function () {
         var anim = this.getComponent(cc.Animation);
-
         anim.play('rotation');
     },
 
@@ -30,8 +29,12 @@ cc.Class({
         var arrow = cc.instantiate(this.arrowPrefab);
         this.node.addChild(arrow);
 
-        arrow.setPosition(cc.p(0,0));
         arrow.rotation = -this.node.rotation;
+
+        var x1 = (this.node.height / 2 - 10) * Math.cos((this.node.rotation + 90) * 3.14 / 180); 
+        var y1 = (this.node.height / 2 - 10) * Math.sin((this.node.rotation + 90) * 3.14 / 180);
+
+        arrow.setPosition(cc.p(-x1,-y1));
     },
 
     update (dt) {
