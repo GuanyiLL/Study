@@ -25,4 +25,6 @@ UICollectionViewDelegateFlowLayout
 + (instancetype)selectorWithCompletion:(KQSelectorCompletion)completion;
 - (instancetype)initWithCompletion:(void(^)(NSInteger idx))completion;
 
+- (NSInteger)itemCount;
+
 @end
