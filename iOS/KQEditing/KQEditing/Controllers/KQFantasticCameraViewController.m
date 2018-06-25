@@ -25,8 +25,6 @@ UICollectionViewDelegate
 >
 
 /* UI */
-@property (nonatomic) UIButton *backButton;
-@property (nonatomic) UIButton *changeCamera;
 @property (nonatomic) UILabel *timeLabel;
 @property (nonatomic) KQRecordButton *recoredButton;
 
@@ -177,8 +175,7 @@ UICollectionViewDelegate
     self.navigationController.navigationBarHidden = NO;
     [self.navigationController.navigationBar setBarTintColor:[UIColor colorWithWhite:0 alpha:1]];
     self.navigationController.navigationBar.barStyle = UIStatusBarStyleLightContent;
-    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:self.backButton];
-    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:self.changeCamera];
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"record_lensflip_normal"] style:UIBarButtonItemStyleDone target:self action:@selector(changeCamera:)];
     self.navigationItem.titleView = self.timeLabel;
 }
 
@@ -372,32 +369,6 @@ UICollectionViewDelegate
     [self.view addSubview: _displayView];
     self.view.clipsToBounds = YES;
     return _displayView;
-}
-
-- (UIButton *)backButton {
-    if (_backButton) {
-        return _backButton;
-    }
-    _backButton = [UIButton buttonWithType:UIButtonTypeSystem];
-    _backButton.frame = CGRectMake(0, 0, buttonWidth, buttonWidth);
-    [_backButton setTitle:@"X" forState:UIControlStateNormal];
-    [_backButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-    _backButton.titleLabel.font = [UIFont boldSystemFontOfSize:30];
-    [_backButton addTarget:self action:@selector(back:) forControlEvents:UIControlEventTouchUpInside];
-    return _backButton;
-}
-
-- (UIButton *)changeCamera {
-    if (_changeCamera) {
-        return _changeCamera;
-     }
-    _changeCamera = [UIButton buttonWithType:UIButtonTypeSystem];
-    _changeCamera.frame = CGRectMake(0, 0, buttonWidth, buttonWidth);
-    [_changeCamera setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-    [_changeCamera setTitle:@"T" forState:UIControlStateNormal];
-    [_changeCamera addTarget:self action:@selector(changeCamera:) forControlEvents:UIControlEventTouchUpInside];
-    _changeCamera.titleLabel.font = [UIFont boldSystemFontOfSize:30];
-    return _changeCamera;
 }
 
 - (KQRecordButton *)recoredButton {

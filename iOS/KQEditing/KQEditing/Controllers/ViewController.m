@@ -15,9 +15,7 @@
 @interface ViewController ()
 <
 UIImagePickerControllerDelegate,
-UINavigationControllerDelegate,
-UICollectionViewDataSource,
-UICollectionViewDelegate
+UINavigationControllerDelegate
 >
 
 @property (nonatomic) UIButton *editPhotoButton;
@@ -104,8 +102,6 @@ UICollectionViewDelegate
     }
     _editPhotoButton = [UIButton buttonWithType:UIButtonTypeSystem];
     [_editPhotoButton setTitle:@"图片编辑" forState:UIControlStateNormal];
-    [_editPhotoButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-    _editPhotoButton.backgroundColor = [UIColor redColor];
     [_editPhotoButton addTarget:self action:@selector(editPhotoAction:) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:_editPhotoButton];
     return _editPhotoButton;
@@ -117,8 +113,6 @@ UICollectionViewDelegate
     }
     _fantasticCameraButton = [UIButton buttonWithType:UIButtonTypeSystem];
     [_fantasticCameraButton setTitle:@"超级相机" forState:UIControlStateNormal];
-    [_fantasticCameraButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-    _fantasticCameraButton.backgroundColor = [UIColor blueColor];
     [_fantasticCameraButton addTarget:self action:@selector(showCameraAction:) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:_fantasticCameraButton];
     return _fantasticCameraButton;
