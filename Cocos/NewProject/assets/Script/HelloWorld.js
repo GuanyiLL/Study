@@ -38,9 +38,7 @@ cc.Class({
                     this.gameOver();
                 } else {
                     this.gainScore();
-                    this.circle.getComponent('Circle').createNewArrow();
                 }
-                this.circle.getComponent('Circle').createNewArrow();
                 this.currentArrow.destroy();
                 this.initializeCurrentArrow();
             }, this);
@@ -68,5 +66,15 @@ cc.Class({
         this.arrowCount -= 1;
         this.scoreDisplay.string = 'Score: ' + this.score.toString();
         this.arrowCountDisplay.string = this.arrowCount.toString();
+        if (this.arrowCount == 0) {
+            this.levelUpgrade();
+        } else {
+            this.circle.getComponent('Circle').createNewArrow();
+        }
     },
+
+    levelUpgrade() {
+        this.arrowCount = 15;
+        this.circle.getComponent('Circle').upgrade();
+    }
 });

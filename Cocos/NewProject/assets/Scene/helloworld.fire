@@ -208,7 +208,8 @@
     "defaultArrawCount": 0,
     "arrowPrefab": {
       "__uuid__": "f37c9853-02a5-4ad0-a1c5-8761db2e4633"
-    }
+    },
+    "animState": null
   },
   {
     "__type__": "cc.Animation",
@@ -260,7 +261,7 @@
     "_contentSize": {
       "__type__": "cc.Size",
       "width": 149,
-      "height": 80
+      "height": 40
     },
     "_rotationX": 0,
     "_rotationY": 0,
@@ -269,7 +270,7 @@
     "_position": {
       "__type__": "cc.Vec2",
       "x": 0,
-      "y": 419
+      "y": 400
     },
     "_skewX": 0,
     "_skewY": 0,
@@ -294,7 +295,7 @@
     "_N$file": null,
     "_isSystemFontUsed": true,
     "_spacingX": 0,
-    "_N$string": "Score: 0\n",
+    "_N$string": "Score: 0",
     "_N$horizontalAlign": 1,
     "_N$verticalAlign": 1,
     "_N$fontFamily": "Arial",
@@ -368,7 +369,7 @@
     "_N$file": null,
     "_isSystemFontUsed": true,
     "_spacingX": 0,
-    "_N$string": "10",
+    "_N$string": "0",
     "_N$horizontalAlign": 1,
     "_N$verticalAlign": 1,
     "_N$fontFamily": "Arial",
