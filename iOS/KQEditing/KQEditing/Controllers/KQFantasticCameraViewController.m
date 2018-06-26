@@ -14,7 +14,10 @@
 #import <CoreImage/CoreImage.h>
 #import "KQGIFItem.h"
 
+CGFloat const screenEdge = 20;
 CGFloat const buttonWidth = 44;
+CGFloat const flashButtonWidth = 40;
+CGFloat const selectorItemHeight = 40;
 CGFloat const recoredButtonWidth = 60;
 
 @interface KQFantasticCameraViewController ()
@@ -27,6 +30,7 @@ UICollectionViewDelegate
 /* UI */
 @property (nonatomic) UILabel *timeLabel;
 @property (nonatomic) KQRecordButton *recoredButton;
+@property (nonatomic) UIButton *photoflashButton;
 
 /* 摄像头、滤镜 */
 @property (nonatomic) dispatch_queue_t sessionQueue;
@@ -73,6 +77,7 @@ UICollectionViewDelegate
 - (void)viewDidLayoutSubviews {
     [super viewDidLayoutSubviews];
     CGFloat iphonexMargin = kDevice_Is_iPhoneX ? 34 : 0;
+    self.photoflashButton.frame = CGRectMake(self.view.width - flashButtonWidth - screenEdge, CGRectGetMaxY(self.navigationController.navigationBar.frame) + screenEdge, flashButtonWidth, flashButtonWidth);
     self.recoredButton.frame = CGRectMake(self.view.width / 2 - recoredButtonWidth / 2,
                                           self.view.height - recoredButtonWidth - iphonexMargin,
                                           recoredButtonWidth,
@@ -82,7 +87,7 @@ UICollectionViewDelegate
                                       self.view.width,
                                       buttonWidth + CGRectGetHeight([[UIApplication sharedApplication] statusBarFrame]));
     
-    self.pasterSelector.frame = CGRectMake(0, self.recoredButton.top - 80, self.view.width, 40);
+    self.pasterSelector.frame = CGRectMake(0, self.recoredButton.top - selectorItemHeight * 2, self.view.width, selectorItemHeight);
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -145,7 +150,6 @@ UICollectionViewDelegate
     [beautifyFilter setFrameProcessingCompletionBlock:^(GPUImageOutput *output, CMTime time){
         __strong typeof (self) strongSelf = weakSelf;
         dispatch_async([GPUImageContext sharedContextQueue], ^{
-            if (self.imageArray.count == 0) return;
             [strongSelf.element updateWithTimestamp:time];
         });
     }];
@@ -226,6 +230,13 @@ UICollectionViewDelegate
 }
 
 - (void)changeCamera:(id)sender {
+    if (self.videoCamera.inputCamera.torchMode == AVCaptureTorchModeOn) {
+        [self.videoCamera.inputCamera lockForConfiguration:nil];
+        [self.videoCamera.inputCamera setTorchMode:AVCaptureTorchModeOff];
+        [self.videoCamera.inputCamera unlockForConfiguration];
+        [self.photoflashButton setImage:[UIImage imageNamed:@"flashing_off"] forState:UIControlStateNormal];
+    }
+    self.photoflashButton.enabled = [self.videoCamera isBackFacingCameraPresent];
     [self.videoCamera rotateCamera];
 }
 
@@ -262,6 +273,22 @@ UICollectionViewDelegate
         self.videoCamera.audioEncodingTarget = self.movieWriter;
         [self.movieWriter startRecording];
     });
+}
+
+- (void)photoflashAction:(id)sender {
+    if (self.videoCamera.inputCamera.position == AVCaptureDevicePositionBack) {
+        if (self.videoCamera.inputCamera.torchMode == AVCaptureTorchModeOn) {
+            [self.videoCamera.inputCamera lockForConfiguration:nil];
+            [self.videoCamera.inputCamera setTorchMode:AVCaptureTorchModeOff];
+            [self.videoCamera.inputCamera unlockForConfiguration];
+            [self.photoflashButton setImage:[UIImage imageNamed:@"flashing_off"] forState:UIControlStateNormal];
+        }else if (self.videoCamera.inputCamera.torchMode == AVCaptureTorchModeOff) {
+            [self.videoCamera.inputCamera lockForConfiguration:nil];
+            [self.videoCamera.inputCamera setTorchMode:AVCaptureTorchModeOn];
+            [self.videoCamera.inputCamera unlockForConfiguration];
+            [self.photoflashButton setImage:[UIImage imageNamed:@"flashing_on"] forState:UIControlStateNormal];
+        }
+    }
 }
 
 #pragma mark- Delegate
@@ -326,7 +353,8 @@ UICollectionViewDelegate
     return 2;
 }
 
-- (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
+- (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView
+                  cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     KQGIFItem *cell = [collectionView dequeueReusableCellWithReuseIdentifier:KQGIFItem.reuseIdentifier forIndexPath:indexPath];
     cell.imageView.image = self.GIFPasters[indexPath.row];
     cell.index = indexPath.row;
@@ -379,6 +407,18 @@ UICollectionViewDelegate
     [_recoredButton addTarget:self action:@selector(recordAction:) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:_recoredButton];
     return _recoredButton;
+}
+
+- (UIButton *)photoflashButton {
+    if (_photoflashButton) {
+        return _photoflashButton;
+    }
+    _photoflashButton = [UIButton buttonWithType:UIButtonTypeSystem];
+    [_photoflashButton setImage:[UIImage imageNamed:@"flashing_off"] forState:UIControlStateNormal];
+    [_photoflashButton addTarget:self action:@selector(photoflashAction:) forControlEvents:UIControlEventTouchUpInside];
+    _photoflashButton.tintColor = [UIColor whiteColor];
+    [self.view addSubview:_photoflashButton];
+    return _photoflashButton;
 }
 
 - (UILabel *)timeLabel {
