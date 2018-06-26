@@ -27,7 +27,6 @@ cc.Class({
 
     onCollisionEnter: function (other) {
         // cc.log('onCollisionEnter');
-        cc.log(other);
         if (this.helloWorld) {
             this.helloWorld.hasCrashed = true;
         }

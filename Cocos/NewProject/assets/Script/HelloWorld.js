@@ -12,26 +12,32 @@ cc.Class({
             type: cc.Prefab
         },
 
+        scoreDisplay: {
+            default: null,
+            type: cc.Label
+        },
+
+        arrowCountDisplay: {
+            default: null,
+            type: cc.Label
+        },
+
         currentArrow: null,
-        hasCrashed: false
+        hasCrashed: false,
+        score: 0,
+        arrowCount: 10
     },
 
     onLoad: function () {
+        this.arrowCountDisplay.string = this.arrowCount.toString();
         this.initializeCurrentArrow();
-    
-        var preArrow = cc.instantiate(this.arrowPrefab);
-        // 将新增的节点添加到 Canvas 节点下面
-        this.node.addChild(preArrow);
-        // 为星星设置一个随机位置
-        preArrow.setPosition(cc.p(0, -500));
-
         this.node.on('touchend',function(event){
             var shoot = cc.moveTo(0.2, cc.p(0, this.circle.y - this.circle.height / 2 + 10));
-
             var finished = cc.callFunc(function(){
                 if  (this.hasCrashed) {
                     this.gameOver();
                 } else {
+                    this.gainScore();
                     this.circle.getComponent('Circle').createNewArrow();
                 }
                 this.circle.getComponent('Circle').createNewArrow();
@@ -57,8 +63,10 @@ cc.Class({
         cc.director.loadScene('helloworld');
     },
 
-    // called every frame
-    update: function (dt) {
-
+    gainScore: function () {
+        this.score += 1;
+        this.arrowCount -= 1;
+        this.scoreDisplay.string = 'Score: ' + this.score.toString();
+        this.arrowCountDisplay.string = this.arrowCount.toString();
     },
 });
