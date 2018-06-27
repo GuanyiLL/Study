@@ -32,7 +32,7 @@ cc.Class({
         this.arrowCountDisplay.string = this.arrowCount.toString();
         this.initializeCurrentArrow();
         this.node.on('touchend',function(event){
-            var shoot = cc.moveTo(0.2, cc.p(0, this.circle.y - this.circle.height / 2 + 10));
+            var shoot = cc.moveTo(0.1, cc.p(0, this.circle.y - this.circle.height / 2 + 10));
             var finished = cc.callFunc(function(){
                 if  (this.hasCrashed) {
                     this.gameOver();

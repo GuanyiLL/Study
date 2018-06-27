@@ -39,7 +39,7 @@ cc.Class({
 
     upgrade: function () {
         this.defaultArrawCount = 4;
-        this.animState.speed = 1.5;
+        this.animState.speed = 1.2;
         this.createDefaultArrow();
     },
 
