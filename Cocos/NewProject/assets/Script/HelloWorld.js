@@ -53,7 +53,7 @@ cc.Class({
         var newArrow = cc.instantiate(this.arrowPrefab);
         newArrow.getComponent('Arrow').helloWorld = this;
         this.node.addChild(newArrow);
-        newArrow.setPosition(cc.p(0, -250));
+        newArrow.setPosition(cc.p(0, -100));
         this.currentArrow = newArrow;
     },
 
@@ -75,6 +75,7 @@ cc.Class({
 
     levelUpgrade() {
         this.arrowCount = 15;
+        this.arrowCountDisplay.string = this.arrowCount.toString();
         this.circle.getComponent('Circle').upgrade();
     }
 });

@@ -1,19 +1,17 @@
-// Learn cc.Class:
-//  - [Chinese] http://docs.cocos.com/creator/manual/zh/scripting/class.html
-//  - [English] http://www.cocos2d-x.org/docs/creator/en/scripting/class.html
-// Learn Attribute:
-//  - [Chinese] http://docs.cocos.com/creator/manual/zh/scripting/reference/attributes.html
-//  - [English] http://www.cocos2d-x.org/docs/creator/en/scripting/reference/attributes.html
-// Learn life-cycle callbacks:
-//  - [Chinese] http://docs.cocos.com/creator/manual/zh/scripting/life-cycle-callbacks.html
-//  - [English] http://www.cocos2d-x.org/docs/creator/en/scripting/life-cycle-callbacks.html
 
 cc.Class({
     extends: cc.Component,
 
     properties: {
         rotationSpeed: 0,
-        defaultArrawCount: 0,
+        defaultArrawCount: {
+            get () {
+                return this._defaultArrawCount;
+            },
+            set (value) {
+                this._defaultArrawCount = value;
+            }
+        },
         arrowPrefab: {
             default: null,
             type: cc.Prefab
@@ -40,9 +38,21 @@ cc.Class({
     },
 
     upgrade: function () {
-        self.defaultArrawCount = 4;
+        this.defaultArrawCount = 4;
         this.animState.speed = 1.5;
+        this.createDefaultArrow();
+    },
+
+    createDefaultArrow: function () {
         this.node.removeAllChildren();
+        for (var i = 0; i < this.defaultArrawCount; i ++) {
+            var arrow = cc.instantiate(this.arrowPrefab);
+            this.node.addChild(arrow);
+            arrow.rotation = -360 / this.defaultArrawCount * i;
+            var x1 = (this.node.height / 2 - 10) * Math.cos((360 / this.defaultArrawCount * i + 90) * 3.14 / 180); 
+            var y1 = (this.node.height / 2 - 10) * Math.sin((360 / this.defaultArrawCount * i + 90) * 3.14 / 180);
+            arrow.setPosition(cc.p(-x1,-y1));
+        }
     },
 
     update (dt) {
