@@ -411,6 +411,7 @@
       "__id__": 10
     },
     "currentArrow": null,
+    "shootingArrow": null,
     "hasCrashed": false,
     "score": 0,
     "arrowCount": 10

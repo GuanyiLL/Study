@@ -25,7 +25,7 @@ cc.Class({
         cc.director.getCollisionManager().enabledDebugDraw = true;
     },
 
-    onCollisionEnter: function (other) {
+    onCollisionEnter: function (other, self) {
         // cc.log('onCollisionEnter');
         if (this.helloWorld) {
             this.helloWorld.hasCrashed = true;
