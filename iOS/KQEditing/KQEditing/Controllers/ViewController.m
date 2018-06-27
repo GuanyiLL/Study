@@ -9,8 +9,12 @@
 #import "ViewController.h"
 #import "KQEditorViewController.h"
 #import "KQFantasticCameraViewController.h"
-
 #import "KQSelector.h"
+
+CGFloat const kButtonHeight = 100;
+CGFloat const kButtonWidth = 200;
+CGFloat const kButtonCornerRadius = 5;
+CGFloat const kTopMergin = 50;
 
 @interface ViewController ()
 <
@@ -21,29 +25,20 @@ UINavigationControllerDelegate
 @property (nonatomic) UIButton *editPhotoButton;
 @property (nonatomic) UIButton *fantasticCameraButton;
 
-@property (nonatomic) UIImageView *imageView;
-@property (nonatomic) NSMutableArray *imgArray;
-@property (nonatomic) UICollectionView *collection;
-
 @end
 
 @implementation ViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    [self.collection reloadData];
+    [self.navigationController.navigationBar setBarTintColor:[UIColor colorWithWhite:0 alpha:1]];
+    self.navigationController.navigationBar.barStyle = UIStatusBarStyleLightContent;
 }
 
 - (void)viewDidLayoutSubviews {
     [super viewDidLayoutSubviews];
-    self.editPhotoButton.frame = CGRectMake(10, 100, 200, 100);
-    self.fantasticCameraButton.frame = CGRectMake(self.editPhotoButton.x, self.editPhotoButton.bottom + 10, self.editPhotoButton.width, self.editPhotoButton.height);
-    self.imageView.frame = CGRectMake(self.fantasticCameraButton.frame.origin.x, self.fantasticCameraButton.bottom + 20, 200, 200);
-    self.collection.frame = CGRectMake(0, self.view.height - 80 - 34, self.view.width, 80);
-}
-
-- (void)viewDidAppear:(BOOL)animated {
-    [super viewDidAppear:animated];
+    self.editPhotoButton.frame = CGRectMake(self.view.width / 2 - kButtonWidth / 2, CGRectGetMaxY(self.navigationController.navigationBar.frame) + kTopMergin, kButtonWidth, kButtonHeight);
+    self.fantasticCameraButton.frame = CGRectMake(self.editPhotoButton.x, self.editPhotoButton.bottom + kTopMergin, self.editPhotoButton.width, self.editPhotoButton.height);
 }
 
 #pragma mark- Action
@@ -103,6 +98,10 @@ UINavigationControllerDelegate
     _editPhotoButton = [UIButton buttonWithType:UIButtonTypeSystem];
     [_editPhotoButton setTitle:@"图片编辑" forState:UIControlStateNormal];
     [_editPhotoButton addTarget:self action:@selector(editPhotoAction:) forControlEvents:UIControlEventTouchUpInside];
+    [_editPhotoButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+    _editPhotoButton.layer.cornerRadius = kButtonCornerRadius;
+    _editPhotoButton.layer.borderWidth = 1;
+    _editPhotoButton.layer.borderColor = [UIColor blackColor].CGColor;
     [self.view addSubview:_editPhotoButton];
     return _editPhotoButton;
 }
@@ -114,6 +113,10 @@ UINavigationControllerDelegate
     _fantasticCameraButton = [UIButton buttonWithType:UIButtonTypeSystem];
     [_fantasticCameraButton setTitle:@"超级相机" forState:UIControlStateNormal];
     [_fantasticCameraButton addTarget:self action:@selector(showCameraAction:) forControlEvents:UIControlEventTouchUpInside];
+    [_fantasticCameraButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+    _fantasticCameraButton.layer.cornerRadius = kButtonCornerRadius;
+    _fantasticCameraButton.layer.borderWidth = 1;
+    _fantasticCameraButton.layer.borderColor = [UIColor blackColor].CGColor;
     [self.view addSubview:_fantasticCameraButton];
     return _fantasticCameraButton;
 }

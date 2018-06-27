@@ -179,6 +179,7 @@ UICollectionViewDelegate
     self.navigationController.navigationBarHidden = NO;
     [self.navigationController.navigationBar setBarTintColor:[UIColor colorWithWhite:0 alpha:1]];
     self.navigationController.navigationBar.barStyle = UIStatusBarStyleLightContent;
+    [self.navigationController.navigationBar setTintColor:[UIColor whiteColor]];
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"record_lensflip_normal"] style:UIBarButtonItemStyleDone target:self action:@selector(changeCamera:)];
     self.navigationItem.titleView = self.timeLabel;
 }
