@@ -23,7 +23,6 @@ cc.Class({
         },
 
         currentArrow: null,
-        shootingArrow: null,
         hasCrashed: false,
         score: 0,
         arrowCount: 10
@@ -34,7 +33,6 @@ cc.Class({
         this.arrowCountDisplay.string = this.arrowCount.toString();
         this.initializeCurrentArrow();
         this.node.on('touchend',function(event){
-            this.shootingArrow = this.currentArrow;
             var shoot = cc.moveTo(0.1, cc.p(0, this.circle.y - this.circle.height / 2 + 10));
             var finished = cc.callFunc(function(){
                 if  (this.hasCrashed) {
@@ -45,7 +43,7 @@ cc.Class({
                 }
             }, this);
             var myAction = cc.sequence(shoot, finished);
-            this.shootingArrow.runAction(myAction);
+            this.currentArrow.runAction(myAction);
         },this);
     },
 
@@ -66,15 +64,15 @@ cc.Class({
         this.arrowCount -= 1;
         this.scoreDisplay.string = 'Score: ' + this.score.toString();
         this.arrowCountDisplay.string = this.arrowCount.toString();
-        this.shootingArrow.removeFromParent();
+        this.currentArrow.removeFromParent();
         if (this.arrowCount == 0) {
             this.levelUpgrade();
         } else {
-            this.circle.addChild(this.shootingArrow);
-            this.shootingArrow.rotation = -this.circle.rotation;
+            this.circle.addChild(this.currentArrow);
+            this.currentArrow.rotation = -this.circle.rotation;
             var x1 = (this.circle.height / 2 - 10) * Math.cos((this.circle.rotation + 90) * 3.14 / 180); 
             var y1 = (this.circle.height / 2 - 10) * Math.sin((this.circle.rotation + 90) * 3.14 / 180);
-            this.shootingArrow.setPosition(cc.p(-x1,-y1));
+            this.currentArrow.setPosition(cc.p(-x1,-y1));
         }
     },
 
