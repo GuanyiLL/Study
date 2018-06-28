@@ -29,11 +29,10 @@ cc.Class({
     },
 
     onLoad: function () {
-        this.circle.tag = 50;
         this.arrowCountDisplay.string = this.arrowCount.toString();
         this.initializeCurrentArrow();
         this.node.on('touchend',function(event){
-            var shoot = cc.moveTo(0.1, cc.p(0, this.circle.y - this.circle.height / 2 + 10));
+            var shoot = cc.moveTo(0.1, cc.p(0, this.circle.y - this.circle.height / 2 - this.currentArrow.height / 2 - 10));
             var finished = cc.callFunc(function(){
                 if  (this.hasCrashed) {
                     this.gameOver();
@@ -55,8 +54,24 @@ cc.Class({
         this.currentArrow = newArrow;
     },
 
+    finishCallBack: function (event) {
+        this.node.getChildByName('dialog').active = true;
+    },
+
+    btn1: function(event, data) {
+        cc.log('1');
+        this.node.getChildByName('dialog').active = false;
+    },
+
+    btn2: function(event, data) {
+        cc.log('2');
+        this.node.getChildByName('dialog').active = false;
+    },
+
     gameOver() {
-        cc.director.loadScene('helloworld');
+        var anim = this.currentArrow.getComponent(cc.Animation);
+        anim.on('finished',this.finishCallBack,this);
+        anim.play('flip');
     },
 
     gainScore: function () {
@@ -70,8 +85,8 @@ cc.Class({
         } else {
             this.circle.addChild(this.currentArrow);
             this.currentArrow.rotation = -this.circle.rotation;
-            var x1 = (this.circle.height / 2 - 10) * Math.cos((this.circle.rotation + 90) * 3.14 / 180); 
-            var y1 = (this.circle.height / 2 - 10) * Math.sin((this.circle.rotation + 90) * 3.14 / 180);
+            var x1 = (this.circle.height / 2 + this.currentArrow.height / 2 - 10) * Math.cos((this.circle.rotation + 90) * 3.14 / 180); 
+            var y1 = (this.circle.height / 2 + this.currentArrow.height / 2 - 10) * Math.sin((this.circle.rotation + 90) * 3.14 / 180);
             this.currentArrow.setPosition(cc.p(-x1,-y1));
         }
     },

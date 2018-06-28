@@ -21,6 +21,7 @@ cc.Class({
     },
 
     onLoad: function () {
+        this.node.tag = 50;
         var anim = this.getComponent(cc.Animation);
         this.animState = anim.play('rotation');
     },
@@ -37,8 +38,8 @@ cc.Class({
             var arrow = cc.instantiate(this.arrowPrefab);
             this.node.addChild(arrow);
             arrow.rotation = -360 / this.defaultArrawCount * i;
-            var x1 = (this.node.height / 2 - 10) * Math.cos((360 / this.defaultArrawCount * i + 90) * 3.14 / 180); 
-            var y1 = (this.node.height / 2 - 10) * Math.sin((360 / this.defaultArrawCount * i + 90) * 3.14 / 180);
+            var x1 = (this.node.height / 2 + arrow.height / 2 - 10) * Math.cos((360 / this.defaultArrawCount * i + 90) * 3.14 / 180); 
+            var y1 = (this.node.height / 2 + arrow.height / 2 - 10) * Math.sin((360 / this.defaultArrawCount * i + 90) * 3.14 / 180);
             arrow.setPosition(cc.p(-x1,-y1));
         }
     },
