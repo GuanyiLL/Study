@@ -10,6 +10,7 @@ cc.Class({
             },
             set (value) {
                 this._defaultArrawCount = value;
+                this.createDefaultArrow();
             }
         },
         arrowPrefab: {
@@ -29,13 +30,13 @@ cc.Class({
     upgrade: function () {
         this.defaultArrawCount = 4;
         this.animState.speed = 1.2;
-        this.createDefaultArrow();
     },
 
     createDefaultArrow: function () {
         this.node.removeAllChildren();
         for (var i = 0; i < this.defaultArrawCount; i ++) {
             var arrow = cc.instantiate(this.arrowPrefab);
+            arrow.getComponent('Arrow').isOnCircle = true;
             this.node.addChild(arrow);
             arrow.rotation = -360 / this.defaultArrawCount * i;
             var x1 = (this.node.height / 2 + arrow.height / 2 - 10) * Math.cos((360 / this.defaultArrawCount * i + 90) * 3.14 / 180); 
@@ -44,7 +45,17 @@ cc.Class({
         }
     },
 
-    update (dt) {
-
+    pauseRotation: function () {
+        var anim = this.getComponent(cc.Animation);
+        anim.pause('rotation');
     },
+
+    resumeRotation: function () {
+        var anim = this.getComponent(cc.Animation);
+        anim.resume('rotation');
+    },
+
+    // update (dt) {
+
+    // },
 });

@@ -105,88 +105,6 @@
     "_enabled": true
   },
   {
-    "__type__": "cc.PolygonCollider",
-    "_name": "",
-    "_objFlags": 0,
-    "node": {
-      "__id__": 1
-    },
-    "_enabled": true,
-    "tag": 0,
-    "_offset": {
-      "__type__": "cc.Vec2",
-      "x": -1.17,
-      "y": 63.6
-    },
-    "points": [
-      {
-        "__type__": "cc.Vec2",
-        "x": -3.58,
-        "y": -128.84
-      },
-      {
-        "__type__": "cc.Vec2",
-        "x": 0.54,
-        "y": -121.02
-      },
-      {
-        "__type__": "cc.Vec2",
-        "x": 2.34,
-        "y": -120.98
-      },
-      {
-        "__type__": "cc.Vec2",
-        "x": 5.99,
-        "y": -129.06
-      },
-      {
-        "__type__": "cc.Vec2",
-        "x": 6.08,
-        "y": -107.18
-      },
-      {
-        "__type__": "cc.Vec2",
-        "x": 1.7,
-        "y": -98.4
-      },
-      {
-        "__type__": "cc.Vec2",
-        "x": 2,
-        "y": -19.89
-      },
-      {
-        "__type__": "cc.Vec2",
-        "x": 5.82,
-        "y": -24.69
-      },
-      {
-        "__type__": "cc.Vec2",
-        "x": 0.7,
-        "y": 1.4
-      },
-      {
-        "__type__": "cc.Vec2",
-        "x": -3.98,
-        "y": -24.97
-      },
-      {
-        "__type__": "cc.Vec2",
-        "x": 0.45,
-        "y": -19.76
-      },
-      {
-        "__type__": "cc.Vec2",
-        "x": 0.5,
-        "y": -98.4
-      },
-      {
-        "__type__": "cc.Vec2",
-        "x": -3.5,
-        "y": -106
-      }
-    ]
-  },
-  {
     "__type__": "cc.Animation",
     "_name": "",
     "_objFlags": 0,
@@ -201,6 +119,26 @@
       }
     ],
     "playOnLoad": false
+  },
+  {
+    "__type__": "cc.BoxCollider",
+    "_name": "",
+    "_objFlags": 0,
+    "node": {
+      "__id__": 1
+    },
+    "_enabled": true,
+    "tag": 0,
+    "_offset": {
+      "__type__": "cc.Vec2",
+      "x": -0.17,
+      "y": 51.72
+    },
+    "_size": {
+      "__type__": "cc.Size",
+      "width": 10.34,
+      "height": 26.66
+    }
   },
   {
     "__type__": "cc.PrefabInfo",

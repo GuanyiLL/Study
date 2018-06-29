@@ -15,23 +15,21 @@ cc.Class({
         helloWorld: {
             default: null,
             serializable: false
-        }
+        },
+        
+        isOnCircle: false,
     },
 
     // LIFE-CYCLE CALLBACKS:
 
     onLoad: function () {
         cc.director.getCollisionManager().enabled = true;
-        cc.director.getCollisionManager().enabledDebugDraw = true;
+        // cc.director.getCollisionManager().enabledDebugDraw = true;
     },
 
     onCollisionEnter: function (other, self) {
-        if (this.helloWorld) {
+        if (this.helloWorld && !this.isOnCircle) {
             this.helloWorld.hasCrashed = true;
         }
-    },
-    
-    start () {
-
     },
 });

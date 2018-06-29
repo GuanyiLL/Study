@@ -32,7 +32,10 @@ cc.Class({
         this.arrowCountDisplay.string = this.arrowCount.toString();
         this.initializeCurrentArrow();
         this.node.on('touchend',function(event){
-            var shoot = cc.moveTo(0.1, cc.p(0, this.circle.y - this.circle.height / 2 - this.currentArrow.height / 2 - 10));
+            var shoot = cc.moveTo(0.1, cc.p(0, this.circle.y - this.circle.height / 2 - 15));
+            var shake1 = cc.moveTo(0.1,cc.p(0,205));
+            var shake2 = cc.moveTo(0.1,cc.p(0,200));
+            var circleAction = cc.sequence(shake1,shake2);
             var finished = cc.callFunc(function(){
                 if  (this.hasCrashed) {
                     this.gameOver();
@@ -42,15 +45,19 @@ cc.Class({
                 }
             }, this);
             var myAction = cc.sequence(shoot, finished);
-            this.currentArrow.runAction(myAction);
+            if (!this.hasCrashed) {
+                this.currentArrow.runAction(myAction);
+                this.circle.runAction(circleAction);
+            }
         },this);
     },
 
     initializeCurrentArrow: function () {
         var newArrow = cc.instantiate(this.arrowPrefab);
         newArrow.getComponent('Arrow').helloWorld = this;
+        newArrow.getComponent('Arrow').isOnCircle = false;
         this.node.addChild(newArrow);
-        newArrow.setPosition(cc.p(0, -100));
+        newArrow.setPosition(cc.p(0, this.circle.y - this.circle.height - newArrow.height - 50));
         this.currentArrow = newArrow;
     },
 
@@ -58,17 +65,19 @@ cc.Class({
         this.node.getChildByName('dialog').active = true;
     },
 
-    btn1: function(event, data) {
-        cc.log('1');
+    resumeAction: function(event, data) {
         this.node.getChildByName('dialog').active = false;
+        this.circle.getComponent('Circle').resumeRotation();
+        this.initializeCurrentArrow();
+        this.hasCrashed = false;
     },
 
-    btn2: function(event, data) {
-        cc.log('2');
-        this.node.getChildByName('dialog').active = false;
+    resetAction: function(event, data) {
+        cc.director.loadScene('helloworld');
     },
 
     gameOver() {
+        this.circle.getComponent('Circle').pauseRotation();
         var anim = this.currentArrow.getComponent(cc.Animation);
         anim.on('finished',this.finishCallBack,this);
         anim.play('flip');
@@ -84,6 +93,7 @@ cc.Class({
             this.levelUpgrade();
         } else {
             this.circle.addChild(this.currentArrow);
+            this.currentArrow.getComponent('Arrow').isOnCircle = true;
             this.currentArrow.rotation = -this.circle.rotation;
             var x1 = (this.circle.height / 2 + this.currentArrow.height / 2 - 10) * Math.cos((this.circle.rotation + 90) * 3.14 / 180); 
             var y1 = (this.circle.height / 2 + this.currentArrow.height / 2 - 10) * Math.sin((this.circle.rotation + 90) * 3.14 / 180);
