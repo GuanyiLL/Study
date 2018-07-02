@@ -86,11 +86,6 @@ UICollectionViewDelegate
     self.pasterSelector.frame = CGRectMake(0, self.recoredButton.top - selectorItemHeight * 2, self.view.width, selectorItemHeight);
 }
 
-- (void)viewDidAppear:(BOOL)animated {
-    [super viewDidAppear:animated];
-    [self.view bringSubviewToFront:self.timeLabel];
-}
-
 - (void)viewDidDisappear:(BOOL)animated {
     [self.videoCamera stopCameraCapture];
     [super viewDidDisappear:animated];
