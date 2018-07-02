@@ -1,3 +1,5 @@
+var Tool = require('Tool');
+
 cc.Class({
     extends: cc.Component,
 
@@ -25,17 +27,18 @@ cc.Class({
         currentArrow: null,
         hasCrashed: false,
         score: 0,
-        arrowCount: 10
+        arrowCount: 0,
     },
 
     onLoad: function () {
+        this.arrowCount = Tool.totalArrowCount();
         this.arrowCountDisplay.string = this.arrowCount.toString();
         this.initializeCurrentArrow();
         this.node.on('touchend',function(event){
+            if (this.hasCrashed) {
+                return;
+            }
             var shoot = cc.moveTo(0.1, cc.p(0, this.circle.y - this.circle.height / 2 - 15));
-            var shake1 = cc.moveTo(0.1,cc.p(0,205));
-            var shake2 = cc.moveTo(0.1,cc.p(0,200));
-            var circleAction = cc.sequence(shake1,shake2);
             var finished = cc.callFunc(function(){
                 if  (this.hasCrashed) {
                     this.gameOver();
@@ -45,10 +48,11 @@ cc.Class({
                 }
             }, this);
             var myAction = cc.sequence(shoot, finished);
-            if (!this.hasCrashed) {
-                this.currentArrow.runAction(myAction);
-                this.circle.runAction(circleAction);
-            }
+            this.currentArrow.runAction(myAction);
+            var shake1 = cc.moveTo(0.1,cc.p(0,205));
+            var shake2 = cc.moveTo(0.1,cc.p(0,200));
+            var circleAction = cc.sequence(shake1,shake2);
+            this.circle.runAction(circleAction);
         },this);
     },
 
@@ -73,6 +77,7 @@ cc.Class({
     },
 
     resetAction: function(event, data) {
+        Tool.level = 0;
         cc.director.loadScene('helloworld');
     },
 
@@ -102,7 +107,8 @@ cc.Class({
     },
 
     levelUpgrade() {
-        this.arrowCount = 15;
+        Tool.levelUp();
+        this.arrowCount = Tool.totalArrowCount();
         this.arrowCountDisplay.string = this.arrowCount.toString();
         this.circle.getComponent('Circle').upgrade();
     }

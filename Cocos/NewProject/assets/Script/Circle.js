@@ -1,4 +1,4 @@
-
+var Tool = require('Tool');
 cc.Class({
     extends: cc.Component,
 
@@ -22,14 +22,21 @@ cc.Class({
     },
 
     onLoad: function () {
-        this.node.tag = 50;
         var anim = this.getComponent(cc.Animation);
         this.animState = anim.play('rotation');
+        this.defaultArrawCount = Tool.defaultArrowCount();
+        var speed = Tool.speed();
+        this.animState.speed = speed[0];
     },
 
     upgrade: function () {
-        this.defaultArrawCount = 4;
-        this.animState.speed = 1.2;
+        this.defaultArrawCount = Tool.defaultArrowCount();
+        var speed = Tool.speed();
+        // if (speed.length() > 1) {
+        this.animState.speed = speed[0];
+        // } else {
+            // this.animState.speed = speed[0];
+        // }
     },
 
     createDefaultArrow: function () {
