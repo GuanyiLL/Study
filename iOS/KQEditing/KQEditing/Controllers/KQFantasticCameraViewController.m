@@ -82,10 +82,6 @@ UICollectionViewDelegate
                                           self.view.height - recoredButtonWidth - iphonexMargin,
                                           recoredButtonWidth,
                                           recoredButtonWidth);
-    self.timeLabel.frame = CGRectMake(0,
-                                      0,
-                                      self.view.width,
-                                      buttonWidth + CGRectGetHeight([[UIApplication sharedApplication] statusBarFrame]));
     
     self.pasterSelector.frame = CGRectMake(0, self.recoredButton.top - selectorItemHeight * 2, self.view.width, selectorItemHeight);
 }
@@ -178,8 +174,8 @@ UICollectionViewDelegate
 - (void)configNavigationController {
     self.navigationController.navigationBarHidden = NO;
     [self.navigationController.navigationBar setBarTintColor:[UIColor colorWithWhite:0 alpha:1]];
+    [self.navigationController.navigationBar setTintColor:[UIColor colorWithWhite:1 alpha:1]];
     self.navigationController.navigationBar.barStyle = UIStatusBarStyleLightContent;
-    [self.navigationController.navigationBar setTintColor:[UIColor whiteColor]];
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"record_lensflip_normal"] style:UIBarButtonItemStyleDone target:self action:@selector(changeCamera:)];
     self.navigationItem.titleView = self.timeLabel;
 }
@@ -251,7 +247,9 @@ UICollectionViewDelegate
         if (self.isRecording) {
             self.isRecording = NO;
             self.link.paused = YES;
-            self.timeLabel.text = @"";
+            dispatch_async(dispatch_get_main_queue(), ^{
+                self.timeLabel.text = @"";
+            });
             [self.movieWriter finishRecording];
             self.videoSeconds = 0;
             [self.blendFilter removeTarget:self.movieWriter];
@@ -262,7 +260,9 @@ UICollectionViewDelegate
         
         self.isRecording = YES;
         self.link.paused = NO;
-        self.timeLabel.text = @"00:00:00";
+        dispatch_async(dispatch_get_main_queue(), ^{
+            self.timeLabel.text = @"00:00:00";
+        });
         NSString *defultPath = [self getVideoPathCache];
         self.moviePath = [defultPath stringByAppendingPathComponent:[self getVideoNameWithType:@"mp4"]];
         self.movieURL = [NSURL fileURLWithPath:self.moviePath];
@@ -426,7 +426,10 @@ UICollectionViewDelegate
     if (_timeLabel) {
         return _timeLabel;
     }
-    _timeLabel = [[UILabel alloc] initWithFrame:CGRectZero];
+    _timeLabel = [[UILabel alloc] initWithFrame:CGRectMake(0,
+                                                           0,
+                                                           self.view.width,
+                                                           buttonWidth)];
     _timeLabel.textColor = [UIColor whiteColor];
     _timeLabel.font = [UIFont systemFontOfSize:14];
     _timeLabel.textAlignment = NSTextAlignmentCenter;
