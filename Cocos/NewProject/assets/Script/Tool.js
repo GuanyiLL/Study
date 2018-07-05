@@ -7,6 +7,7 @@
 // Learn life-cycle callbacks:
 //  - [Chinese] http://docs.cocos.com/creator/manual/zh/scripting/life-cycle-callbacks.html
 //  - [English] http://www.cocos2d-x.org/docs/creator/en/scripting/life-cycle-callbacks.html
+var speedLevel00 = 0.4;
 var speedLevel01 = 0.8;
 var speedLevel02 = 1;
 
@@ -99,27 +100,27 @@ var levelInfos = {
     },
     17: {
         defaultArrow:5,
-        speed:[speedLevel01, speedLevel02],
+        speed:[speedLevel00, speedLevel02],
         totalArrow:13
     },
     18: {
         defaultArrow:5,
-        speed:[speedLevel01, speedLevel02],
+        speed:[speedLevel00, speedLevel02],
         totalArrow:14
     },
     19: {
         defaultArrow:5,
-        speed:[speedLevel01, speedLevel02],
+        speed:[speedLevel00, speedLevel02],
         totalArrow:16
     },
     20: {
         defaultArrow:6,
-        speed:[speedLevel01, speedLevel02],
+        speed:[speedLevel00, speedLevel02],
         totalArrow:16
     },
     21: {
         defaultArrow:6,
-        speed:[speedLevel01, speedLevel02],
+        speed:[speedLevel00, speedLevel02],
         totalArrow:20
     },
     22: {
@@ -129,7 +130,7 @@ var levelInfos = {
     },
     23: {
         defaultArrow:8,
-        speed:[speedLevel01,speedLevel02],
+        speed:[speedLevel00,speedLevel02],
         totalArrow:21
     }
 }
@@ -139,6 +140,7 @@ cc.Class({
     statics: {
         level: 0,
         levelUp:function () {
+            if(this.level == 23) { return; }
             this.level += 1;
         },
 

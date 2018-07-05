@@ -19,6 +19,7 @@ cc.Class({
         },
 
         animState: null,
+        speedIndex: 1,
     },
 
     onLoad: function () {
@@ -27,16 +28,25 @@ cc.Class({
         this.defaultArrawCount = Tool.defaultArrowCount();
         var speed = Tool.speed();
         this.animState.speed = speed[0];
+        this.schedule(this.changeSpeed, 1.5);
     },
 
     upgrade: function () {
         this.defaultArrawCount = Tool.defaultArrowCount();
         var speed = Tool.speed();
-        // if (speed.length() > 1) {
         this.animState.speed = speed[0];
-        // } else {
-            // this.animState.speed = speed[0];
-        // }
+    },
+
+    changeSpeed: function () {
+        if (Tool.speed().length > 1) {
+            if (this.speedIndex > Tool.speed().length - 1) {
+                this.speedIndex = 0
+            }
+            this.animState.speed = Tool.speed()[this.speedIndex];
+        } else {
+            this.animState.speed = Tool.speed()[0];
+        }
+        this.speedIndex += 1;
     },
 
     createDefaultArrow: function () {
@@ -61,8 +71,4 @@ cc.Class({
         var anim = this.getComponent(cc.Animation);
         anim.resume('rotation');
     },
-
-    // update (dt) {
-
-    // },
 });

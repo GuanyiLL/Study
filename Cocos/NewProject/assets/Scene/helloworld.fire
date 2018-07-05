@@ -211,7 +211,8 @@
     "arrowPrefab": {
       "__uuid__": "f37c9853-02a5-4ad0-a1c5-8761db2e4633"
     },
-    "animState": null
+    "animState": null,
+    "speedIndex": 0
   },
   {
     "__type__": "cc.Animation",
