@@ -34,3 +34,21 @@ Ok, 1 module loaded.
 Book 9780135072455 "Algebra of Programming" ["Richard Bird","Oege de Moor"]
 ```
 
+## 类型构造器和值构造器的命名
+
+在Haskell里，类型构造器和值构造器的名字是相互独立的。类型构造器只能出现在类型的定义，或者类型签名中。而值构造器只能出现在实际的代码中。因为这种差别，给类型构造器和值构造器赋予一个相同的名字实际上并不会产生任何问题。
+
+## 类型别名
+
+```hs
+--file: ch03/BookStore.hs
+type CustomerID = Int
+type ReviewBody = String
+
+data BetterReview = BetterReview BookInfo CustomerID ReviewBody
+```
+
+可以将类型别名看做c中的`typedef`
+
+## 代数数据类型
+
