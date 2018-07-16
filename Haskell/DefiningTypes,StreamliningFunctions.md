@@ -14,5 +14,23 @@ data BookInfo = Book Int String [String]
 
 `Book`是值构造器的名字。类型的值就是由值构造器创建的。
 
-在`Book`之后的`Int, String`和`[String]`是类型的组成部分。
+在`Book`之后的`Int, String`和`[String]`是类型的组成部分。即便类型成分一样，但是还是被当做两种类型，因为类型构造器和值构造器不相同。
+
+可以将值构造器看做一个函数--它创建并返回某个类型值。在这个书店的例子里，我们将Int、String和[String]三个类型的值应用到Book，从而创建一个BookInfo类型的值：
+
+```hs
+--file: ch03/BookStore.hs
+myInfo = Book 97801350724555 "Algerbra of Programming"
+              ["Richard Bird","One de Moor"]
+```
+
+定义类型的工作完成后，可以到ghci里载入并测试这些新类型：
+
+```hs
+Prelude> :load BookStore.hs
+[1 of 1] Compiling Main             ( BookStore.hs, interpreted )
+Ok, 1 module loaded.
+*Main> myInfo
+Book 9780135072455 "Algebra of Programming" ["Richard Bird","Oege de Moor"]
+```
 
