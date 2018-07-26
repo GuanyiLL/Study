@@ -11,6 +11,7 @@
 		FB26226921060E5200994305 /* ReportViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FB26226821060E5200994305 /* ReportViewController.m */; };
 		FB26226C21060F1400994305 /* AccountViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FB26226B21060F1400994305 /* AccountViewController.m */; };
 		FB26226F21060F2D00994305 /* GuideViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FB26226E21060F2D00994305 /* GuideViewController.m */; };
+		FB262273210A0B7B00994305 /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FB262272210A0B7B00994305 /* LoginViewController.m */; };
 		FB9E3C8F2105FB7800911641 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = FB9E3C8E2105FB7800911641 /* AppDelegate.m */; };
 		FB9E3C922105FB7800911641 /* HomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FB9E3C912105FB7800911641 /* HomeViewController.m */; };
 		FB9E3C972105FB7900911641 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FB9E3C962105FB7900911641 /* Assets.xcassets */; };
@@ -49,6 +50,8 @@
 		FB26226D21060F2D00994305 /* GuideViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GuideViewController.h; sourceTree = "<group>"; };
 		FB26226E21060F2D00994305 /* GuideViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GuideViewController.m; sourceTree = "<group>"; };
 		FB2622702109F9D200994305 /* CreditCompass.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CreditCompass.pch; sourceTree = "<group>"; };
+		FB262271210A0B7B00994305 /* LoginViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LoginViewController.h; sourceTree = "<group>"; };
+		FB262272210A0B7B00994305 /* LoginViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LoginViewController.m; sourceTree = "<group>"; };
 		FB9E3C8A2105FB7800911641 /* CreditCompass.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CreditCompass.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		FB9E3C8D2105FB7800911641 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		FB9E3C8E2105FB7800911641 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -185,6 +188,8 @@
 				FB26226D21060F2D00994305 /* GuideViewController.h */,
 				FB26226E21060F2D00994305 /* GuideViewController.m */,
 				FB9E3CC12106038200911641 /* Main.storyboard */,
+				FB262271210A0B7B00994305 /* LoginViewController.h */,
+				FB262272210A0B7B00994305 /* LoginViewController.m */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -345,6 +350,7 @@
 				FB9E3C922105FB7800911641 /* HomeViewController.m in Sources */,
 				FB9E3C9D2105FB7900911641 /* main.m in Sources */,
 				FB9E3C8F2105FB7800911641 /* AppDelegate.m in Sources */,
+				FB262273210A0B7B00994305 /* LoginViewController.m in Sources */,
 				FB26226C21060F1400994305 /* AccountViewController.m in Sources */,
 				FB26226F21060F2D00994305 /* GuideViewController.m in Sources */,
 			);
