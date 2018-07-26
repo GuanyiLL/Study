@@ -52,11 +52,11 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <viewLayoutGuide key="safeArea" id="734-Lr-huS"/>
                     </view>
-                    <tabBarItem key="tabBarItem" title="首页" id="gXh-3x-1Va"/>
+                    <navigationItem key="navigationItem" id="NXQ-9h-gvB"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="JEC-T4-5fE" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="391" y="-122"/>
+            <point key="canvasLocation" x="1328.8" y="-122.78860569715144"/>
         </scene>
         <!--Tab Bar Controller-->
         <scene sceneID="Ych-cX-F6Q">
@@ -68,7 +68,7 @@
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     </tabBar>
                     <connections>
-                        <segue destination="oD4-of-XIM" kind="relationship" relationship="viewControllers" id="Yre-wt-ECe"/>
+                        <segue destination="Pew-Dy-NNa" kind="relationship" relationship="viewControllers" id="Yre-wt-ECe"/>
                         <segue destination="RAc-E1-coL" kind="relationship" relationship="viewControllers" id="gKW-Wp-qRN"/>
                         <segue destination="Vmf-vZ-Amo" kind="relationship" relationship="viewControllers" id="kag-sl-nni"/>
                     </connections>
@@ -76,6 +76,25 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="sxe-7N-9yj" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-558" y="210"/>
+        </scene>
+        <!--首页-->
+        <scene sceneID="qem-bM-kJP">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="Pew-Dy-NNa" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" title="首页" id="gXh-3x-1Va"/>
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="sKS-nd-5a4">
+                        <rect key="frame" x="0.0" y="20" width="375" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="oD4-of-XIM" kind="relationship" relationship="rootViewController" id="rt3-QW-Lc8"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="xC5-HM-MEk" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="389.60000000000002" y="-122.78860569715144"/>
         </scene>
     </scenes>
 </document>

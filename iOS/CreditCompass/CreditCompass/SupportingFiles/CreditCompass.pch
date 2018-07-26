@@ -1,0 +1,14 @@
+//
+//  CreditCompass.pch
+//  CreditCompass
+//
+//  Created by ra1n on 2018/7/26.
+//  Copyright © 2018 ra1n. All rights reserved.
+//
+
+#ifndef CreditCompass_pch
+#define CreditCompass_pch
+
+#define kISIPHONEX ([UIScreen instancesRespondToSelector:@selector(currentMode)] ? CGSizeEqualToSize(CGSizeMake(1125,2436), [[UIScreen mainScreen] currentMode].size) : NO)
+
+#endif /* CreditCompass_pch */

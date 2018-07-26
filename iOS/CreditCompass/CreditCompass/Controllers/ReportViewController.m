@@ -17,6 +17,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    self.title = @"风险报告";
 }
 
 - (void)didReceiveMemoryWarning {

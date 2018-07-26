@@ -24,7 +24,17 @@
     id isInitialLaunching = [[NSUserDefaults standardUserDefaults] objectForKey:@"initailLaunching"];
     UIViewController *root = nil;
     if (isInitialLaunching == nil) {
-         root = [[GuideViewController alloc] init];
+        root = [[GuideViewController alloc] initWithCompetion:^{
+            UIViewController *home = [[UIStoryboard storyboardWithName:@"Main" bundle:[NSBundle mainBundle]] instantiateInitialViewController];
+            [UIView transitionFromView:self.window.rootViewController.view
+                                toView:home.view
+                              duration:0.35
+                               options:UIViewAnimationOptionTransitionCrossDissolve
+                            completion:^(BOOL finished)
+             {
+                 self.window.rootViewController = home;
+             }];
+        }];
         [[NSUserDefaults standardUserDefaults] setObject:@(1) forKey:@"initailLaunching"];
     } else {
         root = [[UIStoryboard storyboardWithName:@"Main" bundle:[NSBundle mainBundle]] instantiateInitialViewController];

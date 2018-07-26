@@ -8,6 +8,10 @@
 
 #import <UIKit/UIKit.h>
 
+typedef void (^GuideViewControllerCompletionBlock) (void);
+
 @interface GuideViewController : UIViewController
+
+- (instancetype)initWithCompetion:(GuideViewControllerCompletionBlock)competion;
 
 @end

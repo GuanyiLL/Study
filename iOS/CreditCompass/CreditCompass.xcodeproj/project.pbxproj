@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		EE1F06F809E4BBB52A5094AA /* libPods-CreditCompass.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0C235FD65E7AD5CBCB5C5310 /* libPods-CreditCompass.a */; };
 		FB26226921060E5200994305 /* ReportViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FB26226821060E5200994305 /* ReportViewController.m */; };
 		FB26226C21060F1400994305 /* AccountViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FB26226B21060F1400994305 /* AccountViewController.m */; };
 		FB26226F21060F2D00994305 /* GuideViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FB26226E21060F2D00994305 /* GuideViewController.m */; };
@@ -38,12 +39,16 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		0C235FD65E7AD5CBCB5C5310 /* libPods-CreditCompass.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-CreditCompass.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		8B8B1BF819C20E8082FF70CF /* Pods-CreditCompass.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CreditCompass.debug.xcconfig"; path = "Pods/Target Support Files/Pods-CreditCompass/Pods-CreditCompass.debug.xcconfig"; sourceTree = "<group>"; };
+		DF37A42681E6D7C24E0EE07E /* Pods-CreditCompass.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CreditCompass.release.xcconfig"; path = "Pods/Target Support Files/Pods-CreditCompass/Pods-CreditCompass.release.xcconfig"; sourceTree = "<group>"; };
 		FB26226721060E5200994305 /* ReportViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ReportViewController.h; sourceTree = "<group>"; };
 		FB26226821060E5200994305 /* ReportViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ReportViewController.m; sourceTree = "<group>"; };
 		FB26226A21060F1400994305 /* AccountViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AccountViewController.h; sourceTree = "<group>"; };
 		FB26226B21060F1400994305 /* AccountViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AccountViewController.m; sourceTree = "<group>"; };
 		FB26226D21060F2D00994305 /* GuideViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GuideViewController.h; sourceTree = "<group>"; };
 		FB26226E21060F2D00994305 /* GuideViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GuideViewController.m; sourceTree = "<group>"; };
+		FB2622702109F9D200994305 /* CreditCompass.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CreditCompass.pch; sourceTree = "<group>"; };
 		FB9E3C8A2105FB7800911641 /* CreditCompass.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CreditCompass.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		FB9E3C8D2105FB7800911641 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		FB9E3C8E2105FB7800911641 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -67,6 +72,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EE1F06F809E4BBB52A5094AA /* libPods-CreditCompass.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -87,6 +93,23 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		796E1C2D199E51C5E03AA383 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				8B8B1BF819C20E8082FF70CF /* Pods-CreditCompass.debug.xcconfig */,
+				DF37A42681E6D7C24E0EE07E /* Pods-CreditCompass.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
+		F3FC6657EDC4E23B5036D925 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				0C235FD65E7AD5CBCB5C5310 /* libPods-CreditCompass.a */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		FB9E3C812105FB7800911641 = {
 			isa = PBXGroup;
 			children = (
@@ -94,6 +117,8 @@
 				FB9E3CA52105FB7900911641 /* CreditCompassTests */,
 				FB9E3CB02105FB7900911641 /* CreditCompassUITests */,
 				FB9E3C8B2105FB7800911641 /* Products */,
+				796E1C2D199E51C5E03AA383 /* Pods */,
+				F3FC6657EDC4E23B5036D925 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -143,6 +168,7 @@
 				FB9E3C982105FB7900911641 /* LaunchScreen.storyboard */,
 				FB9E3C9B2105FB7900911641 /* Info.plist */,
 				FB9E3C9C2105FB7900911641 /* main.m */,
+				FB2622702109F9D200994305 /* CreditCompass.pch */,
 			);
 			path = SupportingFiles;
 			sourceTree = "<group>";
@@ -170,6 +196,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = FB9E3CB62105FB7900911641 /* Build configuration list for PBXNativeTarget "CreditCompass" */;
 			buildPhases = (
+				02C97FBA60EA41E1916B660D /* [CP] Check Pods Manifest.lock */,
 				FB9E3C862105FB7800911641 /* Sources */,
 				FB9E3C872105FB7800911641 /* Frameworks */,
 				FB9E3C882105FB7800911641 /* Resources */,
@@ -287,6 +314,27 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		02C97FBA60EA41E1916B660D /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-CreditCompass-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		FB9E3C862105FB7800911641 /* Sources */ = {
@@ -457,10 +505,13 @@
 		};
 		FB9E3CB72105FB7900911641 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 8B8B1BF819C20E8082FF70CF /* Pods-CreditCompass.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = MBNHL4TFE7;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "$(SRCROOT)/CreditCompass/SupportingFiles/CreditCompass.pch";
 				INFOPLIST_FILE = "$(SRCROOT)/CreditCompass/SupportingFiles/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -474,10 +525,13 @@
 		};
 		FB9E3CB82105FB7900911641 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = DF37A42681E6D7C24E0EE07E /* Pods-CreditCompass.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = MBNHL4TFE7;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "$(SRCROOT)/CreditCompass/SupportingFiles/CreditCompass.pch";
 				INFOPLIST_FILE = "$(SRCROOT)/CreditCompass/SupportingFiles/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
