@@ -12,6 +12,12 @@
 		FB26226C21060F1400994305 /* AccountViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FB26226B21060F1400994305 /* AccountViewController.m */; };
 		FB26226F21060F2D00994305 /* GuideViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FB26226E21060F2D00994305 /* GuideViewController.m */; };
 		FB262273210A0B7B00994305 /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FB262272210A0B7B00994305 /* LoginViewController.m */; };
+		FB262277210C007800994305 /* CheckBox.m in Sources */ = {isa = PBXBuildFile; fileRef = FB262276210C007800994305 /* CheckBox.m */; };
+		FB26227B210C038C00994305 /* UILabel+Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = FB26227A210C038C00994305 /* UILabel+Additions.m */; };
+		FB26227F210C1C1B00994305 /* TabBarController.m in Sources */ = {isa = PBXBuildFile; fileRef = FB26227E210C1C1B00994305 /* TabBarController.m */; };
+		FB262282210C1C6600994305 /* LoginManager.m in Sources */ = {isa = PBXBuildFile; fileRef = FB262281210C1C6600994305 /* LoginManager.m */; };
+		FB262285210C2E8F00994305 /* UIButton+Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = FB262284210C2E8F00994305 /* UIButton+Additions.m */; };
+		FB262288210C3CE800994305 /* HttpManager.m in Sources */ = {isa = PBXBuildFile; fileRef = FB262287210C3CE800994305 /* HttpManager.m */; };
 		FB9E3C8F2105FB7800911641 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = FB9E3C8E2105FB7800911641 /* AppDelegate.m */; };
 		FB9E3C922105FB7800911641 /* HomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FB9E3C912105FB7800911641 /* HomeViewController.m */; };
 		FB9E3C972105FB7900911641 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FB9E3C962105FB7900911641 /* Assets.xcassets */; };
@@ -52,6 +58,18 @@
 		FB2622702109F9D200994305 /* CreditCompass.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CreditCompass.pch; sourceTree = "<group>"; };
 		FB262271210A0B7B00994305 /* LoginViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LoginViewController.h; sourceTree = "<group>"; };
 		FB262272210A0B7B00994305 /* LoginViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LoginViewController.m; sourceTree = "<group>"; };
+		FB262275210C007800994305 /* CheckBox.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CheckBox.h; sourceTree = "<group>"; };
+		FB262276210C007800994305 /* CheckBox.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CheckBox.m; sourceTree = "<group>"; };
+		FB262279210C038C00994305 /* UILabel+Additions.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UILabel+Additions.h"; sourceTree = "<group>"; };
+		FB26227A210C038C00994305 /* UILabel+Additions.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UILabel+Additions.m"; sourceTree = "<group>"; };
+		FB26227D210C1C1B00994305 /* TabBarController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TabBarController.h; sourceTree = "<group>"; };
+		FB26227E210C1C1B00994305 /* TabBarController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TabBarController.m; sourceTree = "<group>"; };
+		FB262280210C1C6600994305 /* LoginManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LoginManager.h; sourceTree = "<group>"; };
+		FB262281210C1C6600994305 /* LoginManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LoginManager.m; sourceTree = "<group>"; };
+		FB262283210C2E8F00994305 /* UIButton+Additions.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UIButton+Additions.h"; sourceTree = "<group>"; };
+		FB262284210C2E8F00994305 /* UIButton+Additions.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UIButton+Additions.m"; sourceTree = "<group>"; };
+		FB262286210C3CE800994305 /* HttpManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HttpManager.h; sourceTree = "<group>"; };
+		FB262287210C3CE800994305 /* HttpManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HttpManager.m; sourceTree = "<group>"; };
 		FB9E3C8A2105FB7800911641 /* CreditCompass.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CreditCompass.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		FB9E3C8D2105FB7800911641 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		FB9E3C8E2105FB7800911641 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -113,6 +131,37 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		FB262274210C004F00994305 /* Components */ = {
+			isa = PBXGroup;
+			children = (
+				FB262275210C007800994305 /* CheckBox.h */,
+				FB262276210C007800994305 /* CheckBox.m */,
+			);
+			path = Components;
+			sourceTree = "<group>";
+		};
+		FB262278210C035400994305 /* Utilities */ = {
+			isa = PBXGroup;
+			children = (
+				FB262279210C038C00994305 /* UILabel+Additions.h */,
+				FB26227A210C038C00994305 /* UILabel+Additions.m */,
+				FB262283210C2E8F00994305 /* UIButton+Additions.h */,
+				FB262284210C2E8F00994305 /* UIButton+Additions.m */,
+			);
+			path = Utilities;
+			sourceTree = "<group>";
+		};
+		FB26227C210C12C900994305 /* Manager */ = {
+			isa = PBXGroup;
+			children = (
+				FB262280210C1C6600994305 /* LoginManager.h */,
+				FB262281210C1C6600994305 /* LoginManager.m */,
+				FB262286210C3CE800994305 /* HttpManager.h */,
+				FB262287210C3CE800994305 /* HttpManager.m */,
+			);
+			path = Manager;
+			sourceTree = "<group>";
+		};
 		FB9E3C812105FB7800911641 = {
 			isa = PBXGroup;
 			children = (
@@ -138,6 +187,9 @@
 		FB9E3C8C2105FB7800911641 /* CreditCompass */ = {
 			isa = PBXGroup;
 			children = (
+				FB26227C210C12C900994305 /* Manager */,
+				FB262278210C035400994305 /* Utilities */,
+				FB262274210C004F00994305 /* Components */,
 				FB9E3C8D2105FB7800911641 /* AppDelegate.h */,
 				FB9E3C8E2105FB7800911641 /* AppDelegate.m */,
 				FB9E3CC02105FBAB00911641 /* Controllers */,
@@ -190,6 +242,8 @@
 				FB9E3CC12106038200911641 /* Main.storyboard */,
 				FB262271210A0B7B00994305 /* LoginViewController.h */,
 				FB262272210A0B7B00994305 /* LoginViewController.m */,
+				FB26227D210C1C1B00994305 /* TabBarController.h */,
+				FB26227E210C1C1B00994305 /* TabBarController.m */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -346,13 +400,19 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FB26227B210C038C00994305 /* UILabel+Additions.m in Sources */,
 				FB26226921060E5200994305 /* ReportViewController.m in Sources */,
 				FB9E3C922105FB7800911641 /* HomeViewController.m in Sources */,
+				FB262288210C3CE800994305 /* HttpManager.m in Sources */,
 				FB9E3C9D2105FB7900911641 /* main.m in Sources */,
 				FB9E3C8F2105FB7800911641 /* AppDelegate.m in Sources */,
+				FB262277210C007800994305 /* CheckBox.m in Sources */,
 				FB262273210A0B7B00994305 /* LoginViewController.m in Sources */,
+				FB262285210C2E8F00994305 /* UIButton+Additions.m in Sources */,
+				FB26227F210C1C1B00994305 /* TabBarController.m in Sources */,
 				FB26226C21060F1400994305 /* AccountViewController.m in Sources */,
 				FB26226F21060F2D00994305 /* GuideViewController.m in Sources */,
+				FB262282210C1C6600994305 /* LoginManager.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

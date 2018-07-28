@@ -61,7 +61,7 @@
         <!--Tab Bar Controller-->
         <scene sceneID="Ych-cX-F6Q">
             <objects>
-                <tabBarController id="70Y-t4-Wd9" sceneMemberID="viewController">
+                <tabBarController id="70Y-t4-Wd9" customClass="TabBarController" sceneMemberID="viewController">
                     <tabBar key="tabBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="8UH-lx-DJU">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="49"/>
                         <autoresizingMask key="autoresizingMask"/>

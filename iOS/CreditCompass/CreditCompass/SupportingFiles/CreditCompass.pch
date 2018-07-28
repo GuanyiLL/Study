@@ -9,6 +9,9 @@
 #ifndef CreditCompass_pch
 #define CreditCompass_pch
 
+#import "UILabel+Additions.h"
+#import "UIButton+Additions.h"
+
 #define kISIPHONEX ([UIScreen instancesRespondToSelector:@selector(currentMode)] ? CGSizeEqualToSize(CGSizeMake(1125,2436), [[UIScreen mainScreen] currentMode].size) : NO)
 
 #endif /* CreditCompass_pch */

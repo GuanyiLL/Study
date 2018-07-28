@@ -8,6 +8,10 @@
 
 #import <UIKit/UIKit.h>
 
+typedef void (^LoginViewControllerCompletionBlock)(void);
+
 @interface LoginViewController : UIViewController
+
+- (instancetype)initWithLoginCompletion:(LoginViewControllerCompletionBlock)completion;
 
 @end
