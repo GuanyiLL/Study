@@ -18,6 +18,8 @@
 		FB262282210C1C6600994305 /* LoginManager.m in Sources */ = {isa = PBXBuildFile; fileRef = FB262281210C1C6600994305 /* LoginManager.m */; };
 		FB262285210C2E8F00994305 /* UIButton+Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = FB262284210C2E8F00994305 /* UIButton+Additions.m */; };
 		FB262288210C3CE800994305 /* HttpManager.m in Sources */ = {isa = PBXBuildFile; fileRef = FB262287210C3CE800994305 /* HttpManager.m */; };
+		FB26228B210C476B00994305 /* UIView+Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = FB26228A210C476B00994305 /* UIView+Additions.m */; };
+		FB26228F210C4AE400994305 /* SettingTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = FB26228E210C4AE400994305 /* SettingTableViewCell.m */; };
 		FB9E3C8F2105FB7800911641 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = FB9E3C8E2105FB7800911641 /* AppDelegate.m */; };
 		FB9E3C922105FB7800911641 /* HomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FB9E3C912105FB7800911641 /* HomeViewController.m */; };
 		FB9E3C972105FB7900911641 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FB9E3C962105FB7900911641 /* Assets.xcassets */; };
@@ -70,6 +72,10 @@
 		FB262284210C2E8F00994305 /* UIButton+Additions.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UIButton+Additions.m"; sourceTree = "<group>"; };
 		FB262286210C3CE800994305 /* HttpManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HttpManager.h; sourceTree = "<group>"; };
 		FB262287210C3CE800994305 /* HttpManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HttpManager.m; sourceTree = "<group>"; };
+		FB262289210C476B00994305 /* UIView+Additions.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UIView+Additions.h"; sourceTree = "<group>"; };
+		FB26228A210C476B00994305 /* UIView+Additions.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UIView+Additions.m"; sourceTree = "<group>"; };
+		FB26228D210C4AE400994305 /* SettingTableViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SettingTableViewCell.h; sourceTree = "<group>"; };
+		FB26228E210C4AE400994305 /* SettingTableViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SettingTableViewCell.m; sourceTree = "<group>"; };
 		FB9E3C8A2105FB7800911641 /* CreditCompass.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CreditCompass.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		FB9E3C8D2105FB7800911641 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		FB9E3C8E2105FB7800911641 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -147,6 +153,8 @@
 				FB26227A210C038C00994305 /* UILabel+Additions.m */,
 				FB262283210C2E8F00994305 /* UIButton+Additions.h */,
 				FB262284210C2E8F00994305 /* UIButton+Additions.m */,
+				FB262289210C476B00994305 /* UIView+Additions.h */,
+				FB26228A210C476B00994305 /* UIView+Additions.m */,
 			);
 			path = Utilities;
 			sourceTree = "<group>";
@@ -160,6 +168,15 @@
 				FB262287210C3CE800994305 /* HttpManager.m */,
 			);
 			path = Manager;
+			sourceTree = "<group>";
+		};
+		FB26228C210C4AC800994305 /* Cells */ = {
+			isa = PBXGroup;
+			children = (
+				FB26228D210C4AE400994305 /* SettingTableViewCell.h */,
+				FB26228E210C4AE400994305 /* SettingTableViewCell.m */,
+			);
+			path = Cells;
 			sourceTree = "<group>";
 		};
 		FB9E3C812105FB7800911641 = {
@@ -187,6 +204,7 @@
 		FB9E3C8C2105FB7800911641 /* CreditCompass */ = {
 			isa = PBXGroup;
 			children = (
+				FB26228C210C4AC800994305 /* Cells */,
 				FB26227C210C12C900994305 /* Manager */,
 				FB262278210C035400994305 /* Utilities */,
 				FB262274210C004F00994305 /* Components */,
@@ -405,6 +423,7 @@
 				FB9E3C922105FB7800911641 /* HomeViewController.m in Sources */,
 				FB262288210C3CE800994305 /* HttpManager.m in Sources */,
 				FB9E3C9D2105FB7900911641 /* main.m in Sources */,
+				FB26228F210C4AE400994305 /* SettingTableViewCell.m in Sources */,
 				FB9E3C8F2105FB7800911641 /* AppDelegate.m in Sources */,
 				FB262277210C007800994305 /* CheckBox.m in Sources */,
 				FB262273210A0B7B00994305 /* LoginViewController.m in Sources */,
@@ -412,6 +431,7 @@
 				FB26227F210C1C1B00994305 /* TabBarController.m in Sources */,
 				FB26226C21060F1400994305 /* AccountViewController.m in Sources */,
 				FB26226F21060F2D00994305 /* GuideViewController.m in Sources */,
+				FB26228B210C476B00994305 /* UIView+Additions.m in Sources */,
 				FB262282210C1C6600994305 /* LoginManager.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

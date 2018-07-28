@@ -11,4 +11,13 @@
 
 @implementation HttpManager
 
++ (instancetype)manager {
+    static dispatch_once_t onceToken;
+    static HttpManager *manager = nil;
+    dispatch_once(&onceToken, ^{
+        manager = [[HttpManager alloc] init];
+    });
+    return manager;
+}
+
 @end

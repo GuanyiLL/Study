@@ -20,6 +20,9 @@
 @property (nonatomic) CheckBox *checkBox;
 @property (nonatomic, copy) NSArray<UIView *> *separaters;
 @property (nonatomic) UIView *closeButton;
+@property (nonatomic) UIView *verticalLine;
+@property (nonatomic) NSTimer *timer;
+@property (nonatomic, assign) NSInteger count;
 
 @end
 
@@ -41,15 +44,21 @@
     // Do any additional setup after loading the view.
     self.view.backgroundColor = [UIColor whiteColor];
     self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:self.closeButton];
+    self.count = 60;
+    [self loginButtonStatusCheck];
 }
 
 - (void)viewDidLayoutSubviews {
     [super viewDidLayoutSubviews];
     self.titleLabel.frame = CGRectMake(20, CGRectGetMaxY(self.navigationController.navigationBar.frame) + 20, CGRectGetWidth(self.view.frame), 30);
     self.userNameTextField.frame = CGRectMake(60, CGRectGetMaxY(self.titleLabel.frame) + 22, CGRectGetWidth(self.view.frame) - 60 - 20, 40);
-    self.passwordTextField.frame = CGRectMake(CGRectGetMinX(self.userNameTextField.frame), CGRectGetMaxY(self.userNameTextField.frame) + 2, CGRectGetWidth(self.view.frame) - 60 - 20 - 80, 40);
+    self.passwordTextField.frame = CGRectMake(CGRectGetMinX(self.userNameTextField.frame), CGRectGetMaxY(self.userNameTextField.frame) + 2, CGRectGetWidth(self.view.frame) - 60 - 20 - 100, 40);
     self.checkBox.frame = CGRectMake(20, CGRectGetMaxY(self.passwordTextField.frame) + 22, 80, 20);
     self.loginButton.frame = CGRectMake(20, CGRectGetMaxY(self.checkBox.frame) + 20, CGRectGetWidth(self.view.frame) - 40, 40);
+    
+    self.verifyCodeButton.frame = CGRectMake(CGRectGetMaxX(self.passwordTextField.frame) +20, CGRectGetMinY(self.passwordTextField.frame), 80, 40);
+    
+    self.verticalLine.frame = CGRectMake(CGRectGetMinX(self.verifyCodeButton.frame) - 10, CGRectGetMinY(self.passwordTextField.frame) + 4, 2, 32);
     
     for (NSInteger idx = 0; idx < self.separaters.count; idx++) {
         UIView *separater = self.separaters[idx];
@@ -59,6 +68,8 @@
 
 - (void)dealloc {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
+    [self.timer invalidate];
+    self.timer = nil;
 }
 
 #pragma mark- Actions
@@ -71,10 +82,28 @@
     
 }
 
+- (void)requestVerifyCode:(id)sender {
+    [self.timer fire];
+    [self.verifyCodeButton setTitleColor:[UIColor blueColor] forState:UIControlStateNormal];
+}
+
+- (void)refreshTime:(id)sender {
+    if (self.count < 0) {
+        [self.timer invalidate];
+        [self.verifyCodeButton setTitle:@"获取验证码" forState:UIControlStateNormal];
+        [self.verifyCodeButton setTitleColor:[UIColor colorWithRed:158/255.0 green:158/255.0 blue:158/255.0 alpha:1] forState:UIControlStateNormal];
+        return;
+    }
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [self.verifyCodeButton setTitle:[NSString stringWithFormat:@"%zds",self.count--] forState:UIControlStateNormal];
+    });
+}
+
 #pragma mark- Method
 
 - (void)loginButtonStatusCheck {
     self.loginButton.isDisable = !(self.userNameTextField.text.length > 0 && self.passwordTextField.text.length > 0 && self.checkBox.isSelected);
+    self.verifyCodeButton.userInteractionEnabled = self.userNameTextField.text.length > 0;
 }
 
 #pragma mark- TextFieldDelegate
@@ -174,6 +203,37 @@
     [button setImage:[UIImage imageNamed:@"ic_title_close"] forState:UIControlStateNormal];
     [_closeButton addSubview:button];
     return _closeButton;
+}
+
+- (UIButton *)verifyCodeButton {
+    if (_verifyCodeButton) {
+        return _verifyCodeButton;
+    }
+    _verifyCodeButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    [_verifyCodeButton setTitle:@"获取验证码" forState:UIControlStateNormal];
+    [_verifyCodeButton setTitleColor:[UIColor colorWithRed:158/255.0 green:158/255.0 blue:158/255.0 alpha:1] forState:UIControlStateNormal];
+    [_verifyCodeButton addTarget:self action:@selector(requestVerifyCode:) forControlEvents:UIControlEventTouchUpInside];
+    _verifyCodeButton.titleLabel.font = [UIFont systemFontOfSize:13];
+    [self.view addSubview:_verifyCodeButton];
+    return _verifyCodeButton;
+}
+
+- (UIView *)verticalLine {
+    if (_verticalLine) {
+        return _verticalLine;
+    }
+    _verticalLine = [[UIView alloc] init];
+    _verticalLine.backgroundColor = [UIColor colorWithRed:250 / 255.0 green:250 / 255.0 blue:250 / 255.0 alpha:1];
+    [self.view addSubview:_verticalLine];
+    return _verticalLine;
+}
+
+- (NSTimer *)timer {
+    if (!_timer) {
+        _timer = [NSTimer timerWithTimeInterval:1 target:self selector:@selector(refreshTime:) userInfo:nil repeats:YES];
+        [[NSRunLoop mainRunLoop] addTimer:_timer forMode:NSRunLoopCommonModes];
+    }
+    return _timer;
 }
 
 @end
