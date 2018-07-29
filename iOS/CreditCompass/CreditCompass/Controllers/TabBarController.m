@@ -28,13 +28,11 @@
 }
 
 - (BOOL)tabBarController:(UITabBarController *)tabBarController shouldSelectViewController:(UIViewController *)viewController {
+    if (self.viewControllers[0] == viewController) { return YES; }
     if ([LoginManager hasLogined]) {
         return YES;
     } else {
-        UINavigationController *login = [[UINavigationController alloc] initWithRootViewController:[[LoginViewController alloc] initWithLoginCompletion:^{
-            
-        }]];
-        [self presentViewController:login animated:YES completion:nil];
+        [LoginManager showLoginControlerWithParentController:self];
         return NO;
     }
 }

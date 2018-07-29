@@ -7,8 +7,11 @@
 //
 
 #import "ReportViewController.h"
+#import <WebKit/WebKit.h>
 
 @interface ReportViewController ()
+
+@property (nonatomic) WKWebView *webView;
 
 @end
 
@@ -18,21 +21,23 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     self.title = @"风险报告";
+    [self.webView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:@"https://www.baidu.com"]]];
 }
 
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+- (void)viewDidLayoutSubviews {
+    [super viewDidLayoutSubviews];
+    self.webView.frame = CGRectMake(0,
+                                    CGRectGetMaxY(self.navigationController.navigationBar.frame),
+                                    CGRectGetWidth(self.view.frame),
+                                    CGRectGetMinY(self.tabBarController.tabBar.frame) - CGRectGetMaxY(self.navigationController.navigationBar.frame));
 }
 
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
+- (WKWebView *)webView {
+    if (_webView) {
+        return _webView;
+    }
+    _webView = [[WKWebView alloc] init];
+    return _webView;
 }
-*/
 
 @end

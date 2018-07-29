@@ -8,6 +8,8 @@
 
 #import "LoginViewController.h"
 #import "CheckBox.h"
+#import "HttpManager.h"
+#import "UserDefault.h"
 
 @interface LoginViewController () <CheckBoxDelegate>
 
@@ -79,10 +81,21 @@
 }
 
 - (void)loginAction:(id)sender {
-    
+    [HttpManager requestLoginWithParameter:@{@"tel":self.userNameTextField.text,@"checkCode":self.passwordTextField.text} success:^(NSString *token) {
+        [UserDefault saveLoginToken:token];
+        [UserDefault savePhoneNumber:self.userNameTextField.text];
+        [self close:nil];
+    } failure:^(NSString *errorMessage) {
+        [KQBToastView show:errorMessage];
+    }];
 }
 
 - (void)requestVerifyCode:(id)sender {
+    [HttpManager requestVerifyCodeWithParameter:@{@"tel":self.userNameTextField.text} success:^(void) {
+        [KQBToastView show:@"短信验证码已发送！"];
+    } failure:^(NSString *errorMessage) {
+        [KQBToastView show:errorMessage];
+    }];
     [self.timer fire];
     [self.verifyCodeButton setTitleColor:[UIColor blueColor] forState:UIControlStateNormal];
 }

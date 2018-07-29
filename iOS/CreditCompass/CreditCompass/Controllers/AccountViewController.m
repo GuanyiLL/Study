@@ -8,6 +8,7 @@
 
 #import "AccountViewController.h"
 #import "SettingTableViewCell.h"
+#import "UserDefault.h"
 
 @interface AccountViewController () <UITableViewDelegate, UITableViewDataSource>
 
@@ -89,7 +90,7 @@
     UILabel *phoneLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(avatar.frame) + 10, CGRectGetWidth(header.frame), 20)];
     [header addSubview:phoneLabel];
     phoneLabel.textAlignment = NSTextAlignmentCenter;
-    phoneLabel.text = @"139xxxxx771";
+    phoneLabel.text = [UserDefault phoneNumber];
     phoneLabel.textColor = [UIColor whiteColor];
     
     UIButton *logOutButton = [UIButton buttonWithType:UIButtonTypeSystem];

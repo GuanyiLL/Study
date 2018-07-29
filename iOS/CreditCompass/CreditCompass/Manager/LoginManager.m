@@ -7,11 +7,21 @@
 //
 
 #import "LoginManager.h"
+#import "UserDefault.h"
+#import "LoginViewController.h"
 
 @implementation LoginManager
 
 + (BOOL)hasLogined {
-    return NO;
+    NSString *token = [UserDefault loginToken];
+    return token.length > 0;
+}
+
++ (void)showLoginControlerWithParentController:(UIViewController *)parentController {
+    UINavigationController *login = [[UINavigationController alloc] initWithRootViewController:[[LoginViewController alloc] initWithLoginCompletion:^{
+        
+    }]];
+    [parentController presentViewController:login animated:YES completion:nil];
 }
 
 @end

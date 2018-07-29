@@ -7,9 +7,18 @@
 //
 
 #import <Foundation/Foundation.h>
+@class Product;
+@class HomeBanner;
 
 @interface HttpManager : NSObject
 
-+ (instancetype)manager;
++ (void)requestVerifyCodeWithParameter:(NSDictionary *)param success:(void (^) (void))success failure:(void (^) (NSString *errorMessage))failure;
+
++ (void)requestLoginWithParameter:(NSDictionary *)param success:(void (^) (NSString *token))success failure:(void (^) (NSString *errorMessage))failure;
+
++ (void)requestProducts:(NSDictionary *)param success:(void (^) (NSArray<Product *> *products))success failure:(void (^) (NSString *errorMessage))failure;
+
++ (void)requestHomeBanner:(NSDictionary *)param success:(void (^) (NSArray<HomeBanner *> *banners))success failure:(void (^) (NSString *errorMessage))failure;
+
 
 @end

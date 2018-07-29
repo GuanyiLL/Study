@@ -12,4 +12,6 @@
 
 + (BOOL)hasLogined;
 
++ (void)showLoginControlerWithParentController:(UIViewController *)parentController;
+
 @end

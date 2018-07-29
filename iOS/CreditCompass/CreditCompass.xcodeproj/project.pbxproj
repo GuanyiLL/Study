@@ -20,6 +20,13 @@
 		FB262288210C3CE800994305 /* HttpManager.m in Sources */ = {isa = PBXBuildFile; fileRef = FB262287210C3CE800994305 /* HttpManager.m */; };
 		FB26228B210C476B00994305 /* UIView+Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = FB26228A210C476B00994305 /* UIView+Additions.m */; };
 		FB26228F210C4AE400994305 /* SettingTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = FB26228E210C4AE400994305 /* SettingTableViewCell.m */; };
+		FB262292210D6ADB00994305 /* HomeTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = FB262291210D6ADB00994305 /* HomeTableViewCell.m */; };
+		FB26229E210D97DA00994305 /* HomeTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = FB26229D210D97DA00994305 /* HomeTableViewCell.xib */; };
+		FB2622A6210DAFB800994305 /* Product.m in Sources */ = {isa = PBXBuildFile; fileRef = FB2622A5210DAFB800994305 /* Product.m */; };
+		FB2622A9210DB72700994305 /* KQBToastView.m in Sources */ = {isa = PBXBuildFile; fileRef = FB2622A8210DB72700994305 /* KQBToastView.m */; };
+		FB2622AC210DB82700994305 /* NSString+Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = FB2622AB210DB82700994305 /* NSString+Additions.m */; };
+		FB2622AF210DE0F400994305 /* UserDefault.m in Sources */ = {isa = PBXBuildFile; fileRef = FB2622AE210DE0F400994305 /* UserDefault.m */; };
+		FB2622B2210DF40600994305 /* HomeBanner.m in Sources */ = {isa = PBXBuildFile; fileRef = FB2622B1210DF40600994305 /* HomeBanner.m */; };
 		FB9E3C8F2105FB7800911641 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = FB9E3C8E2105FB7800911641 /* AppDelegate.m */; };
 		FB9E3C922105FB7800911641 /* HomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FB9E3C912105FB7800911641 /* HomeViewController.m */; };
 		FB9E3C972105FB7900911641 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FB9E3C962105FB7900911641 /* Assets.xcassets */; };
@@ -76,6 +83,19 @@
 		FB26228A210C476B00994305 /* UIView+Additions.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UIView+Additions.m"; sourceTree = "<group>"; };
 		FB26228D210C4AE400994305 /* SettingTableViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SettingTableViewCell.h; sourceTree = "<group>"; };
 		FB26228E210C4AE400994305 /* SettingTableViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SettingTableViewCell.m; sourceTree = "<group>"; };
+		FB262290210D6ADB00994305 /* HomeTableViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HomeTableViewCell.h; sourceTree = "<group>"; };
+		FB262291210D6ADB00994305 /* HomeTableViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HomeTableViewCell.m; sourceTree = "<group>"; };
+		FB26229D210D97DA00994305 /* HomeTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = HomeTableViewCell.xib; sourceTree = "<group>"; };
+		FB2622A4210DAFB800994305 /* Product.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Product.h; sourceTree = "<group>"; };
+		FB2622A5210DAFB800994305 /* Product.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Product.m; sourceTree = "<group>"; };
+		FB2622A7210DB72700994305 /* KQBToastView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KQBToastView.h; sourceTree = "<group>"; };
+		FB2622A8210DB72700994305 /* KQBToastView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KQBToastView.m; sourceTree = "<group>"; };
+		FB2622AA210DB82700994305 /* NSString+Additions.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSString+Additions.h"; sourceTree = "<group>"; };
+		FB2622AB210DB82700994305 /* NSString+Additions.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSString+Additions.m"; sourceTree = "<group>"; };
+		FB2622AD210DE0F400994305 /* UserDefault.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = UserDefault.h; sourceTree = "<group>"; };
+		FB2622AE210DE0F400994305 /* UserDefault.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = UserDefault.m; sourceTree = "<group>"; };
+		FB2622B0210DF40600994305 /* HomeBanner.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HomeBanner.h; sourceTree = "<group>"; };
+		FB2622B1210DF40600994305 /* HomeBanner.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HomeBanner.m; sourceTree = "<group>"; };
 		FB9E3C8A2105FB7800911641 /* CreditCompass.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CreditCompass.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		FB9E3C8D2105FB7800911641 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		FB9E3C8E2105FB7800911641 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -140,6 +160,8 @@
 		FB262274210C004F00994305 /* Components */ = {
 			isa = PBXGroup;
 			children = (
+				FB2622A7210DB72700994305 /* KQBToastView.h */,
+				FB2622A8210DB72700994305 /* KQBToastView.m */,
 				FB262275210C007800994305 /* CheckBox.h */,
 				FB262276210C007800994305 /* CheckBox.m */,
 			);
@@ -155,6 +177,8 @@
 				FB262284210C2E8F00994305 /* UIButton+Additions.m */,
 				FB262289210C476B00994305 /* UIView+Additions.h */,
 				FB26228A210C476B00994305 /* UIView+Additions.m */,
+				FB2622AA210DB82700994305 /* NSString+Additions.h */,
+				FB2622AB210DB82700994305 /* NSString+Additions.m */,
 			);
 			path = Utilities;
 			sourceTree = "<group>";
@@ -166,6 +190,8 @@
 				FB262281210C1C6600994305 /* LoginManager.m */,
 				FB262286210C3CE800994305 /* HttpManager.h */,
 				FB262287210C3CE800994305 /* HttpManager.m */,
+				FB2622AD210DE0F400994305 /* UserDefault.h */,
+				FB2622AE210DE0F400994305 /* UserDefault.m */,
 			);
 			path = Manager;
 			sourceTree = "<group>";
@@ -175,8 +201,22 @@
 			children = (
 				FB26228D210C4AE400994305 /* SettingTableViewCell.h */,
 				FB26228E210C4AE400994305 /* SettingTableViewCell.m */,
+				FB262290210D6ADB00994305 /* HomeTableViewCell.h */,
+				FB262291210D6ADB00994305 /* HomeTableViewCell.m */,
+				FB26229D210D97DA00994305 /* HomeTableViewCell.xib */,
 			);
 			path = Cells;
+			sourceTree = "<group>";
+		};
+		FB26229F210D9E1C00994305 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				FB2622A4210DAFB800994305 /* Product.h */,
+				FB2622A5210DAFB800994305 /* Product.m */,
+				FB2622B0210DF40600994305 /* HomeBanner.h */,
+				FB2622B1210DF40600994305 /* HomeBanner.m */,
+			);
+			path = Models;
 			sourceTree = "<group>";
 		};
 		FB9E3C812105FB7800911641 = {
@@ -204,6 +244,7 @@
 		FB9E3C8C2105FB7800911641 /* CreditCompass */ = {
 			isa = PBXGroup;
 			children = (
+				FB26229F210D9E1C00994305 /* Models */,
 				FB26228C210C4AC800994305 /* Cells */,
 				FB26227C210C12C900994305 /* Manager */,
 				FB262278210C035400994305 /* Utilities */,
@@ -372,6 +413,7 @@
 			files = (
 				FB9E3CC22106038200911641 /* Main.storyboard in Resources */,
 				FB9E3C9A2105FB7900911641 /* LaunchScreen.storyboard in Resources */,
+				FB26229E210D97DA00994305 /* HomeTableViewCell.xib in Resources */,
 				FB9E3C972105FB7900911641 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -421,18 +463,24 @@
 				FB26227B210C038C00994305 /* UILabel+Additions.m in Sources */,
 				FB26226921060E5200994305 /* ReportViewController.m in Sources */,
 				FB9E3C922105FB7800911641 /* HomeViewController.m in Sources */,
+				FB2622A9210DB72700994305 /* KQBToastView.m in Sources */,
+				FB2622A6210DAFB800994305 /* Product.m in Sources */,
 				FB262288210C3CE800994305 /* HttpManager.m in Sources */,
 				FB9E3C9D2105FB7900911641 /* main.m in Sources */,
+				FB2622B2210DF40600994305 /* HomeBanner.m in Sources */,
 				FB26228F210C4AE400994305 /* SettingTableViewCell.m in Sources */,
 				FB9E3C8F2105FB7800911641 /* AppDelegate.m in Sources */,
 				FB262277210C007800994305 /* CheckBox.m in Sources */,
 				FB262273210A0B7B00994305 /* LoginViewController.m in Sources */,
 				FB262285210C2E8F00994305 /* UIButton+Additions.m in Sources */,
+				FB262292210D6ADB00994305 /* HomeTableViewCell.m in Sources */,
 				FB26227F210C1C1B00994305 /* TabBarController.m in Sources */,
 				FB26226C21060F1400994305 /* AccountViewController.m in Sources */,
 				FB26226F21060F2D00994305 /* GuideViewController.m in Sources */,
+				FB2622AF210DE0F400994305 /* UserDefault.m in Sources */,
 				FB26228B210C476B00994305 /* UIView+Additions.m in Sources */,
 				FB262282210C1C6600994305 /* LoginManager.m in Sources */,
+				FB2622AC210DB82700994305 /* NSString+Additions.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
