@@ -20,5 +20,6 @@
 @property (nonatomic, copy) NSString *redirectUrl;
 @property (nonatomic, copy) NSString *cover;
 @property (nonatomic) NSInteger isHot;
+@property (nonatomic) NSInteger productID;
 
 @end

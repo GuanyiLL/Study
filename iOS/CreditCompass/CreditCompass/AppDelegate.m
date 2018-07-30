@@ -8,6 +8,8 @@
 
 #import "AppDelegate.h"
 #import "GuideViewController.h"
+#import "HttpManager.h"
+#import "UserDefault.h"
 
 @interface AppDelegate ()
 
@@ -20,6 +22,10 @@
     // Override point for customization after application launch.
     self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
     [self.window makeKeyAndVisible];
+    
+    [HttpManager requestRefreshToken:nil failure:^(NSString *errorMessage) {
+        
+    }];
     
     id isInitialLaunching = [[NSUserDefaults standardUserDefaults] objectForKey:@"initailLaunching"];
     UIViewController *root = nil;

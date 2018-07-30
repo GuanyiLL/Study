@@ -12,6 +12,7 @@
 
 + (void)saveLoginToken:(NSString *)token;
 + (NSString *)loginToken;
++ (void)removeToken;
 
 + (void)savePhoneNumber:(NSString *)phoneNumber;
 + (NSString *)phoneNumber;

@@ -21,8 +21,12 @@ NSString *const UserDefaultPhoneNumber = @"phoneNumber";
     return [[NSUserDefaults standardUserDefaults] objectForKey:UserDefaultTokenKey];
 }
 
++ (void)removeToken {
+    [[NSUserDefaults standardUserDefaults] removeObjectForKey:UserDefaultTokenKey];
+}
+
 + (void)savePhoneNumber:(NSString *)phoneNumber {
-    [[NSUserDefaults standardUserDefaults] setObject:phoneNumber forKey:UserDefaultTokenKey];
+    [[NSUserDefaults standardUserDefaults] setObject:phoneNumber forKey:UserDefaultPhoneNumber];
 }
 
 + (NSString *)phoneNumber {

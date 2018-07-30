@@ -10,18 +10,25 @@
 #import <AFNetworking.h>
 #import "Product.h"
 #import "HomeBanner.h"
+#import "UserDefault.h"
+#import "Order.h"
 
 @interface HttpManager()
 
 @end
 
+static NSString * const h5_host = @"http://h5.huocc.cn";
 static NSString * const host = @"cps.huocc.cn";
-static NSString * version = @"v1";
+static NSString * const version = @"v1";
 
 @implementation HttpManager
 
 + (NSString *)baseURL {
     return [NSString stringWithFormat:@"http://%@/napi/%@/",host,version];
+}
+
++ (NSString*)h5Host {
+    return h5_host;
 }
 
 + (void)requestVerifyCodeWithParameter:(NSDictionary *)param success:(void (^) (void))success failure:(void (^) (NSString *errorMessage))failure {
@@ -66,8 +73,12 @@ static NSString * version = @"v1";
                 m.count = d[@"count"];
                 m.cover = d[@"cover"];
                 m.isHot = [d[@"isHot"] integerValue];
+                m.productID = [d[@"id"] integerValue];
                 [arr addObject:m];
             }
+//            [arr sortUsingComparator:^NSComparisonResult(Product *obj1, Product *obj2) {
+//                return obj1.seq < obj2.seq;
+//            }];
             success([arr copy]);
         } else {
             failure(responseObject[@"msg"]);
@@ -91,6 +102,61 @@ static NSString * version = @"v1";
                 [arr addObject:m];
             }
             success([arr copy]);
+        } else {
+            failure(responseObject[@"msg"]);
+        }
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        failure(@"网络错误");
+    }];
+}
+
++ (void)requestRefreshToken:(NSDictionary *)param failure:(void (^) (NSString *errorMessage))failure {
+    [self.manager POST:[NSString stringWithFormat:@"http://%@/api/%@/refreshToken",host,version] parameters:param progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+        if ([responseObject[@"code"] isEqualToString:@"0000"]) {
+            [UserDefault saveLoginToken:responseObject[@"newToken"]];
+        } else {
+            failure(responseObject[@"msg"]);
+        }
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        failure(@"网络错误");
+    }];
+}
+
++ (void)requestContactUpload:(NSDictionary *)param success:(void (^) (void))success failure:(void (^) (NSString *errorMessage))failure {
+    AFHTTPSessionManager *m = self.manager;
+    [m.requestSerializer setValue:[UserDefault loginToken] forHTTPHeaderField:@"token"];
+    [m POST:[NSString stringWithFormat:@"http://%@/api/%@/contactImport/",host,version] parameters:param progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+        if ([responseObject[@"code"] isEqualToString:@"0000"]) {
+            success();
+        } else {
+            failure(responseObject[@"msg"]);
+        }
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        failure(@"网络错误");
+    }];
+}
+
++ (void)requestCreateOrder:(NSDictionary *)param success:(void (^) (Order * order))success failure:(void (^) (NSString *errorMessage))failure {
+    [self.manager.requestSerializer setValue:[UserDefault loginToken] forHTTPHeaderField:@"token"];
+    [self.manager POST:[NSString stringWithFormat:@"http://%@/api/%@/createOrder/",host,version] parameters:param progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+        if ([responseObject[@"code"] isEqualToString:@"0000"]) {
+            
+            Order *m = [[Order alloc] init];
+            m.status = [responseObject[@"status"] integerValue];
+            m.reportStatus = [responseObject[@"reportStauts"] integerValue];
+            m.outTradeno = responseObject[@"outTradeno"];
+            m.tel = responseObject[@"tel"];
+            m.prodId = [responseObject[@"prodId"] integerValue];
+            m.name = responseObject[@"name"];
+            m.bankCard = responseObject[@"bankCard"];
+            m.idCard = responseObject[@"idCard"];
+            m.type = [responseObject[@"type"]integerValue];
+            m.totalPrice = responseObject[@"totalPrice"];
+            m.payPrice = responseObject[@"payPrice"];
+            m.orderExpireStr = responseObject[@"orderExpireStr"];
+            m.exceptionMsg = responseObject[@"exceptionMsg"];
+            m.orderTimeStr = responseObject[@"orderTimeStr"];
+            success(m);
         } else {
             failure(responseObject[@"msg"]);
         }

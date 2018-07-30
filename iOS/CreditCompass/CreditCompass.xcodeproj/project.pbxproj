@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		93D12FC7210EAA95002FBA80 /* UploadContactViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 93D12FC6210EAA95002FBA80 /* UploadContactViewController.m */; };
+		93D12FCA210EB9D7002FBA80 /* InspectController.m in Sources */ = {isa = PBXBuildFile; fileRef = 93D12FC9210EB9D7002FBA80 /* InspectController.m */; };
+		93D12FCD210EBCAA002FBA80 /* BlackListInspectViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 93D12FCC210EBCAA002FBA80 /* BlackListInspectViewController.m */; };
+		93D12FD4210F08D0002FBA80 /* Order.m in Sources */ = {isa = PBXBuildFile; fileRef = 93D12FD3210F08D0002FBA80 /* Order.m */; };
 		EE1F06F809E4BBB52A5094AA /* libPods-CreditCompass.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0C235FD65E7AD5CBCB5C5310 /* libPods-CreditCompass.a */; };
 		FB26226921060E5200994305 /* ReportViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FB26226821060E5200994305 /* ReportViewController.m */; };
 		FB26226C21060F1400994305 /* AccountViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FB26226B21060F1400994305 /* AccountViewController.m */; };
@@ -57,6 +61,14 @@
 /* Begin PBXFileReference section */
 		0C235FD65E7AD5CBCB5C5310 /* libPods-CreditCompass.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-CreditCompass.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		8B8B1BF819C20E8082FF70CF /* Pods-CreditCompass.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CreditCompass.debug.xcconfig"; path = "Pods/Target Support Files/Pods-CreditCompass/Pods-CreditCompass.debug.xcconfig"; sourceTree = "<group>"; };
+		93D12FC5210EAA95002FBA80 /* UploadContactViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = UploadContactViewController.h; sourceTree = "<group>"; };
+		93D12FC6210EAA95002FBA80 /* UploadContactViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = UploadContactViewController.m; sourceTree = "<group>"; };
+		93D12FC8210EB9D7002FBA80 /* InspectController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = InspectController.h; sourceTree = "<group>"; };
+		93D12FC9210EB9D7002FBA80 /* InspectController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = InspectController.m; sourceTree = "<group>"; };
+		93D12FCB210EBCAA002FBA80 /* BlackListInspectViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BlackListInspectViewController.h; sourceTree = "<group>"; };
+		93D12FCC210EBCAA002FBA80 /* BlackListInspectViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BlackListInspectViewController.m; sourceTree = "<group>"; };
+		93D12FD2210F08D0002FBA80 /* Order.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Order.h; sourceTree = "<group>"; };
+		93D12FD3210F08D0002FBA80 /* Order.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Order.m; sourceTree = "<group>"; };
 		DF37A42681E6D7C24E0EE07E /* Pods-CreditCompass.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CreditCompass.release.xcconfig"; path = "Pods/Target Support Files/Pods-CreditCompass/Pods-CreditCompass.release.xcconfig"; sourceTree = "<group>"; };
 		FB26226721060E5200994305 /* ReportViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ReportViewController.h; sourceTree = "<group>"; };
 		FB26226821060E5200994305 /* ReportViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ReportViewController.m; sourceTree = "<group>"; };
@@ -215,6 +227,8 @@
 				FB2622A5210DAFB800994305 /* Product.m */,
 				FB2622B0210DF40600994305 /* HomeBanner.h */,
 				FB2622B1210DF40600994305 /* HomeBanner.m */,
+				93D12FD2210F08D0002FBA80 /* Order.h */,
+				93D12FD3210F08D0002FBA80 /* Order.m */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -303,6 +317,12 @@
 				FB262272210A0B7B00994305 /* LoginViewController.m */,
 				FB26227D210C1C1B00994305 /* TabBarController.h */,
 				FB26227E210C1C1B00994305 /* TabBarController.m */,
+				93D12FC5210EAA95002FBA80 /* UploadContactViewController.h */,
+				93D12FC6210EAA95002FBA80 /* UploadContactViewController.m */,
+				93D12FCB210EBCAA002FBA80 /* BlackListInspectViewController.h */,
+				93D12FCC210EBCAA002FBA80 /* BlackListInspectViewController.m */,
+				93D12FC8210EB9D7002FBA80 /* InspectController.h */,
+				93D12FC9210EB9D7002FBA80 /* InspectController.m */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -471,11 +491,15 @@
 				FB26228F210C4AE400994305 /* SettingTableViewCell.m in Sources */,
 				FB9E3C8F2105FB7800911641 /* AppDelegate.m in Sources */,
 				FB262277210C007800994305 /* CheckBox.m in Sources */,
+				93D12FD4210F08D0002FBA80 /* Order.m in Sources */,
 				FB262273210A0B7B00994305 /* LoginViewController.m in Sources */,
 				FB262285210C2E8F00994305 /* UIButton+Additions.m in Sources */,
 				FB262292210D6ADB00994305 /* HomeTableViewCell.m in Sources */,
+				93D12FC7210EAA95002FBA80 /* UploadContactViewController.m in Sources */,
+				93D12FCA210EB9D7002FBA80 /* InspectController.m in Sources */,
 				FB26227F210C1C1B00994305 /* TabBarController.m in Sources */,
 				FB26226C21060F1400994305 /* AccountViewController.m in Sources */,
+				93D12FCD210EBCAA002FBA80 /* BlackListInspectViewController.m in Sources */,
 				FB26226F21060F2D00994305 /* GuideViewController.m in Sources */,
 				FB2622AF210DE0F400994305 /* UserDefault.m in Sources */,
 				FB26228B210C476B00994305 /* UIView+Additions.m in Sources */,

@@ -29,6 +29,7 @@
     self.container.layer.shadowOffset = CGSizeMake(0, 0);//偏移距离
     self.container.layer.shadowOpacity = 0.5;//不透明度
     self.container.layer.shadowRadius = 10.0;//半径
+    self.selectionStyle = UITableViewCellSelectionStyleNone;
 }
 
 - (void)refreshCellWithData:(Product *)product {

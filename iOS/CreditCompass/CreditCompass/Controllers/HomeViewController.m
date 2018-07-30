@@ -14,6 +14,7 @@
 #import "HomeBanner.h"
 #import "Product.h"
 #import "LoginManager.h"
+#import "InspectController.h"
 
 @interface HomeViewController () <UITableViewDelegate, UITableViewDataSource>
 
@@ -67,6 +68,10 @@
     }];
 }
 
+- (void)requestAppVertion {
+    
+}
+
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     return self.products.count;
 }
@@ -88,7 +93,14 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     if ([LoginManager hasLogined]) {
-        
+        InspectControllerType type = 0;
+        if (self.products[indexPath.row].type == 0) {
+            type = InspectControllerTypeBlacklist;
+        } else {
+            type = InspectControllerTypeContact;
+        }
+        InspectController * inspect = [InspectController inspectWithType:type product:self.products[indexPath.row]];
+        [self.navigationController pushViewController:inspect animated:YES];
     } else {
         [LoginManager showLoginControlerWithParentController:self];
     }

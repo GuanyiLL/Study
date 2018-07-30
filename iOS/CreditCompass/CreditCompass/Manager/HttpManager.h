@@ -9,8 +9,11 @@
 #import <Foundation/Foundation.h>
 @class Product;
 @class HomeBanner;
+@class Order;
 
 @interface HttpManager : NSObject
+
++ (NSString*)h5Host;
 
 + (void)requestVerifyCodeWithParameter:(NSDictionary *)param success:(void (^) (void))success failure:(void (^) (NSString *errorMessage))failure;
 
@@ -20,5 +23,10 @@
 
 + (void)requestHomeBanner:(NSDictionary *)param success:(void (^) (NSArray<HomeBanner *> *banners))success failure:(void (^) (NSString *errorMessage))failure;
 
++ (void)requestRefreshToken:(NSDictionary *)param failure:(void (^) (NSString *errorMessage))failure;
+
++ (void)requestContactUpload:(NSDictionary *)param success:(void (^) (void))success failure:(void (^) (NSString *errorMessage))failure;
+
++ (void)requestCreateOrder:(NSDictionary *)param success:(void (^) (Order *order))success failure:(void (^) (NSString *errorMessage))failure;
 
 @end
