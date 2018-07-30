@@ -14,6 +14,7 @@
 #import "HttpManager.h"
 #import <Contacts/Contacts.h>
 #import "UserDefault.h"
+#import "WaitingViewController.h"
 
 @interface UploadContactViewController ()<CheckBoxDelegate>
 
@@ -103,8 +104,9 @@
                             @"totalPrice":self.product.price
                             };
     [HttpManager requestCreateOrder:param success:^(Order *order) {
-        NSLog(@"%@",order);
-        
+        WaitingViewController *waiting = [[WaitingViewController alloc] init];
+        waiting.order = order;
+        [self.navigationController pushViewController:waiting animated:YES];
     } failure:^(NSString *errorMessage) {
         [KQBToastView show:errorMessage];
     }];

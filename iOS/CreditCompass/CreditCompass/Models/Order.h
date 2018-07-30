@@ -11,7 +11,6 @@
 @interface Order : NSObject
 
 @property (nonatomic) NSInteger status;
-@property (nonatomic) NSInteger reportStatus;
 @property (nonatomic, copy) NSString *outTradeno;
 @property (nonatomic, copy) NSString *tel;
 @property (nonatomic) NSInteger prodId;
@@ -24,5 +23,8 @@
 @property (nonatomic, copy) NSString *orderExpireStr;
 @property (nonatomic, copy) NSString *orderTimeStr;
 @property (nonatomic, copy) NSString *exceptionMsg;
+@property (nonatomic, copy) NSString *startTime;
+@property (nonatomic, copy) NSString *endTime;
+@property (nonatomic) NSInteger reportStatus;
 
 @end

@@ -125,7 +125,7 @@ static NSString * const version = @"v1";
 + (void)requestContactUpload:(NSDictionary *)param success:(void (^) (void))success failure:(void (^) (NSString *errorMessage))failure {
     AFHTTPSessionManager *m = self.manager;
     [m.requestSerializer setValue:[UserDefault loginToken] forHTTPHeaderField:@"token"];
-    [m POST:[NSString stringWithFormat:@"http://%@/api/%@/contactImport/",host,version] parameters:param progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+    [m POST:[NSString stringWithFormat:@"http://%@/api/%@/contactsImport/",host,version] parameters:param progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
         if ([responseObject[@"code"] isEqualToString:@"0000"]) {
             success();
         } else {
@@ -137,10 +137,11 @@ static NSString * const version = @"v1";
 }
 
 + (void)requestCreateOrder:(NSDictionary *)param success:(void (^) (Order * order))success failure:(void (^) (NSString *errorMessage))failure {
-    [self.manager.requestSerializer setValue:[UserDefault loginToken] forHTTPHeaderField:@"token"];
-    [self.manager POST:[NSString stringWithFormat:@"http://%@/api/%@/createOrder/",host,version] parameters:param progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+    AFHTTPSessionManager *m = self.manager;
+    [m.requestSerializer setValue:[UserDefault loginToken] forHTTPHeaderField:@"token"];
+    [m POST:[NSString stringWithFormat:@"http://%@/api/%@/createOrder/",host,version] parameters:param progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
         if ([responseObject[@"code"] isEqualToString:@"0000"]) {
-            
+            responseObject = responseObject[@"data"];
             Order *m = [[Order alloc] init];
             m.status = [responseObject[@"status"] integerValue];
             m.reportStatus = [responseObject[@"reportStauts"] integerValue];
@@ -156,6 +157,8 @@ static NSString * const version = @"v1";
             m.orderExpireStr = responseObject[@"orderExpireStr"];
             m.exceptionMsg = responseObject[@"exceptionMsg"];
             m.orderTimeStr = responseObject[@"orderTimeStr"];
+            m.startTime = responseObject[@"startTime"];
+            m.endTime = responseObject[@"endTime"];
             success(m);
         } else {
             failure(responseObject[@"msg"]);

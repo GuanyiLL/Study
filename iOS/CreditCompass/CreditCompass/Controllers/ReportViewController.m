@@ -36,6 +36,11 @@
     [self.webView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://h5.huocc.cn/list.html?token=%@",[UserDefault loginToken]]]]];
 }
 
+- (void)webView:(WKWebView *)webView decidePolicyForNavigationAction:(WKNavigationAction *)navigationAction decisionHandler:(void (^)(WKNavigationActionPolicy))decisionHandler {
+    
+    decisionHandler(WKNavigationActionPolicyAllow);
+}
+
 - (void)webView:(WKWebView *)webView didFinishNavigation:(WKNavigation *)navigation {
     NSLog(@"Finish");
 }
@@ -50,6 +55,7 @@
     }
     _webView = [[WKWebView alloc] init];
     _webView.navigationDelegate = self;
+    [self.view addSubview:_webView];
     return _webView;
 }
 
