@@ -11,12 +11,15 @@
 #import "UnderlineTextField.h"
 #import "HttpManager.h"
 #import <SDWebImage/UIImageView+WebCache.h>
+#import "Product.h"
+#import "WaitingViewController.h"
 
 @interface BlackListInspectViewController ()
 
 @property (nonatomic) UnderlineTextField *userNameTextField;
 @property (nonatomic) UnderlineTextField *identifyTextField;
 @property (nonatomic) UnderlineTextField *phoneNumberTextField;
+@property (nonatomic) UnderlineTextField *bankCardTextField;
 
 @end
 
@@ -44,6 +47,12 @@
     _phoneNumberTextField.leftViewMode = UITextFieldViewModeAlways;
     [self.view addSubview:_phoneNumberTextField];
     
+    _bankCardTextField = [[UnderlineTextField alloc] init];
+    _bankCardTextField.placeholder = @"请输入您的银行卡号";
+    _bankCardTextField.leftView = [self textFieldLeftView:[UIImage imageNamed:@"bank_phone"]];
+    _bankCardTextField.leftViewMode = UITextFieldViewModeAlways;
+    [self.view addSubview:_bankCardTextField];
+    
     [self.imageView sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@/img/slide3.png",[HttpManager h5Host]]]];
     self.checkBox.isSelected = YES;
     [self didTapCheckBox];
@@ -59,12 +68,34 @@
     
     _phoneNumberTextField.frame = CGRectMake(20, CGRectGetMaxY(_identifyTextField.frame) + 20, CGRectGetWidth(self.view.frame) - 40, 30);
     
-    self.checkBox.frame = CGRectMake(20, CGRectGetMaxY(_phoneNumberTextField.frame) + 30, 80, 20);
+    _bankCardTextField.frame = CGRectMake(20, CGRectGetMaxY(_phoneNumberTextField.frame) + 20, CGRectGetWidth(self.view.frame) - 40, 30);
+    
+    self.checkBox.frame = CGRectMake(20, CGRectGetMaxY(_bankCardTextField.frame) + 30, 80, 20);
     self.inspectButton.frame = CGRectMake(20, CGRectGetMaxY(self.checkBox.frame) + 20, CGRectGetWidth(self.view.frame) - 40, 40);
 }
 
 - (void)didTapCheckBox {
     self.inspectButton.isDisable = !self.checkBox.isSelected;
+}
+
+- (void)inspectAction:(id)sender {
+    NSDictionary *param = @{
+                            @"prodId":@(self.product.productID),
+                            @"type":@(self.product.type),
+                            @"payPrice":self.product.price,
+                            @"tel":self.phoneNumberTextField.text,
+                            @"totalPrice":self.product.originalPrice,
+                            @"name":self.userNameTextField,
+                            @"idCard":self.identifyTextField.text,
+                            @"bankCard":self.bankCardTextField.text
+                            };
+    [HttpManager requestCreateOrder:param success:^(Order *order) {
+        WaitingViewController *waiting = [[WaitingViewController alloc] init];
+        waiting.order = order;
+        [self.navigationController pushViewController:waiting animated:YES];
+    } failure:^(NSString *errorMessage) {
+        [KQBToastView show:errorMessage];
+    }];
 }
 
 - (UIView *)textFieldLeftView:(UIImage *)image {

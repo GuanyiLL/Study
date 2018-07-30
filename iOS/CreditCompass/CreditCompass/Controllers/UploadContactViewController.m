@@ -101,7 +101,7 @@
                             @"prodId":@(self.product.productID),
                             @"type":@(self.product.type),
                             @"payPrice":self.product.price,
-                            @"totalPrice":self.product.price
+                            @"totalPrice":self.product.originalPrice
                             };
     [HttpManager requestCreateOrder:param success:^(Order *order) {
         WaitingViewController *waiting = [[WaitingViewController alloc] init];

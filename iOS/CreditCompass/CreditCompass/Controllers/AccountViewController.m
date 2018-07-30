@@ -9,6 +9,7 @@
 #import "AccountViewController.h"
 #import "SettingTableViewCell.h"
 #import "UserDefault.h"
+#import "HttpManager.h"
 
 @interface AccountViewController () <UITableViewDelegate, UITableViewDataSource>
 
@@ -33,7 +34,12 @@
 }
 
 - (void)logoutAction:(id)sender {
-    
+    [HttpManager requestLogOut:nil success:^{
+        [UserDefault removeToken];
+    } failure:^(NSString *errorMessage) {
+        [KQBToastView show:errorMessage];
+    }];
+    self.tabBarController.selectedIndex = 0;
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {

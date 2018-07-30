@@ -168,6 +168,19 @@ static NSString * const version = @"v1";
     }];
 }
 
++ (void)requestLogOut:(NSDictionary *)param success:(void (^) (void))success failure:(void (^) (NSString *errorMessage))failure {
+    [self.manager POST:[NSString stringWithFormat:@"http://%@/api/%@/logOut/",host,version] parameters:param progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+        if ([responseObject[@"code"] isEqualToString:@"0000"]) {
+            success();
+        } else {
+            failure(responseObject[@"msg"]);
+        }
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        failure(@"网络错误");
+    }];
+
+}
+
 + (AFHTTPSessionManager *)manager {
     AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
     manager.requestSerializer = [AFJSONRequestSerializer serializer];
