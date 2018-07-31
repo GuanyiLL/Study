@@ -13,6 +13,7 @@
 #import <SDWebImage/UIImageView+WebCache.h>
 #import "Product.h"
 #import "WaitingViewController.h"
+#import "WebViewController.h"
 
 @interface BlackListInspectViewController ()
 
@@ -56,6 +57,8 @@
     [self.imageView sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@/img/slide3.png",[HttpManager h5Host]]]];
     self.checkBox.isSelected = YES;
     [self didTapCheckBox];
+    
+    [self.protocolButton setTitle:@"《黑名单数据解析协议》" forState:UIControlStateNormal];
 }
 
 - (void)viewDidLayoutSubviews {
@@ -70,12 +73,19 @@
     
     _bankCardTextField.frame = CGRectMake(20, CGRectGetMaxY(_phoneNumberTextField.frame) + 20, CGRectGetWidth(self.view.frame) - 40, 30);
     
-    self.checkBox.frame = CGRectMake(20, CGRectGetMaxY(_bankCardTextField.frame) + 30, 80, 20);
+    self.checkBox.frame = CGRectMake(20, CGRectGetMaxY(_bankCardTextField.frame) + 30, 50, 20);
+    self.protocolButton.frame = CGRectMake(CGRectGetMaxX(self.checkBox.frame) + 5, CGRectGetMinY(self.checkBox.frame), 150, 20);
     self.inspectButton.frame = CGRectMake(20, CGRectGetMaxY(self.checkBox.frame) + 20, CGRectGetWidth(self.view.frame) - 40, 40);
 }
 
 - (void)didTapCheckBox {
     self.inspectButton.isDisable = !self.checkBox.isSelected;
+}
+
+- (void)showProtocol:(id)sender {
+    WebViewController *web = [[WebViewController alloc] init];
+    web.url = [NSString stringWithFormat:@"%@/user-agreement.html",[HttpManager h5Host]];
+    [self.navigationController pushViewController:web animated:YES];
 }
 
 - (void)inspectAction:(id)sender {

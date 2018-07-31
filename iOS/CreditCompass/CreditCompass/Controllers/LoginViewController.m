@@ -113,7 +113,7 @@
         return;
     }
     dispatch_async(dispatch_get_main_queue(), ^{
-        [self.verifyCodeButton setTitle:[NSString stringWithFormat:@"%zds",self.count--] forState:UIControlStateNormal];
+        [self.verifyCodeButton setTitle:[NSString stringWithFormat:@"%lds",(long)self.count--] forState:UIControlStateNormal];
     });
 }
 

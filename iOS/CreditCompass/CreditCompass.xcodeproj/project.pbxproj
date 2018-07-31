@@ -47,6 +47,10 @@
 		FB3AD74C210F7C3B006368F0 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FB3AD74B210F7C3B006368F0 /* CFNetwork.framework */; };
 		FB3AD74E210F7C40006368F0 /* CoreMotion.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FB3AD74D210F7C40006368F0 /* CoreMotion.framework */; };
 		FB3AD750210F7C51006368F0 /* AlipaySDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FB3AD74F210F7C51006368F0 /* AlipaySDK.framework */; };
+		FB3AD7532110AEA7006368F0 /* PaymentMethodSelector.m in Sources */ = {isa = PBXBuildFile; fileRef = FB3AD7522110AEA7006368F0 /* PaymentMethodSelector.m */; };
+		FB3AD7562110AEDD006368F0 /* PaymentMethodSelectorCell.m in Sources */ = {isa = PBXBuildFile; fileRef = FB3AD7552110AEDD006368F0 /* PaymentMethodSelectorCell.m */; };
+		FB3AD7582110AEF0006368F0 /* PaymentMethodSelectorCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = FB3AD7572110AEF0006368F0 /* PaymentMethodSelectorCell.xib */; };
+		FB3AD75B2110B5EF006368F0 /* PaymentMethod.m in Sources */ = {isa = PBXBuildFile; fileRef = FB3AD75A2110B5EF006368F0 /* PaymentMethod.m */; };
 		FB9E3C8F2105FB7800911641 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = FB9E3C8E2105FB7800911641 /* AppDelegate.m */; };
 		FB9E3C922105FB7800911641 /* HomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FB9E3C912105FB7800911641 /* HomeViewController.m */; };
 		FB9E3C972105FB7900911641 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FB9E3C962105FB7900911641 /* Assets.xcassets */; };
@@ -144,6 +148,13 @@
 		FB3AD74B210F7C3B006368F0 /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
 		FB3AD74D210F7C40006368F0 /* CoreMotion.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMotion.framework; path = System/Library/Frameworks/CoreMotion.framework; sourceTree = SDKROOT; };
 		FB3AD74F210F7C51006368F0 /* AlipaySDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = AlipaySDK.framework; sourceTree = "<group>"; };
+		FB3AD7512110AEA7006368F0 /* PaymentMethodSelector.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PaymentMethodSelector.h; sourceTree = "<group>"; };
+		FB3AD7522110AEA7006368F0 /* PaymentMethodSelector.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PaymentMethodSelector.m; sourceTree = "<group>"; };
+		FB3AD7542110AEDD006368F0 /* PaymentMethodSelectorCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PaymentMethodSelectorCell.h; sourceTree = "<group>"; };
+		FB3AD7552110AEDD006368F0 /* PaymentMethodSelectorCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PaymentMethodSelectorCell.m; sourceTree = "<group>"; };
+		FB3AD7572110AEF0006368F0 /* PaymentMethodSelectorCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PaymentMethodSelectorCell.xib; sourceTree = "<group>"; };
+		FB3AD7592110B5EF006368F0 /* PaymentMethod.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PaymentMethod.h; sourceTree = "<group>"; };
+		FB3AD75A2110B5EF006368F0 /* PaymentMethod.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PaymentMethod.m; sourceTree = "<group>"; };
 		FB9E3C8A2105FB7800911641 /* CreditCompass.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CreditCompass.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		FB9E3C8D2105FB7800911641 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		FB9E3C8E2105FB7800911641 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -238,6 +249,8 @@
 				FB262276210C007800994305 /* CheckBox.m */,
 				FB3AD736210F71F0006368F0 /* UnderlineTextField.h */,
 				FB3AD737210F71F0006368F0 /* UnderlineTextField.m */,
+				FB3AD7512110AEA7006368F0 /* PaymentMethodSelector.h */,
+				FB3AD7522110AEA7006368F0 /* PaymentMethodSelector.m */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -278,6 +291,9 @@
 				FB262290210D6ADB00994305 /* HomeTableViewCell.h */,
 				FB262291210D6ADB00994305 /* HomeTableViewCell.m */,
 				FB26229D210D97DA00994305 /* HomeTableViewCell.xib */,
+				FB3AD7542110AEDD006368F0 /* PaymentMethodSelectorCell.h */,
+				FB3AD7552110AEDD006368F0 /* PaymentMethodSelectorCell.m */,
+				FB3AD7572110AEF0006368F0 /* PaymentMethodSelectorCell.xib */,
 			);
 			path = Cells;
 			sourceTree = "<group>";
@@ -291,6 +307,8 @@
 				FB2622B1210DF40600994305 /* HomeBanner.m */,
 				93D12FD2210F08D0002FBA80 /* Order.h */,
 				93D12FD3210F08D0002FBA80 /* Order.m */,
+				FB3AD7592110B5EF006368F0 /* PaymentMethod.h */,
+				FB3AD75A2110B5EF006368F0 /* PaymentMethod.m */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -500,6 +518,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				FB9E3CC22106038200911641 /* Main.storyboard in Resources */,
+				FB3AD7582110AEF0006368F0 /* PaymentMethodSelectorCell.xib in Resources */,
 				FB9E3C9A2105FB7900911641 /* LaunchScreen.storyboard in Resources */,
 				FB26229E210D97DA00994305 /* HomeTableViewCell.xib in Resources */,
 				FB9E3C972105FB7900911641 /* Assets.xcassets in Resources */,
@@ -557,6 +576,7 @@
 				FB262288210C3CE800994305 /* HttpManager.m in Sources */,
 				FB9E3C9D2105FB7900911641 /* main.m in Sources */,
 				FB2622B2210DF40600994305 /* HomeBanner.m in Sources */,
+				FB3AD75B2110B5EF006368F0 /* PaymentMethod.m in Sources */,
 				FB26228F210C4AE400994305 /* SettingTableViewCell.m in Sources */,
 				FB9E3C8F2105FB7800911641 /* AppDelegate.m in Sources */,
 				FB3AD735210F52C8006368F0 /* WaitingViewController.m in Sources */,
@@ -564,10 +584,12 @@
 				93D12FD4210F08D0002FBA80 /* Order.m in Sources */,
 				FB3AD738210F71F0006368F0 /* UnderlineTextField.m in Sources */,
 				FB262273210A0B7B00994305 /* LoginViewController.m in Sources */,
+				FB3AD7562110AEDD006368F0 /* PaymentMethodSelectorCell.m in Sources */,
 				FB262285210C2E8F00994305 /* UIButton+Additions.m in Sources */,
 				FB262292210D6ADB00994305 /* HomeTableViewCell.m in Sources */,
 				93D12FC7210EAA95002FBA80 /* UploadContactViewController.m in Sources */,
 				93D12FCA210EB9D7002FBA80 /* InspectController.m in Sources */,
+				FB3AD7532110AEA7006368F0 /* PaymentMethodSelector.m in Sources */,
 				FB26227F210C1C1B00994305 /* TabBarController.m in Sources */,
 				FB26226C21060F1400994305 /* AccountViewController.m in Sources */,
 				93D12FCD210EBCAA002FBA80 /* BlackListInspectViewController.m in Sources */,
@@ -747,6 +769,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "$(SRCROOT)/CreditCompass/SupportingFiles/CreditCompass.pch";
 				INFOPLIST_FILE = "$(SRCROOT)/CreditCompass/SupportingFiles/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -771,6 +794,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "$(SRCROOT)/CreditCompass/SupportingFiles/CreditCompass.pch";
 				INFOPLIST_FILE = "$(SRCROOT)/CreditCompass/SupportingFiles/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

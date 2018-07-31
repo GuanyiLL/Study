@@ -15,6 +15,7 @@
 #import <Contacts/Contacts.h>
 #import "UserDefault.h"
 #import "WaitingViewController.h"
+#import "WebViewController.h"
 
 @interface UploadContactViewController ()<CheckBoxDelegate>
 
@@ -37,7 +38,7 @@
     [self.imageView sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@/img/slide2.png",[HttpManager h5Host]]]];
     self.checkBox.isSelected = YES;
     [self didTapCheckBox];
-    
+    [self.protocolButton setTitle:@"《通讯录数据解析协议》" forState:UIControlStateNormal];
     CNAuthorizationStatus authorizationStatus = [CNContactStore authorizationStatusForEntityType:CNEntityTypeContacts];
     if (authorizationStatus == CNAuthorizationStatusNotDetermined) {
         CNContactStore *contactStore = [[CNContactStore alloc] init];
@@ -56,7 +57,8 @@
 - (void)viewDidLayoutSubviews {
     [super viewDidLayoutSubviews];
     self.imageView.frame = CGRectMake(0, CGRectGetMaxY(self.navigationController.navigationBar.frame), CGRectGetWidth(self.view.frame), CGRectGetWidth(self.view.frame) / 3);
-    self.checkBox.frame = CGRectMake(20, CGRectGetMaxY(self.imageView.frame) + 20, 80, 20);
+    self.checkBox.frame = CGRectMake(20, CGRectGetMaxY(self.imageView.frame) + 20, 50, 20);
+    self.protocolButton.frame = CGRectMake(CGRectGetMaxX(self.checkBox.frame) + 5, CGRectGetMinY(self.checkBox.frame), 150, 20);
     self.inspectButton.frame = CGRectMake(20, CGRectGetMaxY(self.checkBox.frame) + 20, CGRectGetWidth(self.view.frame) - 40, 40);
 }
 
@@ -115,5 +117,12 @@
 - (void)didTapCheckBox {
     self.inspectButton.isDisable = !self.checkBox.isSelected;
 }
+
+- (void)showProtocol:(id)sender {
+    WebViewController *web = [[WebViewController alloc] init];
+    web.url = [NSString stringWithFormat:@"%@/user-agreement.html",[HttpManager h5Host]];
+    [self.navigationController pushViewController:web animated:YES];
+}
+
 
 @end

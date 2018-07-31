@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14113" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="70Y-t4-Wd9">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14113" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="70Y-t4-Wd9">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
-        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -14,11 +13,14 @@
         <scene sceneID="8XL-ZZ-mZO">
             <objects>
                 <viewController id="RAc-E1-coL" userLabel="ReportViewController" customClass="ReportViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="ikx-ZM-kpu"/>
+                        <viewControllerLayoutGuide type="bottom" id="ekc-oC-CS4"/>
+                    </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="BWX-my-Rji">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                        <viewLayoutGuide key="safeArea" id="wNd-iT-Eke"/>
                     </view>
                     <navigationItem key="navigationItem" id="rAY-Oo-W5j"/>
                 </viewController>
@@ -30,11 +32,14 @@
         <scene sceneID="2QA-nn-lbq">
             <objects>
                 <viewController id="Vmf-vZ-Amo" userLabel="AccountViewController" customClass="AccountViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="lFj-za-s8A"/>
+                        <viewControllerLayoutGuide type="bottom" id="R76-by-QhQ"/>
+                    </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="OzO-3K-ngW">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                        <viewLayoutGuide key="safeArea" id="CoH-gn-Gsn"/>
                     </view>
                     <navigationItem key="navigationItem" id="le9-s9-0lC"/>
                 </viewController>
@@ -46,11 +51,14 @@
         <scene sceneID="hjm-bj-fQM">
             <objects>
                 <viewController id="oD4-of-XIM" userLabel="HomeViewController" customClass="HomeViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="Xk2-6G-mQ3"/>
+                        <viewControllerLayoutGuide type="bottom" id="9DC-iU-gP9"/>
+                    </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="qxS-pV-EkC">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                        <viewLayoutGuide key="safeArea" id="734-Lr-huS"/>
                     </view>
                     <navigationItem key="navigationItem" id="NXQ-9h-gvB"/>
                 </viewController>

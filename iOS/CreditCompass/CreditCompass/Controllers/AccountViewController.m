@@ -10,6 +10,7 @@
 #import "SettingTableViewCell.h"
 #import "UserDefault.h"
 #import "HttpManager.h"
+#import "WebViewController.h"
 
 @interface AccountViewController () <UITableViewDelegate, UITableViewDataSource>
 
@@ -70,6 +71,11 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    if (indexPath.row == 0) {
+        WebViewController *web = [[WebViewController alloc] init];
+        web.url = [NSString stringWithFormat:@"%@/user-agreement.html",[HttpManager h5Host]];
+        [self.navigationController pushViewController:web animated:YES];
+    }
 }
 
 - (UITableView *)tableView {

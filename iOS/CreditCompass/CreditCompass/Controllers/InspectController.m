@@ -46,6 +46,10 @@
     // overwrite for subclass
 }
 
+- (void)showProtocol:(id)sender {
+    // overwrite for subclass
+}
+
 - (UIImageView *)imageView {
     if (_imageView) {
         return _imageView;
@@ -78,5 +82,18 @@
     [self.view addSubview:_inspectButton];
     return _inspectButton;
 }
+
+- (UIButton *)protocolButton {
+    if (_protocolButton) {
+        return _protocolButton;
+    }
+    _protocolButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    [_protocolButton setTitleColor:[UIColor colorWithRed:124/255.0 green:170/255.0 blue:250/255.0 alpha:1] forState:UIControlStateNormal];
+    _protocolButton.titleLabel.font = [UIFont systemFontOfSize:12];
+    [_protocolButton addTarget:self action:@selector(showProtocol:) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:_protocolButton];
+    return _protocolButton;
+}
+
 
 @end

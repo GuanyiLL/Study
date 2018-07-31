@@ -89,7 +89,7 @@
     }
     dispatch_async(dispatch_get_main_queue(), ^{
         self.progressView.progressCounter = self.count / 10;
-        self.progressView.label.text = [NSString stringWithFormat:@"%zd%%",self.count];
+        self.progressView.label.text = [NSString stringWithFormat:@"%ld%%",(long)self.count];
     });
 }
 

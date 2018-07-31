@@ -11,6 +11,8 @@
 #import "Order.h"
 #import "HttpManager.h"
 #import "CreateReportViewController.h"
+#import "PaymentMethod.h"
+#import "PaymentMethodSelector.h"
 
 typedef NS_ENUM(NSUInteger, AliPayResultCode) {
     AliPayResultCodeSuccess           = 9000,    //订单支付成功
@@ -27,6 +29,9 @@ typedef NS_ENUM(NSUInteger, AliPayResultCode) {
 @property (nonatomic) UIButton *payButton;
 @property (nonatomic) UILabel *phoneNumber;
 @property (nonatomic) NSMutableArray *paymentMethods;
+@property (nonatomic) CADisplayLink *timer;
+@property (nonatomic) NSInteger count;
+@property (nonatomic) NSMutableArray *methods;
 
 @end
 
@@ -37,6 +42,19 @@ typedef NS_ENUM(NSUInteger, AliPayResultCode) {
     // Do any additional setup after loading the view.
     self.title = @"等待支付";
     self.view.backgroundColor = [UIColor colorWithRed:242/255.0 green:242/255.0 blue:242/255.0 alpha:1];
+    _timer = [CADisplayLink displayLinkWithTarget:self selector:@selector(refreshTimeLabel)];
+    self.count = 900;
+    
+    if (@available(iOS 10.0, *)) {
+        _timer.preferredFramesPerSecond = 1;
+    } else {
+        _timer.frameInterval = 60.0;
+    }
+    
+    [_timer addToRunLoop:[NSRunLoop mainRunLoop] forMode:NSDefaultRunLoopMode];
+    
+    self.methods = [NSMutableArray array];
+    [self.methods addObject:@{@"支付宝":@1}];
     
     CGFloat screenWith = [UIScreen mainScreen].bounds.size.width;
     
@@ -164,35 +182,46 @@ typedef NS_ENUM(NSUInteger, AliPayResultCode) {
     line.frame = CGRectMake(CGRectGetMinX(verticalLine.frame), CGRectGetMaxY(verticalLine.frame) + 10, screenWith - 40, 2);
     [paymentMethodContainer addSubview:line];
     
-    UIView *alipay = [[UIView alloc] init];
-    alipay.frame = CGRectMake(0, CGRectGetMaxY(line.frame), 80, screenWith);
-    [paymentMethodContainer addSubview:alipay];
+    PaymentMethod *method = [[PaymentMethod alloc] init];
+    method.title = @"支付宝";
+    method.image = @"ic_zhifubao";
     
-    UIImageView *imageView = [[UIImageView alloc] init];
-    imageView.frame = CGRectMake(30, 20, 40, 40);
-    imageView.image = [UIImage imageNamed:@"ic_zhifubao"];
-    [alipay addSubview:imageView];
+    NSArray *datasource = @[method];
     
-    UILabel *method = [[UILabel alloc] init];
-    method.text = @"支付宝";
-    method.frame = CGRectMake(CGRectGetMaxX(imageView.frame) + 20, CGRectGetMinY(imageView.frame), 100, 40);
-    [alipay addSubview:method];
+    PaymentMethodSelector *selector = [[PaymentMethodSelector alloc] init];
+    selector.methods = datasource;
+    selector.frame = CGRectMake(0, CGRectGetMaxY(line.frame), screenWith, 60);
+    [paymentMethodContainer addSubview:selector];
     
-    UIImageView *rightImageView = [[UIImageView alloc] init];
-    rightImageView.frame = CGRectMake(screenWith - 60, CGRectGetMinY(imageView.frame) + 10, 20, 20);
-    rightImageView.image = [UIImage imageNamed:@""];
-    rightImageView.backgroundColor = [UIColor greenColor];
-    [alipay addSubview:rightImageView];
-    
-    paymentMethodContainer.frame = CGRectMake(0, CGRectGetMaxY(reportContainer.frame) + 20, screenWith, 132);
+    paymentMethodContainer.frame = CGRectMake(0, CGRectGetMaxY(reportContainer.frame) + 20, screenWith, 112);
     
     _payButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [_payButton setTitle:@"立即支付" forState:UIControlStateNormal];
     _payButton.frame = CGRectMake(0, CGRectGetMaxY(self.view.frame) - 40 - CGRectGetHeight(self.tabBarController.tabBar.frame), screenWith, 40);
-    _payButton.isDisable = YES;
+    _payButton.isDisable = NO;
     [_payButton addTarget:self action:@selector(pay:) forControlEvents:UIControlEventTouchUpInside];
     [_payButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     [self.view addSubview:_payButton];
+    
+}
+
+
+
+- (void)refreshTimeLabel {
+    __weak __typeof(self) weakSelf = self;
+    self.count--;
+    if (self.count < 0) {
+        [self.timer invalidate];
+        self.timer = nil;
+        [self.navigationController popViewControllerAnimated:YES];
+        return;
+    }
+    
+    NSInteger min = self.count / 60;
+    NSInteger s = self.count % 60;
+    dispatch_async(dispatch_get_main_queue(), ^{
+        weakSelf.countingLabel.text = [NSString stringWithFormat:@"请在%ld分%ld秒内完成支付",(long)min, (long)s];
+    });
     
 }
 
@@ -245,6 +274,11 @@ typedef NS_ENUM(NSUInteger, AliPayResultCode) {
             break;
     }
     return msg;
+}
+
+- (void)dealloc {
+    self.timer.paused = YES;
+    [self.timer invalidate];
 }
 
 - (UILabel *)createLabel:(NSString *)text {

@@ -21,6 +21,7 @@ typedef NS_ENUM(NSUInteger, InspectControllerType) {
 @property (nonatomic) CheckBox *checkBox;
 @property (nonatomic) UIButton *inspectButton;
 @property (nonatomic) UIImageView *imageView;
+@property (nonatomic) UIButton *protocolButton;
 
 + (instancetype)inspectWithType:(InspectControllerType)type product:(Product *)product;
 
