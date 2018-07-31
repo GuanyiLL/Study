@@ -181,6 +181,20 @@ static NSString * const version = @"v1";
 
 }
 
++ (void)requestPay:(NSDictionary *)param success:(void (^) (NSString *orderString))success failure:(void (^) (NSString *errorMessage))failure {
+    AFHTTPSessionManager *m = self.manager;
+    [m.requestSerializer setValue:[UserDefault loginToken] forHTTPHeaderField:@"token"];
+    [m POST:[NSString stringWithFormat:@"http://%@/api/%@/alipayAppPay/",host,version] parameters:param progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+        if ([responseObject[@"code"] isEqualToString:@"0000"]) {
+            success(responseObject[@"orderString"]);
+        } else {
+            failure(responseObject[@"msg"]);
+        }
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        failure(@"网络错误");
+    }];
+}
+
 + (AFHTTPSessionManager *)manager {
     AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
     manager.requestSerializer = [AFJSONRequestSerializer serializer];

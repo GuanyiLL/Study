@@ -9,10 +9,15 @@
 #import "ReportViewController.h"
 #import <WebKit/WebKit.h>
 #import "UserDefault.h"
+#import "WebViewController.h"
+#import <JavaScriptCore/JavaScriptCore.h>
 
-@interface ReportViewController () <WKNavigationDelegate>
+@interface ReportViewController () <UIWebViewDelegate>
 
-@property (nonatomic) WKWebView *webView;
+//@property (nonatomic) WKWebView *webView;
+@property (nonatomic) UIWebView *webView;
+
+@property (nonatomic) JSContext *context;
 
 @end
 
@@ -36,27 +41,39 @@
     [self.webView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://h5.huocc.cn/list.html?token=%@",[UserDefault loginToken]]]]];
 }
 
-- (void)webView:(WKWebView *)webView decidePolicyForNavigationAction:(WKNavigationAction *)navigationAction decisionHandler:(void (^)(WKNavigationActionPolicy))decisionHandler {
+- (void)webViewDidFinishLoad:(UIWebView *)webView {
     
-    decisionHandler(WKNavigationActionPolicyAllow);
+    self.context = [webView valueForKeyPath:@"documentView.webView.mainFrame.javaScriptContext"];
+    self.context.exceptionHandler = ^(JSContext *context, JSValue *exceptionValue) {
+        context.exception = exceptionValue;
+    };
+
+    __weak __typeof(self) weakSelf = self;
+    self.context[@"goToDetail"] = ^(NSString *order, NSInteger type){
+        WebViewController *web = [[WebViewController alloc] init];
+        NSString *url = @"";
+        if (type == 1) {
+            url = [NSString stringWithFormat:@"http://h5.huocc.cn/risk-contacts.html?token=%@&outTradeno=%@",[UserDefault loginToken],order];
+        } else {
+            url = [NSString stringWithFormat:@"http://h5.huocc.cn/risk-black.html?token=%@&outTradeno=%@",[UserDefault loginToken],order];
+        }
+        web.url = url;
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [weakSelf.navigationController pushViewController:web animated:YES];
+        });
+    };
+
 }
 
-- (void)webView:(WKWebView *)webView didFinishNavigation:(WKNavigation *)navigation {
-    NSLog(@"Finish");
-}
-
-- (void)webView:(WKWebView *)webView didFailNavigation:(WKNavigation *)navigation withError:(NSError *)error {
-    NSLog(@"%@",error);
-}
-
-- (WKWebView *)webView {
+- (UIWebView *)webView {
     if (_webView) {
         return _webView;
     }
-    _webView = [[WKWebView alloc] init];
-    _webView.navigationDelegate = self;
+    _webView = [[UIWebView alloc] init];
+    _webView.delegate = self;
     [self.view addSubview:_webView];
     return _webView;
 }
+
 
 @end

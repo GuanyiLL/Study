@@ -29,6 +29,8 @@
 
 + (void)requestCreateOrder:(NSDictionary *)param success:(void (^) (Order *order))success failure:(void (^) (NSString *errorMessage))failure;
 
++ (void)requestPay:(NSDictionary *)param success:(void (^) (NSString *orderString))success failure:(void (^) (NSString *errorMessage))failure;
+
 + (void)requestLogOut:(NSDictionary *)param success:(void (^) (void))success failure:(void (^) (NSString *errorMessage))failure;
 
 

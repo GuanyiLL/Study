@@ -11,6 +11,8 @@
 		93D12FCA210EB9D7002FBA80 /* InspectController.m in Sources */ = {isa = PBXBuildFile; fileRef = 93D12FC9210EB9D7002FBA80 /* InspectController.m */; };
 		93D12FCD210EBCAA002FBA80 /* BlackListInspectViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 93D12FCC210EBCAA002FBA80 /* BlackListInspectViewController.m */; };
 		93D12FD4210F08D0002FBA80 /* Order.m in Sources */ = {isa = PBXBuildFile; fileRef = 93D12FD3210F08D0002FBA80 /* Order.m */; };
+		93D12FD7211001C4002FBA80 /* CreateReportViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 93D12FD6211001C4002FBA80 /* CreateReportViewController.m */; };
+		93D12FDA211028FC002FBA80 /* WebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 93D12FD9211028FC002FBA80 /* WebViewController.m */; };
 		EE1F06F809E4BBB52A5094AA /* libPods-CreditCompass.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0C235FD65E7AD5CBCB5C5310 /* libPods-CreditCompass.a */; };
 		FB26226921060E5200994305 /* ReportViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FB26226821060E5200994305 /* ReportViewController.m */; };
 		FB26226C21060F1400994305 /* AccountViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FB26226B21060F1400994305 /* AccountViewController.m */; };
@@ -83,6 +85,10 @@
 		93D12FCC210EBCAA002FBA80 /* BlackListInspectViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BlackListInspectViewController.m; sourceTree = "<group>"; };
 		93D12FD2210F08D0002FBA80 /* Order.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Order.h; sourceTree = "<group>"; };
 		93D12FD3210F08D0002FBA80 /* Order.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Order.m; sourceTree = "<group>"; };
+		93D12FD5211001C4002FBA80 /* CreateReportViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CreateReportViewController.h; sourceTree = "<group>"; };
+		93D12FD6211001C4002FBA80 /* CreateReportViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CreateReportViewController.m; sourceTree = "<group>"; };
+		93D12FD8211028FC002FBA80 /* WebViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WebViewController.h; sourceTree = "<group>"; };
+		93D12FD9211028FC002FBA80 /* WebViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WebViewController.m; sourceTree = "<group>"; };
 		DF37A42681E6D7C24E0EE07E /* Pods-CreditCompass.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CreditCompass.release.xcconfig"; path = "Pods/Target Support Files/Pods-CreditCompass/Pods-CreditCompass.release.xcconfig"; sourceTree = "<group>"; };
 		FB26226721060E5200994305 /* ReportViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ReportViewController.h; sourceTree = "<group>"; };
 		FB26226821060E5200994305 /* ReportViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ReportViewController.m; sourceTree = "<group>"; };
@@ -381,6 +387,10 @@
 				93D12FC9210EB9D7002FBA80 /* InspectController.m */,
 				FB3AD733210F52C8006368F0 /* WaitingViewController.h */,
 				FB3AD734210F52C8006368F0 /* WaitingViewController.m */,
+				93D12FD5211001C4002FBA80 /* CreateReportViewController.h */,
+				93D12FD6211001C4002FBA80 /* CreateReportViewController.m */,
+				93D12FD8211028FC002FBA80 /* WebViewController.h */,
+				93D12FD9211028FC002FBA80 /* WebViewController.m */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -541,6 +551,7 @@
 				FB26227B210C038C00994305 /* UILabel+Additions.m in Sources */,
 				FB26226921060E5200994305 /* ReportViewController.m in Sources */,
 				FB9E3C922105FB7800911641 /* HomeViewController.m in Sources */,
+				93D12FDA211028FC002FBA80 /* WebViewController.m in Sources */,
 				FB2622A9210DB72700994305 /* KQBToastView.m in Sources */,
 				FB2622A6210DAFB800994305 /* Product.m in Sources */,
 				FB262288210C3CE800994305 /* HttpManager.m in Sources */,
@@ -560,6 +571,7 @@
 				FB26227F210C1C1B00994305 /* TabBarController.m in Sources */,
 				FB26226C21060F1400994305 /* AccountViewController.m in Sources */,
 				93D12FCD210EBCAA002FBA80 /* BlackListInspectViewController.m in Sources */,
+				93D12FD7211001C4002FBA80 /* CreateReportViewController.m in Sources */,
 				FB26226F21060F2D00994305 /* GuideViewController.m in Sources */,
 				FB2622AF210DE0F400994305 /* UserDefault.m in Sources */,
 				FB26228B210C476B00994305 /* UIView+Additions.m in Sources */,

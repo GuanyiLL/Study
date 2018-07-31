@@ -9,6 +9,17 @@
 #import "WaitingViewController.h"
 #import <AlipaySDK/AlipaySDK.h>
 #import "Order.h"
+#import "HttpManager.h"
+#import "CreateReportViewController.h"
+
+typedef NS_ENUM(NSUInteger, AliPayResultCode) {
+    AliPayResultCodeSuccess           = 9000,    //订单支付成功
+    AliPayResultCodeProcessing        = 8000,    //正在处理中
+    AliPayResultCodeFailure           = 4000,    //订单支付失败
+    AliPayResultCodeRepetitive        = 5000,    //重复请求
+    AliPayResultCodeCancel            = 6001,    //用户中途取消
+    AliPayResultCodeNetworkError      = 6002     //网络连接出错
+};
 
 @interface WaitingViewController ()
 
@@ -134,8 +145,6 @@
     
     amount.frame = CGRectMake(CGRectGetMinX(amountValue.frame) - 10 - CGRectGetWidth(amount.frame), CGRectGetMaxY(line.frame) + 20 + (CGRectGetHeight(amountValue.frame) / 2 - CGRectGetHeight(amount.frame) / 2), CGRectGetWidth(amount.frame), CGRectGetHeight(amount.frame));
     
-    
-    
     UIView *paymentMethodContainer = [[UIView alloc] init];
     paymentMethodContainer.backgroundColor = [UIColor whiteColor];
     [self.view addSubview:paymentMethodContainer];
@@ -188,18 +197,54 @@
 }
 
 - (void)pay:(id)sender {
-    
 
+    [HttpManager requestPay:@{@"outTradeno":self.order.outTradeno} success:^(NSString *orderString) {
+        [self alipay:orderString];
+    } failure:^(NSString *errorMessage) {
+        [KQBToastView show:errorMessage];
+    }];
 }
 
 - (void)alipay:(NSString *)orderString {
     [[AlipaySDK defaultService] payOrder:orderString fromScheme:@"alipayScheme" callback:^(NSDictionary *resultDic) {
-        if (resultDic[@""]) {
-            
+        
+        NSInteger resultCode     = [resultDic[@"resultStatus"] integerValue];
+        BOOL isSuccess           = resultCode == AliPayResultCodeSuccess;
+        NSString *errorMessage   = [self alipayErrorMessageWithCode:resultCode];
+        
+        if (isSuccess) {
+            CreateReportViewController *report = [[CreateReportViewController alloc] init];
+            [self.navigationController pushViewController:report animated:YES];
         } else {
-            
+            [KQBToastView show:errorMessage];
         }
     }];
+}
+
+- (NSString *)alipayErrorMessageWithCode:(AliPayResultCode)resultCode {
+    
+    NSString *msg = @"";
+    switch (resultCode) {
+        case AliPayResultCodeSuccess:
+            msg = @"订单支付成功";
+            break;
+        case AliPayResultCodeProcessing:
+            msg = @"正在处理中";
+            break;
+        case AliPayResultCodeFailure:
+            msg = @"订单支付失败";
+            break;
+        case AliPayResultCodeRepetitive:
+            msg = @"重复请求";
+            break;
+        case AliPayResultCodeCancel:
+            msg = @"用户中途取消";
+            break;
+        case AliPayResultCodeNetworkError:
+            msg = @"网络连接出错";
+            break;
+    }
+    return msg;
 }
 
 - (UILabel *)createLabel:(NSString *)text {
