@@ -10,6 +10,7 @@
 #import "CheckBox.h"
 #import "HttpManager.h"
 #import "UserDefault.h"
+#import "WebViewController.h"
 
 @interface LoginViewController () <CheckBoxDelegate>
 
@@ -25,6 +26,7 @@
 @property (nonatomic) UIView *verticalLine;
 @property (nonatomic) NSTimer *timer;
 @property (nonatomic, assign) NSInteger count;
+@property (nonatomic) UIButton * userServiceButton;
 
 @end
 
@@ -55,7 +57,10 @@
     self.titleLabel.frame = CGRectMake(20, CGRectGetMaxY(self.navigationController.navigationBar.frame) + 20, CGRectGetWidth(self.view.frame), 30);
     self.userNameTextField.frame = CGRectMake(60, CGRectGetMaxY(self.titleLabel.frame) + 22, CGRectGetWidth(self.view.frame) - 60 - 20, 40);
     self.passwordTextField.frame = CGRectMake(CGRectGetMinX(self.userNameTextField.frame), CGRectGetMaxY(self.userNameTextField.frame) + 2, CGRectGetWidth(self.view.frame) - 60 - 20 - 100, 40);
+    
     self.checkBox.frame = CGRectMake(20, CGRectGetMaxY(self.passwordTextField.frame) + 22, 80, 20);
+    self.userServiceButton.frame = CGRectMake(CGRectGetMaxX(self.checkBox.frame) + 5, CGRectGetMinY(self.checkBox.frame), 50, 20);
+    
     self.loginButton.frame = CGRectMake(20, CGRectGetMaxY(self.checkBox.frame) + 20, CGRectGetWidth(self.view.frame) - 40, 40);
     
     self.verifyCodeButton.frame = CGRectMake(CGRectGetMaxX(self.passwordTextField.frame) +20, CGRectGetMinY(self.passwordTextField.frame), 80, 40);
@@ -117,6 +122,12 @@
 - (void)loginButtonStatusCheck {
     self.loginButton.isDisable = !(self.userNameTextField.text.length > 0 && self.passwordTextField.text.length > 0 && self.checkBox.isSelected);
     self.verifyCodeButton.userInteractionEnabled = self.userNameTextField.text.length > 0;
+}
+
+- (void)showUserServiceController:(id)sender {
+    WebViewController *web = [[WebViewController alloc] init];
+    web.url = [NSString stringWithFormat:@"%@/user-agreement.html",[HttpManager h5Host]];
+    [self.navigationController pushViewController:web animated:YES];
 }
 
 #pragma mark- TextFieldDelegate
@@ -247,6 +258,18 @@
         [[NSRunLoop mainRunLoop] addTimer:_timer forMode:NSRunLoopCommonModes];
     }
     return _timer;
+}
+
+- (UIButton *)userServiceButton {
+    if (_userServiceButton) {
+        return _userServiceButton;
+    }
+    _userServiceButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    [_userServiceButton setTitleColor:[UIColor colorWithRed:124/255.0 green:170/255.0 blue:250/255.0 alpha:1] forState:UIControlStateNormal];
+    [_userServiceButton setTitle:@"《用户服务协议》" forState:UIControlStateNormal];
+    _userServiceButton.titleLabel.font = [UIFont systemFontOfSize:12];
+    [_userServiceButton addTarget:self action:@selector(showUserServiceController:) forControlEvents:UIControlEventTouchUpInside];
+    return _userServiceButton;
 }
 
 @end

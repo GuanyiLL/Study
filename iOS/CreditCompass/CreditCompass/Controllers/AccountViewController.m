@@ -36,10 +36,10 @@
 - (void)logoutAction:(id)sender {
     [HttpManager requestLogOut:nil success:^{
         [UserDefault removeToken];
+        self.tabBarController.selectedIndex = 0;
     } failure:^(NSString *errorMessage) {
         [KQBToastView show:errorMessage];
     }];
-    self.tabBarController.selectedIndex = 0;
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
@@ -89,6 +89,7 @@
 - (UIImageView *)tableHeaderView {
     UIImageView *header = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width, 140)];
     header.image = [UIImage imageNamed:@"bg_setting_banner"];
+    header.userInteractionEnabled = YES;
     UIImageView *avatar = [[UIImageView alloc] initWithFrame:CGRectMake(CGRectGetWidth(header.frame) / 2 - 60/2, 20, 60, 60)];
     avatar.layer.cornerRadius = 30;
     avatar.image = [UIImage imageNamed:@"icon_login_logo"];
