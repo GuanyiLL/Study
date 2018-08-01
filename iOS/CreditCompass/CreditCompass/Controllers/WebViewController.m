@@ -47,6 +47,12 @@
     NSLog(@"%@",error);
 }
 
+- (void)pop {
+    if (self.popToRoot) {
+        [self.navigationController popToRootViewControllerAnimated:YES];
+    }
+}
+
 - (WKWebView *)webView {
     if (_webView) {
         return _webView;

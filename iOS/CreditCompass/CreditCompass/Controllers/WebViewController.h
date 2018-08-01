@@ -6,9 +6,9 @@
 //  Copyright © 2018 ra1n. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
+#import "BaseViewController.h"
 
-@interface WebViewController : UIViewController
+@interface WebViewController : BaseViewController
 
 @property (nonatomic, copy) NSString *url;
 @property (nonatomic) BOOL popToRoot;

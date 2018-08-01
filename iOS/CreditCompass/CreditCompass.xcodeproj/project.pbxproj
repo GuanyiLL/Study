@@ -13,6 +13,7 @@
 		93D12FD4210F08D0002FBA80 /* Order.m in Sources */ = {isa = PBXBuildFile; fileRef = 93D12FD3210F08D0002FBA80 /* Order.m */; };
 		93D12FD7211001C4002FBA80 /* CreateReportViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 93D12FD6211001C4002FBA80 /* CreateReportViewController.m */; };
 		93D12FDA211028FC002FBA80 /* WebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 93D12FD9211028FC002FBA80 /* WebViewController.m */; };
+		93D12FE121119AEA002FBA80 /* BaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 93D12FE021119AEA002FBA80 /* BaseViewController.m */; };
 		EE1F06F809E4BBB52A5094AA /* libPods-CreditCompass.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0C235FD65E7AD5CBCB5C5310 /* libPods-CreditCompass.a */; };
 		FB26226921060E5200994305 /* ReportViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FB26226821060E5200994305 /* ReportViewController.m */; };
 		FB26226C21060F1400994305 /* AccountViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FB26226B21060F1400994305 /* AccountViewController.m */; };
@@ -93,6 +94,8 @@
 		93D12FD6211001C4002FBA80 /* CreateReportViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CreateReportViewController.m; sourceTree = "<group>"; };
 		93D12FD8211028FC002FBA80 /* WebViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WebViewController.h; sourceTree = "<group>"; };
 		93D12FD9211028FC002FBA80 /* WebViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WebViewController.m; sourceTree = "<group>"; };
+		93D12FDF21119AEA002FBA80 /* BaseViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BaseViewController.h; sourceTree = "<group>"; };
+		93D12FE021119AEA002FBA80 /* BaseViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BaseViewController.m; sourceTree = "<group>"; };
 		DF37A42681E6D7C24E0EE07E /* Pods-CreditCompass.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CreditCompass.release.xcconfig"; path = "Pods/Target Support Files/Pods-CreditCompass/Pods-CreditCompass.release.xcconfig"; sourceTree = "<group>"; };
 		FB26226721060E5200994305 /* ReportViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ReportViewController.h; sourceTree = "<group>"; };
 		FB26226821060E5200994305 /* ReportViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ReportViewController.m; sourceTree = "<group>"; };
@@ -409,6 +412,8 @@
 				93D12FD6211001C4002FBA80 /* CreateReportViewController.m */,
 				93D12FD8211028FC002FBA80 /* WebViewController.h */,
 				93D12FD9211028FC002FBA80 /* WebViewController.m */,
+				93D12FDF21119AEA002FBA80 /* BaseViewController.h */,
+				93D12FE021119AEA002FBA80 /* BaseViewController.m */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -580,6 +585,7 @@
 				FB26228F210C4AE400994305 /* SettingTableViewCell.m in Sources */,
 				FB9E3C8F2105FB7800911641 /* AppDelegate.m in Sources */,
 				FB3AD735210F52C8006368F0 /* WaitingViewController.m in Sources */,
+				93D12FE121119AEA002FBA80 /* BaseViewController.m in Sources */,
 				FB262277210C007800994305 /* CheckBox.m in Sources */,
 				93D12FD4210F08D0002FBA80 /* Order.m in Sources */,
 				FB3AD738210F71F0006368F0 /* UnderlineTextField.m in Sources */,
@@ -774,7 +780,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = test.CreditCompass;
+				PRODUCT_BUNDLE_IDENTIFIER = com.yiguan.CreditCompass;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TARGETED_DEVICE_FAMILY = 1;
 			};
@@ -799,7 +805,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = test.CreditCompass;
+				PRODUCT_BUNDLE_IDENTIFIER = com.yiguan.CreditCompass;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TARGETED_DEVICE_FAMILY = 1;
 			};

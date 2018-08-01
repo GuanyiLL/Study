@@ -6,11 +6,11 @@
 //  Copyright © 2018 ra1n. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
+#import "BaseViewController.h"
 
 typedef void (^GuideViewControllerCompletionBlock) (void);
 
-@interface GuideViewController : UIViewController
+@interface GuideViewController : BaseViewController
 
 - (instancetype)initWithCompetion:(GuideViewControllerCompletionBlock)competion;
 

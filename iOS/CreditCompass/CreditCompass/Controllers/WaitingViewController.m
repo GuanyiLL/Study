@@ -41,6 +41,9 @@ typedef NS_ENUM(NSUInteger, AliPayResultCode) {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     self.title = @"等待支付";
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleAlipayNotification:) name:@"NSNotificationNameAlipayCallBack" object:nil];
+    
     self.view.backgroundColor = [UIColor colorWithRed:242/255.0 green:242/255.0 blue:242/255.0 alpha:1];
     _timer = [CADisplayLink displayLinkWithTarget:self selector:@selector(refreshTimeLabel)];
     self.count = 900;
@@ -236,18 +239,27 @@ typedef NS_ENUM(NSUInteger, AliPayResultCode) {
 
 - (void)alipay:(NSString *)orderString {
     [[AlipaySDK defaultService] payOrder:orderString fromScheme:@"alipayScheme" callback:^(NSDictionary *resultDic) {
-        
-        NSInteger resultCode     = [resultDic[@"resultStatus"] integerValue];
-        BOOL isSuccess           = resultCode == AliPayResultCodeSuccess;
-        NSString *errorMessage   = [self alipayErrorMessageWithCode:resultCode];
-        
-        if (isSuccess) {
-            CreateReportViewController *report = [[CreateReportViewController alloc] init];
-            [self.navigationController pushViewController:report animated:YES];
-        } else {
-            [KQBToastView show:errorMessage];
-        }
+        [self handleAlipayResultWithResultDic:resultDic];
     }];
+}
+
+- (void)handleAlipayNotification:(NSNotification *)info {
+    NSDictionary *resultDic = info.userInfo;
+    [self handleAlipayResultWithResultDic:resultDic];
+}
+
+- (void)handleAlipayResultWithResultDic:(NSDictionary *)resultDic {
+    NSInteger resultCode     = [resultDic[@"resultStatus"] integerValue];
+    BOOL isSuccess           = resultCode == AliPayResultCodeSuccess;
+    NSString *errorMessage   = [self alipayErrorMessageWithCode:resultCode];
+    
+    if (isSuccess) {
+        CreateReportViewController *report = [[CreateReportViewController alloc] init];
+        report.order = self.order;
+        [self.navigationController pushViewController:report animated:YES];
+    } else {
+        [KQBToastView show:errorMessage];
+    }
 }
 
 - (NSString *)alipayErrorMessageWithCode:(AliPayResultCode)resultCode {
@@ -279,6 +291,8 @@ typedef NS_ENUM(NSUInteger, AliPayResultCode) {
 - (void)dealloc {
     self.timer.paused = YES;
     [self.timer invalidate];
+    self.timer = nil;
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 - (UILabel *)createLabel:(NSString *)text {

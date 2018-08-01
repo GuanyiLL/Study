@@ -6,8 +6,8 @@
 //  Copyright © 2018 ra1n. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
+#import "BaseViewController.h"
 
-@interface ReportViewController : UIViewController
+@interface ReportViewController : BaseViewController
 
 @end

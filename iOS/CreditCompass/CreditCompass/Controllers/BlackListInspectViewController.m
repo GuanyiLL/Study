@@ -32,13 +32,13 @@
     
     _userNameTextField = [[UnderlineTextField alloc] init];
     _userNameTextField.placeholder = @"请输入您的真实姓名";
-    _userNameTextField.leftView = [self textFieldLeftView:[UIImage imageNamed:@"bank_phone"]];
+    _userNameTextField.leftView = [self textFieldLeftView:[UIImage imageNamed:@"account"]];
     _userNameTextField.leftViewMode = UITextFieldViewModeAlways;
     [self.view addSubview:_userNameTextField];
     
     _identifyTextField = [[UnderlineTextField alloc] init];
     _identifyTextField.placeholder = @"请输入有效的身份证号";
-    _identifyTextField.leftView = [self textFieldLeftView:[UIImage imageNamed:@"bank_phone"]];
+    _identifyTextField.leftView = [self textFieldLeftView:[UIImage imageNamed:@"bank_bill"]];
     _identifyTextField.leftViewMode = UITextFieldViewModeAlways;
     [self.view addSubview:_identifyTextField];
     
@@ -50,7 +50,7 @@
     
     _bankCardTextField = [[UnderlineTextField alloc] init];
     _bankCardTextField.placeholder = @"请输入您的银行卡号";
-    _bankCardTextField.leftView = [self textFieldLeftView:[UIImage imageNamed:@"bank_phone"]];
+    _bankCardTextField.leftView = [self textFieldLeftView:[UIImage imageNamed:@"bank_bill"]];
     _bankCardTextField.leftViewMode = UITextFieldViewModeAlways;
     [self.view addSubview:_bankCardTextField];
     

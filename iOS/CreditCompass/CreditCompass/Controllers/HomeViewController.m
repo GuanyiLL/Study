@@ -32,6 +32,7 @@
     self.title = @"信用查查";
     [self requestBanners];
     [self requestProducts];
+    [self requestAppVertion];
 }
 
 - (void)viewDidLayoutSubviews {
@@ -69,7 +70,22 @@
 }
 
 - (void)requestAppVertion {
-    
+    [HttpManager requestAppVersion:@{@"appType":@"ios"}  success:^(NSDictionary *appInfo) {
+        NSString *version = [appInfo[@"version"] substringFromIndex:1];
+//        BOOL isForce = [appInfo[@"isForce"] boolValue];
+        NSDictionary *infoDic = [[NSBundle mainBundle] infoDictionary];
+        NSString *currentVersion = [infoDic objectForKey:@"CFBundleShortVersionString"];
+        if ([currentVersion floatValue] < [version floatValue]) {
+            UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"版本更新" message:@"APP有版本更新，请您前往商城进行更新" preferredStyle:UIAlertControllerStyleAlert];
+            UIAlertAction *action = [UIAlertAction actionWithTitle:@"好的" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+                
+            }];
+            [alert addAction:action];
+            [self presentViewController:alert animated:YES completion:nil];
+        }
+    } failure:^(NSString *errorMessage) {
+        [KQBToastView show:errorMessage];
+    }];
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {

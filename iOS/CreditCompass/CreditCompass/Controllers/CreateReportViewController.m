@@ -30,6 +30,8 @@
     // Do any additional setup after loading the view.
     self.count = 0;
     
+    self.view.backgroundColor = [UIColor whiteColor];
+    
     MDRadialProgressTheme *newTheme = [[MDRadialProgressTheme alloc] init];
     newTheme.labelColor = [UIColor blackColor];
     newTheme.labelShadowColor = [UIColor whiteColor];

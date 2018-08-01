@@ -6,7 +6,7 @@
 //  Copyright © 2018 ra1n. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
+#import "BaseViewController.h"
 @class Product;
 @class CheckBox;
 
@@ -15,7 +15,7 @@ typedef NS_ENUM(NSUInteger, InspectControllerType) {
     InspectControllerTypeBlacklist,
 };
 
-@interface InspectController : UIViewController
+@interface InspectController : BaseViewController
 
 @property (nonatomic) Product *product;
 @property (nonatomic) CheckBox *checkBox;

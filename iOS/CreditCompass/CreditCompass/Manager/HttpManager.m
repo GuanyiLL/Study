@@ -18,7 +18,7 @@
 @end
 
 static NSString * const h5_host = @"http://h5.huocc.cn";
-static NSString * const host = @"cps.huocc.cn";
+static NSString * const host = @"cpstest.huocc.cn";
 static NSString * const version = @"v1";
 
 @implementation HttpManager
@@ -187,6 +187,18 @@ static NSString * const version = @"v1";
     [m POST:[NSString stringWithFormat:@"http://%@/api/%@/alipayAppPay/",host,version] parameters:param progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
         if ([responseObject[@"code"] isEqualToString:@"0000"]) {
             success(responseObject[@"orderString"]);
+        } else {
+            failure(responseObject[@"msg"]);
+        }
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        failure(@"网络错误");
+    }];
+}
+
++ (void)requestAppVersion:(NSDictionary *)param success:(void (^) (NSDictionary *appInfo))success failure:(void (^) (NSString *errorMessage))failure {
+    [self.manager POST:[NSString stringWithFormat:@"%@/appVersion/",[self baseURL]] parameters:param progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+        if ([responseObject[@"code"] isEqualToString:@"0000"]) {
+            success(responseObject[@"data"]);
         } else {
             failure(responseObject[@"msg"]);
         }

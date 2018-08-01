@@ -6,10 +6,10 @@
 //  Copyright © 2018 ra1n. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
+#import "BaseViewController.h"
 @class Order;
 
-@interface CreateReportViewController : UIViewController
+@interface CreateReportViewController : BaseViewController
 
 @property (nonatomic) Order *order;
 

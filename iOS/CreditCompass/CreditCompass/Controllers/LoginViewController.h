@@ -6,11 +6,11 @@
 //  Copyright © 2018 ra1n. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
+#import "BaseViewController.h"
 
 typedef void (^LoginViewControllerCompletionBlock)(void);
 
-@interface LoginViewController : UIViewController
+@interface LoginViewController : BaseViewController
 
 - (instancetype)initWithLoginCompletion:(LoginViewControllerCompletionBlock)completion;
 

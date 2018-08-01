@@ -12,6 +12,10 @@
 #import "UserDefault.h"
 #import "WebViewController.h"
 
+// TODO:
+// usernameImage: account
+// passwordImage: bank_bill
+
 @interface LoginViewController () <CheckBoxDelegate>
 
 @property (nonatomic, copy) LoginViewControllerCompletionBlock completion;
@@ -108,6 +112,8 @@
 - (void)refreshTime:(id)sender {
     if (self.count < 0) {
         [self.timer invalidate];
+        self.timer = nil;
+        self.count = 60;
         [self.verifyCodeButton setTitle:@"获取验证码" forState:UIControlStateNormal];
         [self.verifyCodeButton setTitleColor:[UIColor colorWithRed:158/255.0 green:158/255.0 blue:158/255.0 alpha:1] forState:UIControlStateNormal];
         return;

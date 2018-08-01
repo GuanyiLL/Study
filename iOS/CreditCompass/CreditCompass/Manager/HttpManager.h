@@ -33,5 +33,6 @@
 
 + (void)requestLogOut:(NSDictionary *)param success:(void (^) (void))success failure:(void (^) (NSString *errorMessage))failure;
 
++ (void)requestAppVersion:(NSDictionary *)param success:(void (^) (NSDictionary *appInfo))success failure:(void (^) (NSString *errorMessage))failure;
 
 @end
