@@ -40,11 +40,11 @@
 }
 
 - (void)webView:(WKWebView *)webView didFinishNavigation:(WKNavigation *)navigation {
-    NSLog(@"Finish");
+ 
 }
 
 - (void)webView:(WKWebView *)webView didFailNavigation:(WKNavigation *)navigation withError:(NSError *)error {
-    NSLog(@"%@",error);
+
 }
 
 - (void)pop {

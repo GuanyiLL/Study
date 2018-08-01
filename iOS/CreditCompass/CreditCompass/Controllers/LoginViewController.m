@@ -12,10 +12,6 @@
 #import "UserDefault.h"
 #import "WebViewController.h"
 
-// TODO:
-// usernameImage: account
-// passwordImage: bank_bill
-
 @interface LoginViewController () <CheckBoxDelegate>
 
 @property (nonatomic, copy) LoginViewControllerCompletionBlock completion;
@@ -59,11 +55,11 @@
 - (void)viewDidLayoutSubviews {
     [super viewDidLayoutSubviews];
     self.titleLabel.frame = CGRectMake(20, CGRectGetMaxY(self.navigationController.navigationBar.frame) + 20, CGRectGetWidth(self.view.frame), 30);
-    self.userNameTextField.frame = CGRectMake(60, CGRectGetMaxY(self.titleLabel.frame) + 22, CGRectGetWidth(self.view.frame) - 60 - 20, 40);
-    self.passwordTextField.frame = CGRectMake(CGRectGetMinX(self.userNameTextField.frame), CGRectGetMaxY(self.userNameTextField.frame) + 2, CGRectGetWidth(self.view.frame) - 60 - 20 - 100, 40);
+    self.userNameTextField.frame = CGRectMake(20, CGRectGetMaxY(self.titleLabel.frame) + 22, CGRectGetWidth(self.view.frame) - 20 - 20, 40);
+    self.passwordTextField.frame = CGRectMake(CGRectGetMinX(self.userNameTextField.frame), CGRectGetMaxY(self.userNameTextField.frame) + 2, CGRectGetWidth(self.view.frame) - 20 - 20 - 100, 40);
     
-    self.checkBox.frame = CGRectMake(20, CGRectGetMaxY(self.passwordTextField.frame) + 22, 80, 20);
-    self.userServiceButton.frame = CGRectMake(CGRectGetMaxX(self.checkBox.frame) + 5, CGRectGetMinY(self.checkBox.frame), 50, 20);
+    self.checkBox.frame = CGRectMake(20, CGRectGetMaxY(self.passwordTextField.frame) + 22, 50, 20);
+    self.userServiceButton.frame = CGRectMake(CGRectGetMaxX(self.checkBox.frame) + 5, CGRectGetMinY(self.checkBox.frame), 110, 20);
     
     self.loginButton.frame = CGRectMake(20, CGRectGetMaxY(self.checkBox.frame) + 20, CGRectGetWidth(self.view.frame) - 40, 40);
     
@@ -75,6 +71,10 @@
         UIView *separater = self.separaters[idx];
         separater.frame = CGRectMake(20, 20 + idx * 42 + CGRectGetMaxY(self.titleLabel.frame), CGRectGetWidth(self.view.frame) - 40, 2);
     }
+}
+
+- (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
+    [self.view endEditing:YES];
 }
 
 - (void)dealloc {
@@ -156,7 +156,13 @@
     }
     _userNameTextField = [[UITextField alloc] init];
     _userNameTextField.placeholder = @"请输入手机号";
-    _userNameTextField.font = [UIFont systemFontOfSize:12];
+    UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 40, 40)];
+    UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 10, 20, 20)];
+    imageView.image = [UIImage imageNamed:@"account"];
+    [view addSubview:imageView];
+    _userNameTextField.leftView = view;
+    _userNameTextField.leftViewMode = UITextFieldViewModeAlways;
+    _userNameTextField.clearButtonMode = UITextFieldViewModeAlways;
     [self.view addSubview:_userNameTextField];
     return _userNameTextField;
 }
@@ -167,7 +173,13 @@
     }
     _passwordTextField = [[UITextField alloc] init];
     _passwordTextField.placeholder = @"请输入验证码";
-    _passwordTextField.font = [UIFont systemFontOfSize:12];
+    UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 40, 40)];
+    UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 10, 20, 20)];
+    imageView.image = [UIImage imageNamed:@"bank_bill"];
+    [view addSubview:imageView];
+    _passwordTextField.leftView = view;
+    _passwordTextField.leftViewMode = UITextFieldViewModeAlways;
+    _passwordTextField.clearButtonMode = UITextFieldViewModeAlways;
     [self.view addSubview:_passwordTextField];
     return _passwordTextField;
 }
@@ -188,7 +200,7 @@
     }
     _titleLabel = [[UILabel alloc] init];
     _titleLabel.text = @"登陆 / 注册";
-    _titleLabel.font = [UIFont boldSystemFontOfSize:20];
+    _titleLabel.font = [UIFont boldSystemFontOfSize:22];
     [self.view addSubview:_titleLabel];
     return _titleLabel;
 }
@@ -275,6 +287,7 @@
     [_userServiceButton setTitle:@"《用户服务协议》" forState:UIControlStateNormal];
     _userServiceButton.titleLabel.font = [UIFont systemFontOfSize:12];
     [_userServiceButton addTarget:self action:@selector(showUserServiceController:) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:_userServiceButton];
     return _userServiceButton;
 }
 

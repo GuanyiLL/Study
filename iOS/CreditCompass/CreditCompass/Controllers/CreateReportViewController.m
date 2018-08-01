@@ -97,7 +97,7 @@
 
 - (NSTimer *)timer {
     if (!_timer) {
-        _timer = [NSTimer timerWithTimeInterval:0.2 target:self selector:@selector(refreshTime) userInfo:nil repeats:YES];
+        _timer = [NSTimer timerWithTimeInterval:0.05 target:self selector:@selector(refreshTime) userInfo:nil repeats:YES];
         [[NSRunLoop mainRunLoop] addTimer:_timer forMode:NSRunLoopCommonModes];
     }
     return _timer;

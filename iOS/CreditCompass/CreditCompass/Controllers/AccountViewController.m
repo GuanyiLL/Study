@@ -35,12 +35,21 @@
 }
 
 - (void)logoutAction:(id)sender {
-    [HttpManager requestLogOut:nil success:^{
+//    [HttpManager requestLogOut:nil success:^{
+//        [UserDefault removeToken];
+//        self.tabBarController.selectedIndex = 0;
+//    } failure:^(NSString *errorMessage) {
+//        [KQBToastView show:errorMessage];
+//    }];
+    
+    UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"退出" message:@"是否要退出登录" preferredStyle:UIAlertControllerStyleAlert];
+    [alert addAction:[UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
         [UserDefault removeToken];
         self.tabBarController.selectedIndex = 0;
-    } failure:^(NSString *errorMessage) {
-        [KQBToastView show:errorMessage];
-    }];
+    }]];
+    [alert addAction:[UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+    }]];
+    [self presentViewController:alert animated:YES completion:nil];
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {

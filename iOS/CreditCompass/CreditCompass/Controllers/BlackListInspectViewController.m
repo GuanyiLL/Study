@@ -30,29 +30,35 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(textDidChanged:) name:UITextFieldTextDidChangeNotification object:nil];
+    
     _userNameTextField = [[UnderlineTextField alloc] init];
     _userNameTextField.placeholder = @"请输入您的真实姓名";
     _userNameTextField.leftView = [self textFieldLeftView:[UIImage imageNamed:@"account"]];
     _userNameTextField.leftViewMode = UITextFieldViewModeAlways;
     [self.view addSubview:_userNameTextField];
+    _userNameTextField.clearButtonMode = UITextFieldViewModeAlways;
     
     _identifyTextField = [[UnderlineTextField alloc] init];
     _identifyTextField.placeholder = @"请输入有效的身份证号";
     _identifyTextField.leftView = [self textFieldLeftView:[UIImage imageNamed:@"bank_bill"]];
     _identifyTextField.leftViewMode = UITextFieldViewModeAlways;
     [self.view addSubview:_identifyTextField];
+    _identifyTextField.clearButtonMode = UITextFieldViewModeAlways;
     
     _phoneNumberTextField = [[UnderlineTextField alloc] init];
     _phoneNumberTextField.placeholder = @"请输入您的手机号";
     _phoneNumberTextField.leftView = [self textFieldLeftView:[UIImage imageNamed:@"bank_phone"]];
     _phoneNumberTextField.leftViewMode = UITextFieldViewModeAlways;
     [self.view addSubview:_phoneNumberTextField];
+    _phoneNumberTextField.clearButtonMode = UITextFieldViewModeAlways;
     
     _bankCardTextField = [[UnderlineTextField alloc] init];
     _bankCardTextField.placeholder = @"请输入您的银行卡号";
     _bankCardTextField.leftView = [self textFieldLeftView:[UIImage imageNamed:@"bank_bill"]];
     _bankCardTextField.leftViewMode = UITextFieldViewModeAlways;
     [self.view addSubview:_bankCardTextField];
+    _bankCardTextField.clearButtonMode = UITextFieldViewModeAlways;
     
     [self.imageView sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@/img/slide3.png",[HttpManager h5Host]]]];
     self.checkBox.isSelected = YES;
@@ -78,14 +84,33 @@
     self.inspectButton.frame = CGRectMake(20, CGRectGetMaxY(self.checkBox.frame) + 20, CGRectGetWidth(self.view.frame) - 40, 40);
 }
 
+- (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
+    [self.view endEditing:YES];
+}
+
 - (void)didTapCheckBox {
-    self.inspectButton.isDisable = !self.checkBox.isSelected;
+    [self buttonStatusCheck];
+}
+
+- (void)buttonStatusCheck {
+
+    self.inspectButton.isDisable = _userNameTextField.text.length == 0 || _identifyTextField.text.length == 0 || _phoneNumberTextField.text.length == 0 || _bankCardTextField.text.length == 0 || !self.checkBox.isSelected;
 }
 
 - (void)showProtocol:(id)sender {
     WebViewController *web = [[WebViewController alloc] init];
     web.url = [NSString stringWithFormat:@"%@/user-agreement.html",[HttpManager h5Host]];
     [self.navigationController pushViewController:web animated:YES];
+}
+
+- (void)dealloc {
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
+
+#pragma mark- TextFieldDelegate
+
+- (void)textDidChanged:(NSNotification *)no {
+    [self buttonStatusCheck];
 }
 
 - (void)inspectAction:(id)sender {
