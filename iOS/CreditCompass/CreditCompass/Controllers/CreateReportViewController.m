@@ -57,6 +57,8 @@
     _label.text = @"正在生成报告...";
     _label.textAlignment = NSTextAlignmentCenter;
     [self.view addSubview:_label];
+    
+    self.navigationItem.leftBarButtonItem = nil;
 }
 
 - (void)viewDidLayoutSubviews {

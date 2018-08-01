@@ -51,6 +51,20 @@
         }];
     } else if(authorizationStatus == CNAuthorizationStatusAuthorized) {
         [self loadAllContactsWithStatus];
+    } else {
+        UIAlertController *alert = [UIAlertController alertControllerWithTitle:nil message:@"为确保该功能的正常使用，请先开启通讯录权限" preferredStyle:UIAlertControllerStyleAlert];
+        [alert addAction:[UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+            [self.navigationController popViewControllerAnimated:YES];
+        }]];
+        if (@available(iOS 10.0, *)) {
+            
+        } else {
+            [alert addAction:[UIAlertAction actionWithTitle:@"设置" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+                [[UIApplication sharedApplication]openURL:[NSURL URLWithString:UIApplicationOpenSettingsURLString]];
+                [self.navigationController popViewControllerAnimated:YES];
+            }]];
+        }
+        [self presentViewController:alert animated:YES completion:nil];
     }
 }
 

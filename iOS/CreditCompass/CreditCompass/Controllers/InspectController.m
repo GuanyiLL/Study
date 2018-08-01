@@ -42,6 +42,11 @@
     self.view.backgroundColor = [UIColor whiteColor];
 }
 
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    self.tabBarController.tabBar.hidden = YES;
+}
+
 - (void)inspectAction:(id)sender {
     // overwrite for subclass
 }
