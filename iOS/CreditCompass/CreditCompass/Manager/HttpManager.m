@@ -210,6 +210,9 @@ static NSString * const version = @"v1";
 + (AFHTTPSessionManager *)manager {
     AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
     manager.requestSerializer = [AFJSONRequestSerializer serializer];
+    
+    
+    [manager.requestSerializer setValue:[UserDefault loginToken] forHTTPHeaderField:@"token"];
     return manager;
 }
 
