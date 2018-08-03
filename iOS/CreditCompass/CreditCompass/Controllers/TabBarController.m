@@ -27,11 +27,6 @@
 
 }
 
-- (void)viewWillAppear:(BOOL)animated {
-    [super viewWillAppear:animated];
-    self.tabBar.hidden = NO;
-}
-
 - (BOOL)tabBarController:(UITabBarController *)tabBarController shouldSelectViewController:(UIViewController *)viewController {
     if (self.viewControllers[0] == viewController) { return YES; }
     if ([LoginManager hasLogined]) {

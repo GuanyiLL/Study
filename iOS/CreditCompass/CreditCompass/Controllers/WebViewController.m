@@ -17,39 +17,23 @@
 
 @implementation WebViewController
 
-- (void)viewDidLoad {
-    [super viewDidLoad];
-    
-}
-
 - (void)viewDidLayoutSubviews {
     [super viewDidLayoutSubviews];
     self.webView.frame = CGRectMake(0,
                                     CGRectGetMaxY(self.navigationController.navigationBar.frame),
                                     CGRectGetWidth(self.view.frame),
-                                    CGRectGetMinY(self.tabBarController.tabBar.frame) - CGRectGetMaxY(self.navigationController.navigationBar.frame));
+                                    [UIScreen mainScreen].bounds.size.height - CGRectGetMaxY(self.navigationController.navigationBar.frame));
 }
 
 - (void)viewDidAppear:(BOOL)animated {
     [self.webView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:self.url]]];
 }
 
-- (void)webView:(WKWebView *)webView decidePolicyForNavigationAction:(WKNavigationAction *)navigationAction decisionHandler:(void (^)(WKNavigationActionPolicy))decisionHandler {
-    
-    decisionHandler(WKNavigationActionPolicyAllow);
-}
-
-- (void)webView:(WKWebView *)webView didFinishNavigation:(WKNavigation *)navigation {
- 
-}
-
-- (void)webView:(WKWebView *)webView didFailNavigation:(WKNavigation *)navigation withError:(NSError *)error {
-
-}
-
 - (void)pop {
     if (self.popToRoot) {
         [self.navigationController popToRootViewControllerAnimated:YES];
+    } else {
+        [self.navigationController popViewControllerAnimated:YES];
     }
 }
 
@@ -58,7 +42,6 @@
         return _webView;
     }
     _webView = [[WKWebView alloc] init];
-    _webView.navigationDelegate = self;
     [self.view addSubview:_webView];
     return _webView;
 }

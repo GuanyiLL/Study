@@ -10,5 +10,13 @@
 
 @interface DeviceInfo : NSObject
 
++ (NSString *)ASID;
+
++ (NSDictionary *)wifiInfo;
+
++ (NSString *)macAddress;
+
++ (NSString *)getIPAddress:(BOOL)preferIPv4;
+
 
 @end

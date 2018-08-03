@@ -12,13 +12,14 @@
 #import "HomeBanner.h"
 #import "UserDefault.h"
 #import "Order.h"
+#import "DeviceInfo.h"
 
 @interface HttpManager()
 
 @end
 
 static NSString * const h5_host = @"http://h5.huocc.cn";
-static NSString * const host = @"cpstest.huocc.cn";
+static NSString * const host = @"cps.huocc.cn";
 static NSString * const version = @"v1";
 
 @implementation HttpManager
@@ -210,10 +211,37 @@ static NSString * const version = @"v1";
 + (AFHTTPSessionManager *)manager {
     AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
     manager.requestSerializer = [AFJSONRequestSerializer serializer];
+    NSDictionary *phoneStatus = @{@"DeviceType": @"iOS",
+                                  @"IMEI": @"",
+                                  @"IMSI": @"",
+                                  @"MAC" : [DeviceInfo macAddress],
+                                  @"DeviceID": [DeviceInfo ASID],
+                                  @"WifiMac": [DeviceInfo wifiInfo][@"bssid"] != nil ? [DeviceInfo wifiInfo][@"bssid"] : @"",
+                                  @"WifiName": [DeviceInfo wifiInfo][@"ssid"] != nil ? [DeviceInfo wifiInfo][@"ssid"] : @"",
+                                  @"IpAddress": [DeviceInfo getIPAddress:NO]};
     
-    
-    [manager.requestSerializer setValue:[UserDefault loginToken] forHTTPHeaderField:@"token"];
+    [manager.requestSerializer setValue:[self convertToJsonData:phoneStatus] forHTTPHeaderField:@"phoneStatus"];
     return manager;
+}
+
+
++ (NSString *)convertToJsonData:(NSDictionary *)dict {
+    NSError *error;
+    NSData *jsonData = [NSJSONSerialization dataWithJSONObject:dict options:NSJSONWritingPrettyPrinted error:&error];
+    NSString *jsonString;
+    if (!jsonData) {
+        NSLog(@"%@",error);
+    }else{
+        jsonString = [[NSString alloc]initWithData:jsonData encoding:NSUTF8StringEncoding];
+    }
+    NSMutableString *mutStr = [NSMutableString stringWithString:jsonString];
+    NSRange range = {0,jsonString.length};
+    //去掉字符串中的空格
+    [mutStr replaceOccurrencesOfString:@" " withString:@"" options:NSLiteralSearch range:range];
+    NSRange range2 = {0,mutStr.length};
+    //去掉字符串中的换行符
+    [mutStr replaceOccurrencesOfString:@"\n" withString:@"" options:NSLiteralSearch range:range2];
+    return mutStr;
 }
 
 @end

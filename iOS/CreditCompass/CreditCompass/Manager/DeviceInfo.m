@@ -31,7 +31,11 @@
 
 @implementation DeviceInfo
 
-+ (NSDictionary *)SSIDInfo{
++ (NSString *)ASID {
+    return [[[ASIdentifierManager sharedManager] advertisingIdentifier] UUIDString];
+}
+
++ (NSDictionary *)wifiInfo {
     NSArray *ifs = (__bridge_transfer NSArray *)CNCopySupportedInterfaces();
     NSDictionary *info = nil;
     for (NSString *ifnam in ifs) {
@@ -40,10 +44,11 @@
             break;
         }
     }
-    
-    NSString *ssid = [info[@"SSID"] lowercaseString];
-    NSString *bssid = info[@"BSSID"];
-    return @{@"ssid":ssid,@"bssid":bssid};
+    if ([info[@"SSID"] lowercaseString] && info[@"BSSID"]) {
+        return @{@"ssid":[info[@"SSID"] lowercaseString],@"bssid": info[@"BSSID"]};
+    } else {
+        return nil;
+    }
 }
 
 - (NSString *)autoCompleteWIFIInfor:(NSString *)infor {
@@ -63,7 +68,7 @@
 }
 
 
-- (NSString *)macaddress {
++ (NSString *)macAddress {
     
     int                 mib[6];
     size_t              len;
@@ -102,27 +107,20 @@
     sdl = (struct sockaddr_dl *)(ifm + 1);
     ptr = (unsigned char *)LLADDR(sdl);
     NSString *outstring = [NSString stringWithFormat:@"%02x:%02x:%02x:%02x:%02x:%02x", *ptr, *(ptr+1), *(ptr+2), *(ptr+3), *(ptr+4), *(ptr+5)];
-    
     //    NSString *outstring = [NSString stringWithFormat:@"%02x%02x%02x%02x%02x%02x", *ptr, *(ptr+1), *(ptr+2), *(ptr+3), *(ptr+4), *(ptr+5)];
-    
-    NSLog(@"outString:%@", outstring);
-    
     free(buf);
-    
     return [outstring uppercaseString];
 }
 
 
 //获取ip地址
 //获取设备当前网络IP地址
-- (NSString *)getIPAddress:(BOOL)preferIPv4 {
++ (NSString *)getIPAddress:(BOOL)preferIPv4 {
     NSArray *searchArray = preferIPv4 ?
     @[ /*IOS_VPN @"/" IP_ADDR_IPv4, IOS_VPN @"/" IP_ADDR_IPv6,*/ IOS_WIFI @"/" IP_ADDR_IPv4, IOS_WIFI @"/" IP_ADDR_IPv6, IOS_CELLULAR @"/" IP_ADDR_IPv4, IOS_CELLULAR @"/" IP_ADDR_IPv6 ] :
     @[ /*IOS_VPN @"/" IP_ADDR_IPv6, IOS_VPN @"/" IP_ADDR_IPv4,*/ IOS_WIFI @"/" IP_ADDR_IPv6, IOS_WIFI @"/" IP_ADDR_IPv4, IOS_CELLULAR @"/" IP_ADDR_IPv6, IOS_CELLULAR @"/" IP_ADDR_IPv4 ] ;
     
     NSDictionary *addresses = [self getIPAddresses];
-    NSLog(@"addresses: %@", addresses);
-    
     __block NSString *address;
     [searchArray enumerateObjectsUsingBlock:^(NSString *key, NSUInteger idx, BOOL *stop)
      {
@@ -133,7 +131,7 @@
 }
 
 
-- (NSDictionary *)getIPAddresses {
++ (NSDictionary *)getIPAddresses {
     NSMutableDictionary *addresses = [NSMutableDictionary dictionaryWithCapacity:8];
     
     // retrieve the current interfaces - returns 0 on success
@@ -170,50 +168,6 @@
         freeifaddrs(interfaces);
     }
     return [addresses count] ? addresses : nil;
-}
-
-- (NSString *)getMacAddress {
-    int mib[6];
-    size_t len;
-    char *buf;
-    unsigned char *ptr;
-    struct if_msghdr *ifm;
-    struct sockaddr_dl *sdl;
-    
-    mib[0] = CTL_NET;
-    mib[1] = AF_ROUTE;
-    mib[2] = 0;
-    mib[3] = AF_LINK;
-    mib[4] = NET_RT_IFLIST;
-    
-    if ((mib[5] = if_nametoindex("en0")) == 0) {
-        printf("Error: if_nametoindex error/n");
-        return NULL;
-    }
-    
-    if (sysctl(mib, 6, NULL, &len, NULL, 0) < 0) {
-        printf("Error: sysctl, take 1/n");
-        return NULL;
-    }
-    
-    if ((buf = malloc(len)) == NULL) {
-        printf("Could not allocate memory. error!/n");
-        return NULL;
-    }
-    
-    if (sysctl(mib, 6, buf, &len, NULL, 0) < 0) {
-        printf("Error: sysctl, take 2");
-        return NULL;
-    }
-    
-    ifm = (struct if_msghdr *)buf;
-    sdl = (struct sockaddr_dl *)(ifm + 1);
-    ptr = (unsigned char *)LLADDR(sdl);
-    
-    NSString *outstring = [NSString stringWithFormat:@"%02x%02x%02x%02x%02x%02x", *ptr, *(ptr+1), *(ptr+2), *(ptr+3), *(ptr+4), *(ptr+5)];
-    free(buf);
-    
-    return [outstring uppercaseString];
 }
 
 @end
