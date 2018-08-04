@@ -53,6 +53,7 @@
 		FB3AD7562110AEDD006368F0 /* PaymentMethodSelectorCell.m in Sources */ = {isa = PBXBuildFile; fileRef = FB3AD7552110AEDD006368F0 /* PaymentMethodSelectorCell.m */; };
 		FB3AD7582110AEF0006368F0 /* PaymentMethodSelectorCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = FB3AD7572110AEF0006368F0 /* PaymentMethodSelectorCell.xib */; };
 		FB3AD75B2110B5EF006368F0 /* PaymentMethod.m in Sources */ = {isa = PBXBuildFile; fileRef = FB3AD75A2110B5EF006368F0 /* PaymentMethod.m */; };
+		FB81EC4921159D4300EC40DF /* AboutUsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FB81EC4821159D4300EC40DF /* AboutUsViewController.m */; };
 		FB9E3C8F2105FB7800911641 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = FB9E3C8E2105FB7800911641 /* AppDelegate.m */; };
 		FB9E3C922105FB7800911641 /* HomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FB9E3C912105FB7800911641 /* HomeViewController.m */; };
 		FB9E3C972105FB7900911641 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FB9E3C962105FB7900911641 /* Assets.xcassets */; };
@@ -161,6 +162,8 @@
 		FB3AD7572110AEF0006368F0 /* PaymentMethodSelectorCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PaymentMethodSelectorCell.xib; sourceTree = "<group>"; };
 		FB3AD7592110B5EF006368F0 /* PaymentMethod.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PaymentMethod.h; sourceTree = "<group>"; };
 		FB3AD75A2110B5EF006368F0 /* PaymentMethod.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PaymentMethod.m; sourceTree = "<group>"; };
+		FB81EC4721159D4300EC40DF /* AboutUsViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AboutUsViewController.h; sourceTree = "<group>"; };
+		FB81EC4821159D4300EC40DF /* AboutUsViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AboutUsViewController.m; sourceTree = "<group>"; };
 		FB9E3C8A2105FB7800911641 /* CreditCompass.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CreditCompass.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		FB9E3C8D2105FB7800911641 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		FB9E3C8E2105FB7800911641 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -419,6 +422,8 @@
 				93D12FD9211028FC002FBA80 /* WebViewController.m */,
 				93D12FDF21119AEA002FBA80 /* BaseViewController.h */,
 				93D12FE021119AEA002FBA80 /* BaseViewController.m */,
+				FB81EC4721159D4300EC40DF /* AboutUsViewController.h */,
+				FB81EC4821159D4300EC40DF /* AboutUsViewController.m */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -607,6 +612,7 @@
 				93D12FCD210EBCAA002FBA80 /* BlackListInspectViewController.m in Sources */,
 				93D12FD7211001C4002FBA80 /* CreateReportViewController.m in Sources */,
 				FB26226F21060F2D00994305 /* GuideViewController.m in Sources */,
+				FB81EC4921159D4300EC40DF /* AboutUsViewController.m in Sources */,
 				FB2622AF210DE0F400994305 /* UserDefault.m in Sources */,
 				FB26228B210C476B00994305 /* UIView+Additions.m in Sources */,
 				FB262282210C1C6600994305 /* LoginManager.m in Sources */,
@@ -772,8 +778,9 @@
 			baseConfigurationReference = 8B8B1BF819C20E8082FF70CF /* Pods-CreditCompass.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = MBNHL4TFE7;
+				DEVELOPMENT_TEAM = 7K78TMEHLD;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
@@ -786,8 +793,10 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.yiguan.CreditCompass;
+				PRODUCT_BUNDLE_IDENTIFIER = com.imediax.creditCompass;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
@@ -797,8 +806,9 @@
 			baseConfigurationReference = DF37A42681E6D7C24E0EE07E /* Pods-CreditCompass.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = MBNHL4TFE7;
+				DEVELOPMENT_TEAM = 7K78TMEHLD;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
@@ -811,8 +821,10 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.yiguan.CreditCompass;
+				PRODUCT_BUNDLE_IDENTIFIER = com.imediax.creditCompass;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;

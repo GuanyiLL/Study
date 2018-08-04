@@ -11,6 +11,7 @@
 #import "UserDefault.h"
 #import "HttpManager.h"
 #import "WebViewController.h"
+#import "AboutUsViewController.h"
 
 @interface AccountViewController () <UITableViewDelegate, UITableViewDataSource>
 
@@ -85,10 +86,16 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
-    if (indexPath.row == 0 && indexPath.section ==0) {
+    if (indexPath.row == 0 && indexPath.section == 0) {
         WebViewController *web = [[WebViewController alloc] init];
         web.url = [NSString stringWithFormat:@"%@/user-agreement.html",[HttpManager h5Host]];
         [self.navigationController pushViewController:web animated:YES];
+    }
+    if (indexPath.row == 0 && indexPath.section == 1) {
+        [self sendMail];
+    }
+    if (indexPath.row == 1 && indexPath.section == 1) {
+        [self aboutUS];
     }
 }
 
@@ -132,6 +139,28 @@
     [header addSubview:logOutButton];
     
     return header;
+}
+
+- (void)aboutUS {
+    AboutUsViewController *ab = [[AboutUsViewController alloc] init];
+    [self.navigationController pushViewController:ab animated:YES];
+}
+
+- (void)sendMail {
+    NSMutableString *mailUrl = [[NSMutableString alloc] init];
+    //添加收件人,如有多个收件人，可以使用componentsJoinedByString方法连接，连接符为","
+    NSString *recipients = @"service@huocc.cc";
+    [mailUrl appendFormat:@"mailto:%@?", recipients];
+    //添加邮件主题
+    [mailUrl appendFormat:@"&subject=%@",@"信用罗盘app苹果客户端问题反馈"];
+    //添加邮件内容
+    //跳转到系统邮件App发送邮件
+    NSString *emailPath = [mailUrl stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLFragmentAllowedCharacterSet]];
+    if (@available(iOS 10.0, *)) {
+        [[UIApplication sharedApplication]openURL:[NSURL URLWithString:emailPath] options:@{} completionHandler:nil];
+    } else {
+        [[UIApplication sharedApplication] openURL: [NSURL URLWithString:emailPath]];
+    }
 }
 
 - (NSArray<NSArray *> *)dataSource {

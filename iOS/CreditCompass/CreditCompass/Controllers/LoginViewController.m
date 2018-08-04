@@ -49,6 +49,7 @@
     self.view.backgroundColor = [UIColor whiteColor];
     self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:self.closeButton];
     self.count = 60;
+    self.checkBox.isSelected = YES;
     [self loginButtonStatusCheck];
 }
 
@@ -199,7 +200,7 @@
         return _titleLabel;
     }
     _titleLabel = [[UILabel alloc] init];
-    _titleLabel.text = @"登陆 / 注册";
+    _titleLabel.text = @"登录 / 注册";
     _titleLabel.font = [UIFont boldSystemFontOfSize:22];
     [self.view addSubview:_titleLabel];
     return _titleLabel;
@@ -210,7 +211,7 @@
         return _loginButton;
     }
     _loginButton = [UIButton buttonWithType:UIButtonTypeSystem];
-    [_loginButton setTitle:@"登陆" forState:UIControlStateNormal];
+    [_loginButton setTitle:@"登录" forState:UIControlStateNormal];
     _loginButton.isDisable = YES;
     [_loginButton addTarget:self action:@selector(loginAction:) forControlEvents:UIControlEventTouchUpInside];
     [_loginButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
