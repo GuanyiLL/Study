@@ -69,7 +69,7 @@
 }
 
 - (NSArray *)launchImages {
-    return @[@"launchImage_P2",@"launchImage_P1",@"launchImage_P3"];
+    return @[@"launchImage_P2",@"launchImage_P3"];
 }
 
 @end

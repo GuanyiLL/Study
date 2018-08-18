@@ -10,8 +10,6 @@
 
 @interface DeviceInfo : NSObject
 
-+ (NSString *)ASID;
-
 + (NSDictionary *)wifiInfo;
 
 + (NSString *)macAddress;

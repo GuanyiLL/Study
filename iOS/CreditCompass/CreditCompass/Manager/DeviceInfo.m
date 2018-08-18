@@ -7,7 +7,6 @@
 //
 
 #import "DeviceInfo.h"
-#import <AdSupport/AdSupport.h>
 
 #import <ifaddrs.h>
 #import <arpa/inet.h>
@@ -30,10 +29,6 @@
 #define IP_ADDR_IPv6    @"ipv6"
 
 @implementation DeviceInfo
-
-+ (NSString *)ASID {
-    return [[[ASIdentifierManager sharedManager] advertisingIdentifier] UUIDString];
-}
 
 + (NSDictionary *)wifiInfo {
     NSArray *ifs = (__bridge_transfer NSArray *)CNCopySupportedInterfaces();

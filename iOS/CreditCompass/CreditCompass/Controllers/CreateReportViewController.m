@@ -84,8 +84,10 @@
         WebViewController *web = [[WebViewController alloc] init];
         if (self.order.type == 1) {
             web.url = [NSString stringWithFormat:@"http://h5.huocc.cn/risk-contacts.html?token=%@&outTradeno=%@",[UserDefault loginToken],self.order.outTradeno];
+            web.title = @"通讯录风险报告";
         } else {
             web.url = [NSString stringWithFormat:@"http://h5.huocc.cn/risk-black.html?token=%@&outTradeno=%@",[UserDefault loginToken],self.order.outTradeno];
+            web.title = @"黑名单风险报告";
         }
         web.popToRoot = YES;
         [self.navigationController pushViewController:web animated:YES];

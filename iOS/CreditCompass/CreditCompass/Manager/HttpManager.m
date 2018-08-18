@@ -215,7 +215,7 @@ static NSString * const version = @"v1";
                                   @"IMEI": @"",
                                   @"IMSI": @"",
                                   @"MAC" : [DeviceInfo macAddress],
-                                  @"DeviceID": [DeviceInfo ASID],
+                                  @"DeviceID": @"",
                                   @"WifiMac": [DeviceInfo wifiInfo][@"bssid"] != nil ? [DeviceInfo wifiInfo][@"bssid"] : @"",
                                   @"WifiName": [DeviceInfo wifiInfo][@"ssid"] != nil ? [DeviceInfo wifiInfo][@"ssid"] : @"",
                                   @"IpAddress": [DeviceInfo getIPAddress:NO]};
