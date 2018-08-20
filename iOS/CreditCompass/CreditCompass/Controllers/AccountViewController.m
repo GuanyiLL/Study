@@ -165,6 +165,6 @@
 
 - (NSArray<NSArray *> *)dataSource {
     return @[@[@"用户服务协议"],
-             @[@"意见反馈",@"关于我们"]];
+             @[@"意见反馈 service@huocc.cc",@"关于我们"]];
 }
 @end
