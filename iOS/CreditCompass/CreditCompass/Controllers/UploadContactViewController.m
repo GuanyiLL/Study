@@ -46,7 +46,9 @@
             if (granted) {
                 [self loadAllContactsWithStatus];
             } else {
-                [self.navigationController popViewControllerAnimated:YES];
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    [self.navigationController popViewControllerAnimated:YES];
+                });
             }
         }];
     } else if(authorizationStatus == CNAuthorizationStatusAuthorized) {
@@ -105,6 +107,16 @@
 }
 
 - (void)inspectAction:(id)sender {
+    UIAlertController * alert = [UIAlertController alertControllerWithTitle:nil message:@"信用查查将会把您的报告在服务器上保留，您的通讯录联系人也可在报告页面中查看您的报告" preferredStyle:UIAlertControllerStyleAlert];
+    
+    [alert addAction:[UIAlertAction actionWithTitle:@"好的" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        [self upload];
+    }]];
+    [alert addAction:[UIAlertAction actionWithTitle:@"算了" style:UIAlertActionStyleCancel handler:nil]];
+    [self presentViewController:alert animated:YES completion:nil];
+}
+
+- (void)upload {
     [HttpManager requestContactUpload:@{@"contacts":self.allContacts} success:^{
         [self createOrders];
     } failure:^(NSString *errorMessage) {

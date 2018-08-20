@@ -142,7 +142,7 @@
 }
 
 - (void)aboutUS {
-    AboutUsViewController *ab = [[AboutUsViewController alloc] init];
+    AboutUsViewController *ab = [[AboutUsViewController alloc] initWithNibName:@"AboutUsViewController" bundle:nil];
     [self.navigationController pushViewController:ab animated:YES];
 }
 

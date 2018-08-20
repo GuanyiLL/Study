@@ -33,7 +33,7 @@
     self.view.backgroundColor = [UIColor whiteColor];
     
     _container = [[UIScrollView alloc] initWithFrame: [UIScreen mainScreen].bounds];
-    _container.contentSize = CGSizeMake([UIScreen mainScreen].bounds.size.width * 3, [UIScreen mainScreen].bounds.size.height);
+    _container.contentSize = CGSizeMake([UIScreen mainScreen].bounds.size.width * self.launchImages.count, [UIScreen mainScreen].bounds.size.height);
     _container.pagingEnabled = YES;
     _container.showsHorizontalScrollIndicator = YES;
     [self.view addSubview:_container];

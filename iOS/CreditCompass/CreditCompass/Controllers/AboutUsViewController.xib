@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14113" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="AboutUsViewController">
+            <connections>
+                <outlet property="view" destination="iN0-l3-epB" id="2g3-yo-mDk"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="iN0-l3-epB">
+            <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_launcher" translatesAutoresizingMaskIntoConstraints="NO" id="8fo-ug-WEV">
+                    <rect key="frame" x="157.5" y="120" width="60" height="60"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="60" id="QLR-gF-Kd1"/>
+                        <constraint firstAttribute="height" constant="60" id="gcm-Im-sBF"/>
+                    </constraints>
+                </imageView>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="V1.0" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3UZ-of-bjB">
+                    <rect key="frame" x="171" y="195" width="33" height="21"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                    <nil key="textColor"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="欢迎使用信用罗盘" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1Wz-I9-ytU">
+                    <rect key="frame" x="118" y="231" width="139" height="21"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                    <nil key="textColor"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="联系我们：service@huocc.cc " textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Aav-UK-QS6">
+                    <rect key="frame" x="72" y="267" width="231" height="20.5"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                    <nil key="textColor"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="官方网站：http://luopan.huocc.cn" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="KqY-S8-cY8">
+                    <rect key="frame" x="57.5" y="302.5" width="259.5" height="20.5"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                    <nil key="textColor"/>
+                    <nil key="highlightedColor"/>
+                </label>
+            </subviews>
+            <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <constraints>
+                <constraint firstItem="KqY-S8-cY8" firstAttribute="top" secondItem="Aav-UK-QS6" secondAttribute="bottom" constant="15" id="8s5-s7-JN6"/>
+                <constraint firstItem="KqY-S8-cY8" firstAttribute="centerX" secondItem="8fo-ug-WEV" secondAttribute="centerX" id="Hvt-v9-eNv"/>
+                <constraint firstItem="1Wz-I9-ytU" firstAttribute="centerX" secondItem="8fo-ug-WEV" secondAttribute="centerX" id="NZG-4J-ufR"/>
+                <constraint firstItem="1Wz-I9-ytU" firstAttribute="top" secondItem="3UZ-of-bjB" secondAttribute="bottom" constant="15" id="PZA-S7-wVM"/>
+                <constraint firstItem="Aav-UK-QS6" firstAttribute="top" secondItem="1Wz-I9-ytU" secondAttribute="bottom" constant="15" id="YMd-nH-uNk"/>
+                <constraint firstItem="3UZ-of-bjB" firstAttribute="top" secondItem="8fo-ug-WEV" secondAttribute="bottom" constant="15" id="ZBG-SE-6om"/>
+                <constraint firstItem="3UZ-of-bjB" firstAttribute="centerX" secondItem="8fo-ug-WEV" secondAttribute="centerX" id="ZDk-Ad-iwK"/>
+                <constraint firstItem="8fo-ug-WEV" firstAttribute="top" secondItem="vUN-kp-3ea" secondAttribute="top" constant="100" id="fli-2i-eG5"/>
+                <constraint firstItem="Aav-UK-QS6" firstAttribute="centerX" secondItem="8fo-ug-WEV" secondAttribute="centerX" id="iaT-6Z-rDO"/>
+                <constraint firstItem="8fo-ug-WEV" firstAttribute="centerX" secondItem="vUN-kp-3ea" secondAttribute="centerX" id="iv5-Os-vdI"/>
+            </constraints>
+            <viewLayoutGuide key="safeArea" id="vUN-kp-3ea"/>
+            <point key="canvasLocation" x="-93.5" y="52.5"/>
+        </view>
+    </objects>
+    <resources>
+        <image name="ic_launcher" width="72" height="72"/>
+    </resources>
+</document>

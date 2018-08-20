@@ -15,6 +15,7 @@
 		93D12FD7211001C4002FBA80 /* CreateReportViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 93D12FD6211001C4002FBA80 /* CreateReportViewController.m */; };
 		93D12FDA211028FC002FBA80 /* WebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 93D12FD9211028FC002FBA80 /* WebViewController.m */; };
 		93D12FE121119AEA002FBA80 /* BaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 93D12FE021119AEA002FBA80 /* BaseViewController.m */; };
+		93D83547212A9D4300C52CAB /* AboutUsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 93D83546212A9D4300C52CAB /* AboutUsViewController.xib */; };
 		EE1F06F809E4BBB52A5094AA /* libPods-CreditCompass.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0C235FD65E7AD5CBCB5C5310 /* libPods-CreditCompass.a */; };
 		FB26226921060E5200994305 /* ReportViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FB26226821060E5200994305 /* ReportViewController.m */; };
 		FB26226C21060F1400994305 /* AccountViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FB26226B21060F1400994305 /* AccountViewController.m */; };
@@ -100,6 +101,7 @@
 		93D12FD9211028FC002FBA80 /* WebViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WebViewController.m; sourceTree = "<group>"; };
 		93D12FDF21119AEA002FBA80 /* BaseViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BaseViewController.h; sourceTree = "<group>"; };
 		93D12FE021119AEA002FBA80 /* BaseViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BaseViewController.m; sourceTree = "<group>"; };
+		93D83546212A9D4300C52CAB /* AboutUsViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AboutUsViewController.xib; sourceTree = "<group>"; };
 		DF37A42681E6D7C24E0EE07E /* Pods-CreditCompass.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CreditCompass.release.xcconfig"; path = "Pods/Target Support Files/Pods-CreditCompass/Pods-CreditCompass.release.xcconfig"; sourceTree = "<group>"; };
 		FB26226721060E5200994305 /* ReportViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ReportViewController.h; sourceTree = "<group>"; };
 		FB26226821060E5200994305 /* ReportViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ReportViewController.m; sourceTree = "<group>"; };
@@ -424,6 +426,7 @@
 				93D12FE021119AEA002FBA80 /* BaseViewController.m */,
 				FB81EC4721159D4300EC40DF /* AboutUsViewController.h */,
 				FB81EC4821159D4300EC40DF /* AboutUsViewController.m */,
+				93D83546212A9D4300C52CAB /* AboutUsViewController.xib */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -532,6 +535,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				93D83547212A9D4300C52CAB /* AboutUsViewController.xib in Resources */,
 				FB9E3CC22106038200911641 /* Main.storyboard in Resources */,
 				FB3AD7582110AEF0006368F0 /* PaymentMethodSelectorCell.xib in Resources */,
 				FB9E3C9A2105FB7900911641 /* LaunchScreen.storyboard in Resources */,
