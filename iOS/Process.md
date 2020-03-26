@@ -80,18 +80,12 @@
 Peterson's Algorithm:
 
 ```c
-Pi 进程													
-flag[i] = true;turn = j;						//进入区
-while(flag[j]&&turn==j);						//进入区
-critical section;										//临界区
-flag[i] = false;										//退出区
-remainder section;									//剩余区
-Pj进程
-flag[j] = true;turn = i;
-while(flag[i]&&turn==i);
-critical section;
-flag[j] = false;
-remainder section;
+Pi 进程                                Pj进程
+flag[i] = true;turn = j;              flag[j] = true;turn = i;            //进入区
+while(flag[j]&&turn==j);              while(flag[i]&&turn==i);            //进入区
+critical section;                     critical section;                   //临界区
+flag[i] = false;                      flag[j] = false;                    //退出区
+remainder section;                    remainder section;                  //剩余区
 ```
 
 具体如下：考虑进程Pi，一旦设置flag[i]=true，就表示他想要进入临界区，同时turn=j，此时若进程Pj已在临界区中，符合进程Pi中的while循环条件，则Pi不能进入临界区。若Pj不想进入临界区，即flag[j]=false，循环条件不符合，则Pi可以顺利进入，反之依然。
