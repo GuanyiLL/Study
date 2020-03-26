@@ -80,12 +80,18 @@
 Peterson's Algorithm:
 
 ```c
-Pi 进程													 Pj进程
-flag[i] = true;turn = j;				flag[j] = true;turn = i;		//进入区
-while(flag[j]&&turn==j);				while(flag[i]&&turn==i);		//进入区
-critical section;								critical section;						//临界区
-flag[i] = false;								flag[j] = false;						//退出区
-remainder section;							remainder section;					//剩余区
+Pi 进程													
+flag[i] = true;turn = j;						//进入区
+while(flag[j]&&turn==j);						//进入区
+critical section;										//临界区
+flag[i] = false;										//退出区
+remainder section;									//剩余区
+Pj进程
+flag[j] = true;turn = i;
+while(flag[i]&&turn==i);
+critical section;
+flag[j] = false;
+remainder section;
 ```
 
 具体如下：考虑进程Pi，一旦设置flag[i]=true，就表示他想要进入临界区，同时turn=j，此时若进程Pj已在临界区中，符合进程Pi中的while循环条件，则Pi不能进入临界区。若Pj不想进入临界区，即flag[j]=false，循环条件不符合，则Pi可以顺利进入，反之依然。
@@ -129,7 +135,6 @@ remainder section;							remainder section;					//剩余区
          	block(S.L);
        }
    }
-   
    void signal(semaphore S) {
      	S.value ++;
      	if (S.value <= 0) {
@@ -138,7 +143,7 @@ remainder section;							remainder section;					//剩余区
        }
    }
    ```
-
+   
 3. 信号量实现同步：
 
    设S为实现进程P1、P2同步的公共信号量，初值为0。进程P2中的语句y要使用进程P1中语句x的运行结果，所以只有当语句x执行完成之后语句y才可以执行：
@@ -169,7 +174,6 @@ remainder section;							remainder section;					//剩余区
        V(S);						//访问结束，解锁
      	...
    }
-   
    P2() {
      	...
        P(S);						//准备开始访问临界资源，加锁
