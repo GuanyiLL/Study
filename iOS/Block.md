@@ -92,7 +92,7 @@ self.aProperty = @"something";
 
 `block`的内存布局：
 
-![memory layout](/img/block1.png)
+![memory layout](../img/block1.png)
 
 其中最重要的是`invoke`，指向`block`的实现存放处的函数指针。该函数至少含有一个`void*`,也就是`block`自身。`block`其实也就是一个匿名函数指针,将以前使用标准C语言功能完成的操作包装的更简洁易用。
 
@@ -263,7 +263,7 @@ typedef void(^EOCNetworkFetcherCompletionHandler)(NSData *data);
 
 以上代码只是一个普通的网络请求代码，可以很好的反映出循环引用的关系：
 
-![retain cycle](/img/block2.png)
+![retain cycle](../img/block2.png)
 
 而打破这个引用也很简单：
 
