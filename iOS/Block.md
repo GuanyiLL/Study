@@ -92,7 +92,7 @@ self.aProperty = @"something";
 
 `block`的内存布局：
 
-![memory layout](../img/block1.png)
+![memory layout](/img/block1.png)
 
 其中最重要的是`invoke`，指向`block`的实现存放处的函数指针。该函数至少含有一个`void*`,也就是`block`自身。`block`其实也就是一个匿名函数指针,将以前使用标准C语言功能完成的操作包装的更简洁易用。
 
@@ -263,7 +263,7 @@ typedef void(^EOCNetworkFetcherCompletionHandler)(NSData *data);
 
 以上代码只是一个普通的网络请求代码，可以很好的反映出循环引用的关系：
 
-![retain cycle](../img/block2.png)
+![retain cycle](/img/block2.png)
 
 而打破这个引用也很简单：
 
@@ -323,13 +323,13 @@ int main(int argc, const char * argv[]) {
 
 上述例子中，输出结果为`Print Age = 10`，将文件转换为CPP格式之后代码如下：
 
-![Block3](../img/block3.png)
+![Block3](/img/block3.png)
 
 不难看出，`block`在截获普通变量的时候，只是将值传递到了`block`中，因此，不能修改外部参数。
 
 而加上修饰符后：
 
-![Block4](../img/block4.png)
+![Block4](/img/block4.png)
 
 这次`age`相关的变量，都变成了`__Block_byref_age_0`的结构体，并且传参时都使用了`&`来取地址，由于传递的是引用，因此可以修改外部变量的值。
 
@@ -346,12 +346,12 @@ myBlock();
 
 编译成CPP文件后：
 
-![Block5](../img/block5.png)
+![Block5](/img/block5.png)
 
 在block内部，我们可以通过NSMutableArray的方法来修改该数组，但是如果在block内部重新初始化数组编译器则会报错。
 
 加入`__block`后则可以修改：
 
-![Block6](../img/block6.png)
+![Block6](/img/block6.png)
 
 可以看出，无论是基础类型还是OC对象，在block截获后，加入`__block`后，OC会将该变量声明成`__Block_bref_变量名_0`这样的结构体，然后将地址当作参数，因此在`block`内部，可以通过`__forwarding`获取到该变量堆上的地址，从而修改或者重新分配空间。我们也可以通过LLVM中的p指令来打印截获变量的地址，发现如果不加修饰符的话，地址是不一样的。
