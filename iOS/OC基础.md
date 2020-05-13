@@ -101,5 +101,7 @@ Student的instance对象要调用Person的方法时，会先通过isa找到Stude
 
 ## class结构
 
-### ![OC基础01](../img/OC基础01.png)
+### ![OC基础01](/img/OC基础01.png)
+
+## KVO
 
