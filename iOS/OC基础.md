@@ -3,9 +3,7 @@
 ## 对象的本质
 
 <details><summary>一个NSObject对象占多少内存</summary>16字节</details>
-
 <details><summary>将文件编译为iphone平台的cpp文件</summary>xcrun -sdk iphoneos clang -arch arm64 -rewrite-objc 文件名 -o 目标文件名.app</details>
-
 ```objectivec
 // Implementation
 struct NSObject_IMP {
@@ -87,7 +85,6 @@ meta-class对象和class对象的内存布局结构一样，但是用途不同�
 </details>
 
 <details><summary>class的isa</summary>指向meta-class,当调用类方法时，通过class的isa找到meta-class，最后找到类方法的实现进行调用</details>
-
 > 64系统，对象的isa&ISA_MASK获取的才是对象的类对象地址，类对象的isa&ISA_MASK才是元类的地址
 
 ## superclass指针
@@ -104,4 +101,5 @@ Student的instance对象要调用Person的方法时，会先通过isa找到Stude
 
 ## class结构
 
-### ![OC基础01](/img/OC基础01.png)
+### ![OC基础01](../img/OC基础01.png)
+
