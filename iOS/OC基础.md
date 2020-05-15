@@ -170,14 +170,14 @@ obj->key = @"aaa";
 
 KVC会触发KVO
 
-<details><summary>setValueForKey的流程:</summary> setValue:forKey ===> setKey:/_setKey:如果没有两个set方法会执行以下方法，询问是否可以访问成员变量
-+(BOOL)accessIntanceVariablesDirectly
-return NO； 则会崩溃。
-return YES；依次访问_key, _isKey, key, isKey
+<details><summary>setValueForKey的流程:</summary> setValue:forKey ===> setKey:/_setKey:</br>如果没有两个set方法会执行以下方法，询问是否可以访问成员变量</br>
++(BOOL)accessIntanceVariablesDirectly</br>
+return NO； 则会崩溃。</br>
+return YES；依次访问_key, _isKey, key, isKey</br>
 如果都访问不到，则崩溃抛出异常。
 </details>
 
-<details><summary>valueForKey的流程：</summary>按照getKey, key, isKey, _ key的顺序调用， 如果没这四个方法会执行以下方法，询问是否可以访问成员变量accessIntanceVariablesDirectly，returnNO则抛出异常。return YES，则依次访问_ key,  _isKey, key,  isKey
+<details><summary>valueForKey的流程：</summary>按照getKey, key, isKey, _ key的顺序调用， 如果没这四个方法会执行以下方法，询问是否可以访问成员变量</br>accessIntanceVariablesDirectly，</br>returnNO则抛出异常。</br>return YES，则依次访问_ key,  _isKey, key,  isKey
 如果都访问不到，则崩溃抛出异常。</details>
 
 ## Category
@@ -199,7 +199,7 @@ sturct _category_t {
 
 <details>
 	<summary>源码实现</summary>  
-运行时添加方法列表，在添加分类时，现将存放方法的数组重新分配大小，然后将之前的方法列表，通过memomove方法移动到末尾的位置，最后将新增的分类放在扩容后的数组的前面。最后编译的分类方法放在最前的位置
+运行时添加方法列表，在添加分类时，现将存放方法的数组重新分配大小，然后将之前的方法列表，通过memmove方法移动到末尾的位置，最后将新增的分类放在扩容后的数组的前面。最后编译的分类方法放在最前的位置
 </details>
 
 ### 类扩展（class extension）
@@ -212,21 +212,131 @@ sturct _category_t {
 
 Copy:
 
-[3,4,1,2]
-
-[3,3,1,2]
-
-[3,3,3,2]
+[3,4,1,2] -> [3,3,1,2] -> [3,3,3,2]
 
 Move:
 
-[3,4,1,2]
-
-[3,4,4,2]
-
-[3,3,4,2]
+[3,4,1,2] -> [3,4,4,2] -> [3,3,4,2]
 
 ### +load
 
-先调用所有类的load方法，直接获取load方法地址，并没有遍历类对象方法列表。
+runtime加载类、分类的时候调用
+
+每个类、分类的+load，在程序中只调用一次
+
+调用顺序：
+
+先调用类的+load方法，直接获取类的load方法地址，并没有遍历类对象方法列表。
+
+按照编译先后顺序调用（先编译，先调用）
+
+调用子类的+load之前先调用父类的+load（递归添加到数组中，将父类传入方法）
+
+调用分类的load方法
+
+### +initialize
+
+一个类在第一次接收消息的时候调用。通过msgSend方法调用。
+
+先调用父类的+initialize，然后调用子类的+initialize。如果分类中有+initialize方法，则调用分类中的。
+
+如果子类没有实现+initialize，则会调用父类的
+
+```
+if (SubclassIsInitialized) {
+	if (SuperclassIsInitialized) {
+		objc_msgSend([Superclass class], @selector(initialize));
+		SuperclassIsInitialized = YES;
+	}
+	objc_msgSend([Subclass class], @selector(initialize));
+	SubclassIsInitialized = YES;
+}
+```
+
+Objc-runtime-new.mm中的调用顺序：
+
+1. class_getInstanceMethod
+
+2. lookUpImpOrNil
+
+3. lookUpImpOrForward
+
+4. _class_initialize
+
+5. callInitialize
+
+6. objc_msgSend(cls,SEL_initialize)
+
+### load、initialize区别
+
+1. 调用方式
+   1. load根据函数地址直接调用
+   2. initialize通过objc_msgSend调用
+2. 调用时刻
+   1. load是runtime加载类、分类时调用（只会调用一次）
+   2. initialize第一次接收消息时调用，每一个类只会调用一次（父类可能多次调用）
+
+调用顺序：
+
+1. load
+   1. 先调用类的load
+      1. 先编译的类，有先调用load
+      2. 调用子类load之前，会调用父类的load
+   2. 调用分类的load
+      1. 先编译的分类，优先调用load
+2. initailize
+   1. 先初始化父类
+   2. 初始化子类（可能最终调用父类的initialize）
+
+## 关联属性
+
+在分类中使用property只会生成get/set方法的声明，并没有成员变量与get/set的方法实现。
+
+key的定义:
+
+```objectivec
+static const void* Key1 = &key1
+static const void* Key2 = &key2
+  
+static const char Key1;
+static const char Key2;
+
+直接传入@"key1",@"key2"
+# define Key @"key1"
+# define Key @"key2"
+  
+@selector(key1)
+@selector(key2)
+  
+_cmd == @selector(key) //隐式参数
+```
+
+### 实现核心对象
+
+AssociationsManager
+
+AssociationsHashMap
+
+ObjectAssociationMap
+
+ObjcAssociation
+
+源码：objc-reference.mm
+
+![AssociateObject1](/img/AssociateObject1.png)
+
+## Block
+
+底层结构：
+
+``` 
+struct __block_impl {
+	void *isa;
+	int Flags;
+	int Reserved;
+	void *FuncPtr;
+};
+```
+
+
 
