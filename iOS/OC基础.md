@@ -386,3 +386,67 @@ block初始化时，将age的地址传入block，在调用block时，会访问ag
 访问auto变量--StackBlock
 
 对StackBlock执行了copy操作--MallocBlock
+
+### block的copy
+
+ARC下，编译器会根据情况自动将栈上的block进行copy操作复制到堆上：
+
+1. block作为函数返回值时
+2. 将block赋值给__strong 指针时
+3. block作为CocoaAPI中方法名含有usingBlock的方式参数时
+
+### 对象类型的auto变量
+
+当block内访问了对象类型的auto变量
+
+如果block在栈上，将不会对auto变量产生强引用
+
+如果block被拷贝到堆上
+
+	* 会调用block内部的copy函数
+	* copy函数内部会调用_Block_object_assin函数
+	* _Block_object_assign函数会根据auto变量的修饰符(__ strong ,   __ weak, __unsafe_unretained)作出相应的操作，类似于retain(形成强引用，弱引用)
+
+如果block在堆中被移除
+
+	* 会调用block内部的dispose函数
+	* dispose函数内部会调用_Block_object_dispose函数
+	* _Block_object_dispose函数会自动释放引用的auto变量，类似于release
+
+### __block的内存管理
+
+编译器会将捕获的变量包装成一个对象。
+
+block在栈上，并不会对__block变量产生强引用
+
+block在堆上，
+
+	* 会调用block内部的copy函数
+	* copy函数会调用_Block_object_assign函数
+	* _Block_object_assign函数会对__block变量形成强引用
+
+block在被copy到堆上时，相对应持有的__block变量也会被copy到堆上。
+
+block从堆中移除时
+
+* 会调用block内部的dispose函数
+* dispose函数内部会调用_Block_object_dispose函数
+* _Block_object_dispose函数会自动释放引用的 _block变量
+
+### __forwarding
+
+![forwarding](/img/forwarding.png)
+
+### 被__block修饰的对象类型
+
+- 当__block变量在栈上时，不会对指向的对象产生强引用
+- 当__block变量被copy到堆时
+  - 会调用__block变量内部的copy函数
+  - copy函数内部会调用_Block_object_assign函数
+  - _Block_object_assign函数会根据所指向对象的修饰符（__ strong、__ weak、__unsafe_unretained）做出相应的操作，形成强引用（retain）或者弱引用（注意：这里仅限于ARC时会retain，MRC时不会retain）
+
+- 如果__block变量从堆上移除
+  - 会调用__block变量内部的dispose函数
+  - dispose函数内部会调用_Block_object_dispose函数
+  - _Block_object_dispose函数会自动释放指向的对象（release）
+
