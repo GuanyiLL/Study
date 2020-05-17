@@ -327,16 +327,62 @@ ObjcAssociation
 
 ## Block
 
-底层结构：
+### auto变量截获
 
-``` 
+```objectivec
+int age = 20;
+void (^block)(void) = ^{
+	NSLog(@"age = %d", age);
+}
+```
+
+一个普通的block，底层编译后变为：
+
+```objectivec
+struct __main_block_impl_0 {
+	struct __block_imp impl;
+	struct __main_block_desc_0 *Desc;
+	int age; //外部截获的变量
+}
+
 struct __block_impl {
 	void *isa;
 	int Flags;
 	int Reserved;
-	void *FuncPtr;
-};
+	void *FuncPtr;   // 存放block内的函数地址
+}
+
+struct __main_block_desc_0 {
+	size_t reserved;
+	size_t Block_size; // block的大小
+}
 ```
 
+### static变量截获
 
+```objectivec
+static int age = 20;
+void (^block)(void) = ^{
+	NSLog(@"age = %d", age);
+}
 
+struct __main_block_impl_0 {
+	struct __block_imp impl;
+	struct __main_block_desc_0 *Desc;
+	int *age; //外部截获的变量
+}
+```
+
+block初始化时，将age的地址传入block，在调用block时，会访问age的地址，因此age的改动会影响block内的值。
+
+### 全局变量截获
+
+并不会截获，block调用时会直接访问全局变量，无需捕获。
+
+### block类型
+
+没有访问auto变量--GlobalBlock
+
+访问auto变量--StackBlock
+
+对StackBlock执行了copy操作--MallocBlock
