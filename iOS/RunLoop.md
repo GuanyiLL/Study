@@ -37,6 +37,8 @@ CFRunLoopGetCurrent()
 
 lldb打印调用栈：bt
 
+模式切换的时候，先退出当前mode，然后再进入新的mode。
+
 ## RunLoop运行逻辑
 
 - Source0
@@ -55,3 +57,4 @@ lldb打印调用栈：bt
   - 用于监听RunLoop的状态
   - UI刷新（BeforeWaiting）
   - Autorelease pool（BeforeWaiting）
+
