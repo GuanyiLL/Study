@@ -116,7 +116,7 @@ struct bucket_t {
   if (aSelector == @selector()) {
     return [NSMethodSignature signatureWithObjCTypes:"v16@0:8"];
   }
-  return [super forwardingTargetForSelector:sel];
+  return [super methodSignatureForSelector:aSelector];
 }
 
 // NSInvocation封装了一个方法调用，包括：方法调用者、方法名、方法参数
@@ -173,6 +173,4 @@ struct objc_msgSendSuper2 {
 ```
 
 栈空间分配变量，从高地址到低地址。
-
-
 
