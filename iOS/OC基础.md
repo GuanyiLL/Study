@@ -431,7 +431,7 @@ block从堆中移除时
 
 * 会调用block内部的dispose函数
 * dispose函数内部会调用_Block_object_dispose函数
-* _Block_object_dispose函数会自动释放引用的 _block变量
+* _Block_object_dispose函数会自动释放引用的 __block变量
 
 ### __forwarding
 
