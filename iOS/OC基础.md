@@ -4,6 +4,7 @@
 
 <details><summary>一个NSObject对象占多少内存</summary>16字节</details>
 <details><summary>将文件编译为iphone平台的cpp文件</summary>xcrun -sdk iphoneos clang -arch arm64 -rewrite-objc 文件名 -o 目标文件名.app</details>
+
 ```objectivec
 // Implementation
 struct NSObject_IMP {
@@ -83,6 +84,7 @@ meta-class对象和class对象的内存布局结构一样，但是用途不同�
 </details>
 
 <details><summary>class的isa</summary>指向meta-class,当调用类方法时，通过class的isa找到meta-class，最后找到类方法的实现进行调用</details>
+
 > 64系统，对象的isa&ISA_MASK获取的才是对象的类对象地址，类对象的isa&ISA_MASK才是元类的地址
 
 ## superclass指针
@@ -403,15 +405,15 @@ ARC下，编译器会根据情况自动将栈上的block进行copy操作复制�
 
 如果block被拷贝到堆上
 
-	* 会调用block内部的copy函数
-	* copy函数内部会调用_Block_object_assin函数
-	* _Block_object_assign函数会根据auto变量的修饰符(__ strong ,   __ weak, __unsafe_unretained)作出相应的操作，类似于retain(形成强引用，弱引用)
+* 会调用block内部的copy函数
+* copy函数内部会调用_Block_object_assin函数
+* _Block_object_assign函数会根据auto变量的修饰符(__ strong ,   __ weak, __unsafe_unretained)作出相应的操作，类似于retain(形成强引用，弱引用)
 
 如果block在堆中被移除
 
-	* 会调用block内部的dispose函数
-	* dispose函数内部会调用_Block_object_dispose函数
-	* _Block_object_dispose函数会自动释放引用的auto变量，类似于release
+* 会调用block内部的dispose函数
+* dispose函数内部会调用_Block_object_dispose函数
+* _Block_object_dispose函数会自动释放引用的auto变量，类似于release
 
 ### __block的内存管理
 
@@ -421,9 +423,9 @@ block在栈上，并不会对__block变量产生强引用
 
 block在堆上，
 
-	* 会调用block内部的copy函数
-	* copy函数会调用_Block_object_assign函数
-	* _Block_object_assign函数会对__block变量形成强引用
+* 会调用block内部的copy函数
+* copy函数会调用_Block_object_assign函数
+* _Block_object_assign函数会对__block变量形成强引用
 
 block在被copy到堆上时，相对应持有的__block变量也会被copy到堆上。
 
