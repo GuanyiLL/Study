@@ -314,9 +314,6 @@ func avoidFlood(_ rains: [Int]) -> [Int] {
             map[rains[i]] = i;
         }
     }
-    for i in zeros {
-        res[i] = 1;
-    }
     return res
 }
 ```
