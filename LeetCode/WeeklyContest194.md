@@ -157,14 +157,6 @@ func getFolderNames(_ names: [String]) -> [String] {
 
 ### 1488. Avoid Flood in The City
 
-[My Submissions](https://leetcode.com/contest/weekly-contest-194/problems/avoid-flood-in-the-city/submissions/)[Back to Contest](https://leetcode.com/contest/weekly-contest-194/)
-
-- **User Accepted:**1202
-- **User Tried:**3504
-- **Total Accepted:**1240
-- **Total Submissions:**11201
-- **Difficulty:****Medium**
-
 Your country has an infinite number of lakes. Initially, all the lakes are empty, but when it rains over the `nth` lake, the `nth` lake becomes full of water. If it rains over a lake which is **full of water**, there will be a **flood**. Your goal is to avoid the flood in any lake.
 
 Given an integer array `rains` where:
