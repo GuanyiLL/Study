@@ -68,5 +68,46 @@ public:
         return isSameTree(p->left, q->left) && isSameTree(p->right, q->right);
     }
 };
-
 ```
+
+```swift
+func isSameTree(_ p: TreeNode?, _ q: TreeNode?) -> Bool {
+    if (p == nil && q == nil) {
+        return true
+    }
+    if (p == nil && q != nil) || (p != nil && q == nil) {
+        return false
+    }
+    
+    var q1 = [TreeNode]()
+    var q2 = [TreeNode]()
+    
+    q1.append(p!)
+    q2.append(q!)
+
+    while (!q1.isEmpty && !q2.isEmpty) {
+        let t1 = q1.removeLast()
+        let t2 = q2.removeLast()
+        
+        if t1.val != t2.val {
+            return false
+        }
+        
+        if (t1.left != nil && t2.left != nil) {
+            q1.append(t1.left!)
+            q2.append(t2.left!)
+        } else if (t1.left == nil && t2.left != nil) || (t1.left != nil && t2.left == nil) {
+            return false
+        }
+        if (t1.right != nil && t2.right != nil) {
+            q2.append(t2.right!)
+            q1.append(t1.right!)
+        } else if (t1.right == nil && t2.right != nil) || (t1.right != nil && t2.right == nil) {
+            return false
+        }
+    }
+    
+    return true
+}
+```
+
