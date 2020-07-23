@@ -41,3 +41,22 @@ func singleNumber(_ nums: [Int]) -> [Int] {
 }
 ```
 
+```go
+unc singleNumber(nums []int) []int {
+	var res []int
+	diff := 0
+	for i := 0; i < len(nums); i++ {
+		diff ^= nums[i]
+	}
+	mask := diff & (-diff)
+	num1 := 0
+	for i := 0; i < len(nums); i++ {
+		if nums[i]&mask != 0 {
+			num1 ^= nums[i]
+		}
+	}
+	res = append(res, num1, (num1 ^ diff))
+	return res
+}
+```
+
