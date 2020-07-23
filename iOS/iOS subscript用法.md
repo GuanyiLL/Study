@@ -149,3 +149,15 @@ List *list = [[List alloc] init];
 list[0] = @"asdff";
 ```
 
+如果想实现字典访问方式，则实现以下两个方法即可：
+
+```objectivec
+- (id)objectForKeyedSubscript:(id)key{
+    return self.dict[key];
+}
+
+- (id)objectAtIndexedSubscript:(NSUInteger)idx{
+    return self.array[idx];
+}
+```
+
