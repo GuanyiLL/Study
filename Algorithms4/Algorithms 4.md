@@ -78,7 +78,7 @@ public class QuickFindUF {
 * i的根节点为id[id[id[...id[i]...]]]
 
 ```
-		 0 1 2 3 4 5 6 7 8 9
+     0 1 2 3 4 5 6 7 8 9
 id[] 0 1 9 4 9 6 6 7 8 9     
 ```
 
@@ -95,10 +95,10 @@ id[] 0 1 9 4 9 6 6 7 8 9
 要合并包含p和q的所有条目，需将p的根节点设置为q的根节点。
 
 ```
-		 0 1 2 3 4 5 6 7 8 9
+     0 1 2 3 4 5 6 7 8 9
 id[] 0 1 9 4 9 6 6 7 8 6 
-											 |
-											 只需要修改这一项
+                       |
+                 只需要修改这一项
 ```
 
 <img src="../img/Algs4/UnionFind/quickunion02.png" alt="Quick-union01" style="zoom:50%;" />
@@ -209,7 +209,7 @@ else 							 { id[j] = i; sz[i] += sz[j]; }
 ```java
 private int root(int i) {
 	while(i != id[i]) {
-		id[i] = id[id[i]];					// 只需添加这一行代码
+		id[i] = id[id[i]];	// 只需添加这一行代码
 		i = id[i]
 	}
 	return i;
