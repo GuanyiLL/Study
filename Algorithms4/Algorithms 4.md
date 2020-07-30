@@ -196,3 +196,33 @@ else 							 { id[j] = i; sz[i] += sz[j]; }
 
 **Quick union with path compression. **
 
+在计算p的根结点后，将路径上涉及的根结点都指向p的最终根结点。
+
+<img src="../img/Algs4/UnionFind/WQUPC01.png" alt="weighting01" style="zoom:50%;" />
+
+<img src="../img/Algs4/UnionFind/WQUPC02.png" alt="weighting01" style="zoom:50%;" />
+
+**implementation**
+
+使路径中的每个其他节点都指向其根结点（从而将路径长度减半）。
+
+```java
+private int root(int i) {
+	while(i != id[i]) {
+		id[i] = id[id[i]];					// 只需添加这一行代码
+		i = id[i]
+	}
+	return i;
+}
+```
+
+**Cost model**
+
+|           algorithm            | worst-cast time |
+| :----------------------------: | :-------------: |
+|           quick-find           |       M N       |
+|          quick-union           |       M N       |
+|          weighted QU           |   N + M log N   |
+|      QU+path compression       |   N + M log N   |
+| weighted QU + path compression |   N + M lg* N   |
+
