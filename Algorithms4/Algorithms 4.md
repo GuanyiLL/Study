@@ -14,7 +14,7 @@
 id[]  0 1 1 8 8 0 0 1 8 8
 ```
 
-![quick-find01](../img/Algs4/UnionFind/quickfind01.png)
+<img src="../img/Algs4/UnionFind/quickfind01.png" alt="quick-find01" style="zoom:50%;" />
 
 **Find**
 
@@ -33,7 +33,7 @@ id[]  1 1 1 8 8 1 1 1 8 8		合并了6和1之后
 			需要更所有条目
 ```
 
-![quick-find2](../img/Algs4/UnionFind/quickfind02.png)
+<img src="../img/Algs4/UnionFind/quickfind02.png" alt="quick-find2" style="zoom:50%;" />
 
 **implementation**
 
