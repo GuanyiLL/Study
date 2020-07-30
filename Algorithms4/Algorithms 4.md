@@ -14,7 +14,9 @@
 id[]  0 1 1 8 8 0 0 1 8 8
 ```
 
-![quickfind01](../img/Algs4/UnionFind/quickfind01.png)
+<img src="../img/Algs4/UnionFind/quickfind01.png" alt="quickfind01" style="width:80%;" />
+
+width="60%"
 
 #### Find
 
@@ -33,7 +35,7 @@ id[]  1 1 1 8 8 1 1 1 8 8    合并了6和1之后
        需要更所有条目
 ```
 
-![quickfind02](../img/Algs4/UnionFind/quickfind02.png)
+<img src="../img/Algs4/UnionFind/quickfind02.png" alt="quickfind02" style="width:80%;" />
 
 #### implementation
 
@@ -84,7 +86,7 @@ id[] 0 1 9 4 9 6 6 7 8 9
 
 如下图中3的根节点为9，5的根节点是6，3与5不相连。
 
-![quickunion01](../img/Algs4/UnionFind/quickunion01.png)
+<img src="../img/Algs4/UnionFind/quickunion01.png" alt="quickunion01" style="width:50%;" />
 
 #### Find
 
@@ -101,7 +103,7 @@ id[] 0 1 9 4 9 6 6 7 8 6
                  只需要修改这一项
 ```
 
-![quickunion02](../img/Algs4/UnionFind/quickunion02.png)
+<img src="../img/Algs4/UnionFind/quickunion02.png" alt="quickunion02" style="width:50%;" />
 
 #### implementation
 
@@ -148,11 +150,11 @@ public class QuickFindUF {
 
 * 将小树的根链接到大树的根上
 
-![weighting01](../img/Algs4/UnionFind/weighting01.png)
+<img src="../img/Algs4/UnionFind/weighting01.png" alt="weighting01" style="width:80%;" />
 
 Quick-union与weighted后的对比：
 
-![weighting02](../img/Algs4/UnionFind/weighting02.png)
+<img src="../img/Algs4/UnionFind/weighting02.png" alt="weighting02" style="zoom:80%;" />
 
 #### Data structure
 
@@ -191,9 +193,9 @@ else               { id[j] = i; sz[i] += sz[j]; }
 
 在计算p的根结点后，将路径上涉及的根结点都指向p的最终根结点。
 
-![WQUPC01](../img/Algs4/UnionFind/WQUPC01.png)
+<img src="../img/Algs4/UnionFind/WQUPC01.png" alt="WQUPC01" style="width:50%;" />
 
-![WQUPC02](../img/Algs4/UnionFind/WQUPC02.png)
+<img src="../img/Algs4/UnionFind/WQUPC02.png" alt="WQUPC02" style="width:50%;" />
 
 #### implementation
 
