@@ -1,10 +1,8 @@
-# Algorithms 4
+# 1.5 UNION-FIND
 
-## 1.5 UNION-FIND
+## Quick-find
 
-### Quick-find
-
-#### Data Structure
+### Data Structure
 
 * 创建一个长度为N的数组
 * p和q位置存储的id相同时，则认为p和q是相连的
@@ -18,13 +16,13 @@ id[]  0 1 1 8 8 0 0 1 8 8
 
 width="60%"
 
-#### Find
+### Find
 
 判断pq是否相连，检查p与q的id是否相同。 
 
 > id[6] **=** 0;id[1] **=** 1 6和1不是相连的
 
-#### Union
+### Union
 
 要合并包含p和q的所有条目，需将所有id等于id [p]的条目都更改为id [q]。
 
@@ -63,7 +61,7 @@ public class QuickFindUF {
 }
 ```
 
-#### Cost model
+### Cost model
 
 | algorithm  | initialize | union | find |
 | :--------: | :--------: | :---: | :--: |
@@ -71,9 +69,9 @@ public class QuickFindUF {
 
 时间复杂度为$ N^{2} $。
 
-### Quick-union
+## Quick-union
 
-#### Data structure
+### Data structure
 
 * 长度为N的数组id[]
 * id[i]中存放的是i的父节点
@@ -88,11 +86,11 @@ id[] 0 1 9 4 9 6 6 7 8 9
 
 <img src="../img/Algs4/UnionFind/quickunion01.png" alt="quickunion01" style="width:50%;" />
 
-#### Find
+### Find
 
 判断pq是否相连，检查p与q的根节点是否相同。 
 
-#### Union
+### Union
 
 要合并包含p和q的所有条目，需将p的根节点设置为q的根节点。
 
@@ -105,7 +103,7 @@ id[] 0 1 9 4 9 6 6 7 8 6
 
 <img src="../img/Algs4/UnionFind/quickunion02.png" alt="quickunion02" style="width:50%;" />
 
-#### implementation
+### implementation
 
 ```java
 public class QuickFindUF {
@@ -133,7 +131,7 @@ public class QuickFindUF {
 }
 ```
 
-#### Cost model
+### Cost model
 
 |  algorithm  | initialize | union | find |
 | :---------: | :--------: | :---: | :--: |
@@ -156,15 +154,15 @@ Quick-union与weighted后的对比：
 
 <img src="../img/Algs4/UnionFind/weighting02.png" alt="weighting02" style="zoom:80%;" />
 
-#### Data structure
+### Data structure
 
 与quick-union相同，但是要多维护一个sz[i]的数组，来存放以i为根节点的树的大小。
 
-#### Find
+### Find
 
 与quick-union相同 `return root(p)== root(q);`
 
-#### Union
+### Union
 
 在quick-union的基础上修改：
 
@@ -179,7 +177,7 @@ if (sz[i] < sz[j]) { id[i] = j; sz[j] += sz[i]; }
 else               { id[j] = i; sz[i] += sz[j]; }
 ```
 
-#### Cost model
+### Cost model
 
 |  algorithm  | initialize |    union     |    find    |
 | :---------: | :--------: | :----------: | :--------: |
@@ -187,9 +185,9 @@ else               { id[j] = i; sz[i] += sz[j]; }
 | quick-union |     N      |    $N^+$     |     N      |
 | weighted QU |     N      | $log_2{N^+}$ | $log_2{N}$ |
 
-### Path compression
+## Path compression
 
-#### Quick union with path compression. 
+### Quick union with path compression.
 
 在计算p的根结点后，将路径上涉及的根结点都指向p的最终根结点。
 
@@ -197,7 +195,7 @@ else               { id[j] = i; sz[i] += sz[j]; }
 
 <img src="../img/Algs4/UnionFind/WQUPC02.png" alt="WQUPC02" style="width:50%;" />
 
-#### implementation
+### implementation
 
 使路径中的每个其他节点都指向其根结点（从而将路径长度减半）。
 
@@ -211,7 +209,7 @@ private int root(int i) {
 }
 ```
 
-#### Cost model
+### Cost model
 
 |           algorithm            | worst-cast time |
 | :----------------------------: | :-------------: |
