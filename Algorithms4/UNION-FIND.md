@@ -239,9 +239,106 @@ private int root(int i) {
 **Percolation**
 
 ```java
-public class Percolation {
+/* *****************************************************************************
+ *  Name:              Alan Turing
+ *  Coursera User ID:  123456
+ *  Last modified:     1/1/2019
+ **************************************************************************** */
 
+import edu.princeton.cs.algs4.StdOut;
+import edu.princeton.cs.algs4.WeightedQuickUnionUF;
+
+public class Percolation {
+    private int n;
+    private boolean[] status;
+    private int numberOfOpenSite;
+    private WeightedQuickUnionUF wquuf;
+
+    // creates n-by-n grid, with all sites initially blocked
+    public Percolation(int n) {
+        if (n < 0) throw new IllegalArgumentException();
+        this.n = n;
+        // n + 2 for virtual top and bottom
+        wquuf = new WeightedQuickUnionUF((n + 1) * (n + 2));
+        status = new boolean[(n + 1) * (n + 2)];
+        for (int i = 0; i < status.length; i++) {
+            status[i] = false;
+        }
+    }
+
+    private int oneDimension(int row, int col) {
+        return row * (n + 1) + col;
+    }
+
+    // opens the site (row, col) if it is not open already
+    public void open(int row, int col) {
+        validate(row, col);
+        if (isOpen(row, col)) {
+            return;
+        }
+        status[oneDimension(row, col)] = true;
+        numberOfOpenSite += 1;
+        int temp1 = oneDimension(row, col);
+        //if neighbor could be connected?
+        if (row == 1) {
+            wquuf.union(0, temp1);
+        }
+        if (row == n) {
+            wquuf.union((n + 1) * (n + 1), temp1);
+        }
+        int[] dx = { 1, -1, 0, 0 };
+        int[] dy = { 0, 0, 1, -1 };
+        for (int i = 0; i < 4; i++) {
+            int newRow = row + dx[i];
+            int newCol = col + dy[i];
+            int temp2 = oneDimension(newRow, newCol);
+            if (status[temp2]) {
+                wquuf.union(temp1, temp2);
+            }
+        }
+    }
+
+    // is the site (row, col) open?
+    public boolean isOpen(int row, int col) {
+        validate(row, col);
+        return status[oneDimension(row, col)];
+    }
+
+    // is the site (row, col) full?
+    public boolean isFull(int row, int col) {
+        validate(row, col);
+        int p = wquuf.find(0);
+        int q = wquuf.find(oneDimension(row, col));
+        return p == q;
+    }
+
+    // returns the number of open sites
+    public int numberOfOpenSites() {
+        return numberOfOpenSite;
+    }
+
+    // does the system percolate?
+    public boolean percolates() {
+        return wquuf.find(0) == wquuf.find((n + 1) * (n + 1));
+    }
+
+    private void validate(int row, int col) {
+        if (row < 1 || row > n || col < 1 || col > n) {
+            throw new IllegalArgumentException("illegal row or col!");
+        }
+    }
+
+    // // test client (optional)
+    public static void main(String[] args) {
+        Percolation p = new Percolation(5);
+        p.open(1, 2);
+        p.open(2, 2);
+        p.open(3, 2);
+        StdOut.println(p.isOpen(1, 1));
+        StdOut.println(p.percolates());
+    }
 }
+
 ```
 
 **蒙特卡罗模拟**  要估计渗流阈值，请考虑以下计算实验：
@@ -269,6 +366,73 @@ $$\left [ \; \overline x  -  \frac {1.96 s}{\sqrt{T}}, \;\;           \overline 
 **PercolationStats**
 
 ```java
+/* *****************************************************************************
+ *  Name:              Alan Turing
+ *  Coursera User ID:  123456
+ *  Last modified:     1/1/2019
+ **************************************************************************** */
+
+import edu.princeton.cs.algs4.StdOut;
+import edu.princeton.cs.algs4.StdRandom;
+import edu.princeton.cs.algs4.StdStats;
+
+public class PercolationStats {
+
+    private int trials;
+    // threshold P
+    private double[] preP;
+
+    // perform independent trials on an n-by-n grid
+    public PercolationStats(int n, int trials) {
+        if (n < 1 || trials < 1) {
+            throw new IllegalArgumentException("Illegal n or trialNum,please check");
+        }
+        this.trials = trials;
+        preP = new double[trials];
+        for (int i = 0; i < trials; i++) {
+            Percolation p = new Percolation(n);
+            while (!p.percolates()) {
+                int row = StdRandom.uniform(n) + 1;
+                int col = StdRandom.uniform(n) + 1;
+                p.open(row, col);
+                if (p.percolates()) break;
+            }
+            preP[i] = (double) p.numberOfOpenSites() / (n * n);
+        }
+    }
+
+    // sample mean of percolation threshold
+    public double mean() {
+        return StdStats.mean(preP);
+    }
+
+    // sample standard deviation of percolation threshold
+    public double stddev() {
+        return StdStats.stddev(preP);
+    }
+
+    // low endpoint of 95% confidence interval
+    public double confidenceLo() {
+        return mean() - 1.96 * stddev() / Math.sqrt(trials);
+    }
+
+    // high endpoint of 95% confidence interval
+    public double confidenceHi() {
+        return mean() + 1.96 * stddev() / Math.sqrt(trials);
+    }
+
+    // // test client (see below)
+    public static void main(String[] args) {
+        int n = 25, trialNum = 1000;
+        PercolationStats ps = new PercolationStats(n, trialNum);
+        StdOut.println("size:" + n + "*" + n);
+        StdOut.println("trial times :" + trialNum);
+        StdOut.println("mean of p :" + ps.mean());
+        StdOut.println("standard deviation :" + ps.stddev());
+        StdOut.println("confidence interval low :" + ps.confidenceLo());
+        StdOut.println("confidence interval high :" + ps.confidenceHi());
+    }
+}
 
 ```
 
