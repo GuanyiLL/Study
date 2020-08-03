@@ -96,3 +96,40 @@ func isPalindrome(s string) bool {
 }
 ```
 
+```java
+class Solution {
+    public boolean isNumber(char s) {
+        return s >= '0' && s <= '9';
+    }
+
+    public boolean isLetter(char s) {
+        return s >= 'A' && s <= 'Z';
+    }
+
+    public boolean isPalindrome(String s) {
+        if (s.isEmpty()) return true;
+        s = s.toUpperCase();
+        int l = 0;
+        int r = s.length() - 1;
+        while (l < r) {
+            char lc = s.charAt(l);
+            if (!(isNumber(lc) || isLetter(lc))) {
+                l++;
+                continue;
+            }
+            char rc = s.charAt(r);
+            if (!(isNumber(rc) || isLetter(rc))) {
+                r--;
+                continue;
+            }
+            if (lc != rc) {
+                return false;
+            }
+            l++;
+            r--;
+        }
+        return true;
+    }
+}
+```
+
