@@ -93,3 +93,64 @@ class MyQueue {
 }
 ```
 
+**two stacks solution:**
+
+Push:
+
+![image-20201209133851324](/Users/edz/Library/Application Support/typora-user-images/image-20201209133851324.png)
+
+```java
+private Stack<Integer> s1 = new Stack<>();
+private Stack<Integer> s2 = new Stack<>();
+
+// Push element x to the back of queue.
+public void push(int x) {
+    if (s1.empty())
+        front = x;
+    s1.push(x);
+}
+```
+
+- Time complexity : O(1)
+- Space complexity : O(n). 
+
+pop:
+
+![image-20201209133921495](/Users/edz/Library/Application Support/typora-user-images/image-20201209133921495.png)
+
+```java
+// Removes the element from in front of queue.
+public void pop() {
+    if (s2.isEmpty()) {
+        while (!s1.isEmpty())
+            s2.push(s1.pop());
+    }
+    s2.pop();    
+}
+```
+
+Empty:
+
+```java
+// Return whether the queue is empty.
+public boolean empty() {
+    return s1.isEmpty() && s2.isEmpty();
+}
+```
+
+Peek:
+
+```java
+// Get the front element.
+public int peek() {
+    if (!s2.isEmpty()) {
+        return s2.peek();
+    }
+    return front;
+}
+```
+
+Time complexity : O(1)
+
+Space complexity : O(1)
+
