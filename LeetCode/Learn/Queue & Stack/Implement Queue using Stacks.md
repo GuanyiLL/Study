@@ -97,7 +97,7 @@ class MyQueue {
 
 Push:
 
-![image-20201209133851324](/Users/edz/Library/Application Support/typora-user-images/image-20201209133851324.png)
+![ImplementQueueUsingStacks_Push](../../../img/LeetCodeLearn/ImplementQueueUsingStacks_Push.png)
 
 ```java
 private Stack<Integer> s1 = new Stack<>();
@@ -116,7 +116,7 @@ public void push(int x) {
 
 pop:
 
-![image-20201209133921495](/Users/edz/Library/Application Support/typora-user-images/image-20201209133921495.png)
+![image-20201209133921495](../../../img/LeetCodeLearn/ImplementQueueUsingStacks_Pop.png)
 
 ```java
 // Removes the element from in front of queue.
