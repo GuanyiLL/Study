@@ -22,3 +22,7 @@ Binary Tree
 
 - [ ] K-th Symbol in Grammar (always time limit exceeded)
 
+Linked List
+
+- [ ] Copy List with Random Pointer
+
