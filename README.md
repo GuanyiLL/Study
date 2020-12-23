@@ -26,3 +26,7 @@ Linked List
 
 - [ ] Copy List with Random Pointer
 
+Binary Search
+
+- [ ] Find K Closest Elements
+
