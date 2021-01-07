@@ -30,3 +30,10 @@ Binary Search
 
 - [ ] Find K Closest Elements
 
+Binary Search Tree
+
+- [ ] Kth Largest Element in a Stream (Time Limit Exceeded)
+- [ ] Contains Duplicate III
+
+
+
