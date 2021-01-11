@@ -77,8 +77,6 @@ class MinStack {
 }
 ```
 
-
-
 best solution:
 
 ```swift

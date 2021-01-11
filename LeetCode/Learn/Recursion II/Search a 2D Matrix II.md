@@ -53,7 +53,7 @@ func divide(_ matrix: [[Int]], _ target: Int, _ rl:Int, _ rh:Int, _ cl:Int, _ ch
 }
 ```
 
-Fatest (from top-right iteration):
+Fastest (from top-right iteration):
 
 ```swift
 func searchMatrix(_ matrix: [[Int]], _ target: Int) -> Bool {
