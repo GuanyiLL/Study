@@ -20,7 +20,7 @@ void (^someBlock)(void) = ^{
 }
 ```
 
-上面的代码定义了一个叫做`someBlock`的`block`变量，语法有些奇怪，可以总结成这样：
+上面的代码定义了一个叫做`someBlock`的`block`，语法有些奇怪，可以总结成这样：
 
 ```objectivec
 return_type (^block_name)(parameters)
@@ -111,19 +111,27 @@ struct __block_impl {
 
 一个`block`包含所有的被截获的对象的副本。这些副本存储在`descriptor`之后，并占用存储所有捕获变量所需的空间。注意，这并不意味着对象本身被复制，并且还包含变量的指针。运行`block`时，将从该内存区域读取捕获的变量，这就是为什么需要将该`block`作为参数传递到`invoke`函数的原因。
 
-### 全局、栈和堆中的Blocks
+### 全局、栈和堆中的Block
 
-当一个`block`被定义后，它将在栈中占有一块空间。也就是说这个`block`仅仅在所定义的作用域才有效。代码这么写会有问题：
+Block的类型分为以下三张情况：
+
+* 没有访问auto变量--GlobalBlock
+
+* 访问auto变量--__NSStackBlock__
+
+* 对StackBlock执行了copy操作--__NSMallocBlock__
 
 ```objective-c
-void(^block)();
+void(^block)()
+int count = 0;
+
 if (/*some condition*/) {
   	block = ^{
-      	NLog(@"Block A");
+        count += 1;
     }
 } else {
 		block = ^{
-      	NSLog(@"Block B");
+        count -= 1;
     }
 }
 block();
@@ -131,20 +139,41 @@ block();
 
 这两个`block`定义在`if-else`语句中，并且存放在栈内存中，当为每个`block`分配堆栈内存时，编译器可以在分配该内存的作用域末尾自由覆盖该内存。 因此，保证每个块仅在其各自的if语句部分内有效。 这段代码编译可以通过，但在运行时可能会崩溃。如果系统没有重写这段`block`所占用的内存，则该代码将运行而不会出错，反之，肯定会发生崩溃。
 
+在没有覆盖时，通过`lldb`中打印出block的类型：
+
+```
+(lldb) po object_getClassName(block)
+"__NSStackBlock__"
+```
+
+在出现内存被覆盖时，则打印出来的结果并不是我们想要的：
+
+```
+(lldb) po object_getClassName(block)
+2jOT62Sv9
+```
+
 而向这个`block`发送`copy`消息，则可以将`block`从栈内存复制到堆内存中，这样`block`则可以在定义的作用域外被使用。这个`block`也跟其他的OC对象一样使用引用计数管理内存，当引用计数为0时，则会释放。
 
 ```objective-c
 void(^block)();
 if (/*some condition*/) {
   	block = [^{
-      	NLog(@"Block A");
+      	count += 1;
     } copy];
 } else {
 		block = [^{
-      	NSLog(@"Block B");
+      	count -= 1;
     } copy];
 }
 block();
+```
+
+此时，block的类型也随之改变：
+
+```
+(lldb) po object_getClassName(block)
+"__NSMallocBlock__"
 ```
 
 这样代码就安全了，而全局`block`则是独立在栈与堆空间以外的内存，它在编译时就决定了所使用的内存，所以全局`block`也不用每次使用的时候在栈上开辟内存，也无需进行`copy`操作。基本上长这样：
@@ -155,7 +184,82 @@ void (^block)() = ^{
 };
 ```
 
+通过lldb可以看到block的类型：
 
+```
+(lldb) po object_getClassName(block)
+"__NSGlobalBlock__"
+```
+
+以上情况，都是发生在`MRC`下，`ARC`时，编译器帮我们做了很多优化。
+
+在`ARC`下，全局block和`MRC`是一样的，在不截获外部变量的时候，block的类型为`__NSGlobalBlock__`，而像以下这种写法：
+
+```objective-c
+void(^block)()
+int count = 0;
+if (/*some condition*/) {
+  	block = ^{
+        count += 1;
+    }
+} else {
+		block = ^{
+        count -= 1;
+    }
+}
+block();
+```
+
+当我们再次打印block的类型时：
+
+```
+(lldb) po object_getClassName(block)
+"__NSMallocBlock__"
+```
+
+这时，block类型由`__NSStackBlock__`变为`__NSMallocBlock__`。
+
+从汇编代码可以看到：
+
+```
+Demo`testBlock:
+    0x100000d80 <+0>:   pushq  %rbp
+    0x100000d81 <+1>:   movq   %rsp, %rbp
+    0x100000d84 <+4>:   subq   $0x60, %rsp
+    0x100000d88 <+8>:   movq   $0x0, -0x8(%rbp)
+    0x100000d90 <+16>:  movq   $0x0, -0x28(%rbp)
+    0x100000d98 <+24>:  leaq   -0x28(%rbp), %rax
+    0x100000d9c <+28>:  movq   %rax, -0x20(%rbp)
+    0x100000da0 <+32>:  movl   $0x20000000, -0x18(%rbp)  ; imm = 0x20000000 
+    0x100000da7 <+39>:  movl   $0x20, -0x14(%rbp)
+    0x100000dae <+46>:  movl   $0x0, -0x10(%rbp)
+    0x100000db5 <+53>:  movq   0x244(%rip), %rcx         ; (void *)0x00007fff8e49b4c0: _NSConcreteStackBlock
+    0x100000dbc <+60>:  movq   %rcx, -0x50(%rbp)
+    0x100000dc0 <+64>:  movl   $0xc2000000, -0x48(%rbp)  ; imm = 0xC2000000 
+    0x100000dc7 <+71>:  movl   $0x0, -0x44(%rbp)
+    0x100000dce <+78>:  leaq   0x8b(%rip), %rcx          ; __testBlock_block_invoke at main.m:24
+    0x100000dd5 <+85>:  movq   %rcx, -0x40(%rbp)
+    0x100000dd9 <+89>:  leaq   0x240(%rip), %rcx         ; __block_descriptor_40_e8_32r_e5_v8?0l
+    0x100000de0 <+96>:  movq   %rcx, -0x38(%rbp)
+    0x100000de4 <+100>: movq   %rax, -0x30(%rbp)
+    0x100000de8 <+104>: leaq   -0x50(%rbp), %rdi
+    0x100000dec <+108>: callq  0x100000f1c               ; symbol stub for: objc_retainBlock
+    0x100000df1 <+113>: movq   -0x8(%rbp), %rdi
+    0x100000df5 <+117>: movq   %rax, -0x8(%rbp)
+    0x100000df9 <+121>: movq   0x210(%rip), %rax         ; (void *)0x00007fff66bde660: objc_release
+    0x100000e00 <+128>: callq  *%rax
+->  0x100000e02 <+130>: movq   -0x8(%rbp), %rax
+```
+
+系统先是定义了`_NSConcreteStackBlock`类型的变量，然后对该对象调用了`objc_retainBlock`的方法，而在OC源码中，也可以看到该方法的实现，字面意思看出是执行了`copy`操作：
+
+```
+id objc_retainBlock(id x) {
+    return (id)_Block_copy(x);
+}
+```
+
+这个方法会返回一个类型为`__NSMallocBlock__`的对象。由此可见，`ARC`会自动帮我们将栈block拷贝到堆内存当中。
 
 ## 使用typedefs
 
@@ -192,7 +296,7 @@ EOCSomeBlock block = ^(BOOL flag, int value) {
 };
 ```
 
-而在设计API的时候，也可以通过使用类型定义来简化方法中的`block`：
+而在设计API的时候，也可以通过使用类型定义来简化方法中作为参数的`block`：
 
 ```objective-c
 - (void)startWithCompletionHandler:(void(^)(NSData *data,NSError *error))completion;
@@ -274,7 +378,7 @@ typedef void(^EOCNetworkFetcherCompletionHandler)(NSData *data);
 
 以上代码只是一个普通的网络请求代码，可以很好的反映出循环引用的关系：
 
-![retain cycle](/img/block2.png)
+![retain cycle](../img/block2.png)
 
 而打破这个引用也很简单：
 
@@ -302,16 +406,14 @@ typedef void(^EOCNetworkFetcherCompletionHandler)(NSData *data);
 ```objective-c
 __weak typeof(self) weakSelf = self;
 [_networkFetcher startWithCompletionHandler:^(NSData *data){
-    NSLog(@"Request URL %@ finished",self.networkFetcher.url);
-    self.fetchedData = data;
+    NSLog(@"Request URL %@ finished",weakSelf.networkFetcher.url);
+    weakSelf.fetchedData = data;
 }];
 ```
 
 以上的方法，都是为了打破这种引用关系。至于是否形成循环引用，也可以看看对象之间是否形成引用的闭环。
 
-**以上来自 *52 specific Ways to Improve Your iOS and OS X Programs*******
-
-### __block 原理
+### __block 
 
 为什么添加了`__block`修饰符之后就可以对截获的变量进行修改了呢？
 
@@ -321,7 +423,6 @@ __weak typeof(self) weakSelf = self;
 
 ```objective-c
 int main(int argc, const char * argv[]) {
-    
     int age = 10;
     void(^myBlock)(void) = ^{
         NSLog(@"Print Age = %d", age);
@@ -334,13 +435,13 @@ int main(int argc, const char * argv[]) {
 
 上述例子中，输出结果为`Print Age = 10`，将文件转换为CPP格式之后代码如下：
 
-![Block3](/img/block3.png)
+![](../img/block3.png)
 
-不难看出，`block`在截获普通变量的时候，只是将值传递到了`block`中，因此，不能修改外部参数。
+不难看出，`block`在截获普通变量的时候,只是将值传递到了`block`中，因此，不能修改外部参数。
 
 而加上修饰符后：
 
-![Block4](/img/block4.png)
+![Block4](../img/block4.png)
 
 这次`age`相关的变量，都变成了`__Block_byref_age_0`的结构体，并且传参时都使用了`&`来取地址，由于传递的是引用，因此可以修改外部变量的值。
 
@@ -357,12 +458,12 @@ myBlock();
 
 编译成CPP文件后：
 
-![Block5](/img/block5.png)
+![Block5](../img/block5.png)
 
 在block内部，我们可以通过NSMutableArray的方法来修改该数组，但是如果在block内部重新初始化数组编译器则会报错。
 
 加入`__block`后则可以修改：
 
-![Block6](/img/block6.png)
+![Block6](../img/block6.png)
 
 可以看出，无论是基础类型还是OC对象，在block截获后，加入`__block`后，OC会将该变量声明成`__Block_bref_变量名_0`这样的结构体，然后将地址当作参数，因此在`block`内部，可以通过`__forwarding`获取到该变量堆上的地址，从而修改或者重新分配空间。我们也可以通过LLVM中的p指令来打印截获变量的地址，发现如果不加修饰符的话，地址是不一样的。
