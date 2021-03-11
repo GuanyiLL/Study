@@ -176,20 +176,7 @@ block();
 "__NSMallocBlock__"
 ```
 
-这样代码就安全了，而全局`block`则是独立在栈与堆空间以外的内存，它在编译时就决定了所使用的内存，所以全局`block`也不用每次使用的时候在栈上开辟内存，也无需进行`copy`操作。基本上长这样：
-
-```objective-c
-void (^block)() = ^{
-  	NSLog(@"This is a block");
-};
-```
-
-通过lldb可以看到block的类型：
-
-```
-(lldb) po object_getClassName(block)
-"__NSGlobalBlock__"
-```
+这样代码就安全了。
 
 以上情况，都是发生在`MRC`下，`ARC`时，编译器帮我们做了很多优化。同样的代码：
 
@@ -258,6 +245,27 @@ id objc_retainBlock(id x) {
 ```
 
 这个方法会返回一个类型为`__NSMallocBlock__`的对象。由此可见，`ARC`会自动帮我们将栈block拷贝到堆内存当中。
+
+而没有捕获外部变量时称为全局block:
+
+```objective-c
+int main(int argc, const char * argv[]) {
+  	void(^block2)(void) = ^{
+    	NSLog("This is __NSGlobalBlock__");
+		};
+    block2();
+    return 0;
+}
+```
+
+通过lldb可以看到block的类型：
+
+```
+(lldb) po object_getClassName(block)
+"__NSGlobalBlock__"
+```
+
+
 
 ## 使用typedefs
 
