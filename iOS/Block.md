@@ -441,7 +441,42 @@ int main(int argc, const char * argv[]) {
 
 上述例子中，输出结果为`Print Age = 10`，将文件转换为CPP格式之后代码如下：
 
-![](../img/block3.png)
+```cpp
+struct __main_block_impl_0 {
+    struct __block_impl impl;
+    struct __main_block_desc_0* Desc;
+    int age;
+    __main_block_impl_0(void *fp, struct __main_block_desc_0 *desc, int _age, int flags=0) : age(_age) {
+        impl.isa = &_NSConcreteStackBlock;
+        impl.Flags = flags;
+        impl.FuncPtr = fp;
+        Desc = desc;
+    }
+};
+
+static void __main_block_func_0(struct __main_block_impl_0 *__cself) {
+    int age = __cself->age; // bound by copy
+    NSLog((NSString *)&__NSConstantStringImpl__var_folders_27_pgkr6cd56fl_lwwzbn51zmy40000gn_T_main_037188_mi_0, age);
+}
+
+static struct __main_block_desc_0 {
+    size_t reserved;
+    size_t Block_size;
+} __main_block_desc_0_DATA = { 0, sizeof(struct __main_block_impl_0)};
+
+int main(int argc, const char * argv[]) {
+    int age = 10;
+    
+    void(*myBlock)(void) = ((void (*)())&__main_block_impl_0((void *)__main_block_func_0, &__main_block_desc_0_DATA, age));
+    
+    age = 18;
+    
+    ((void (*)(__block_impl *))((__block_impl *)myBlock)->FuncPtr)((__block_impl *)myBlock);
+    return 0;
+}
+```
+
+
 
 不难看出，`block`的内部实现中，仅仅使用了`int age`属性在结构体初始化的时候来进行赋值，而不是修改age地址中的值，因此，不能修改截获参数的值，只能拿来使用。
 
@@ -461,7 +496,62 @@ int main(int argc, const char * argv[]) {
 
 将文件转为Cpp后：
 
-![Block4](../img/block4.png)
+```cpp
+struct __Block_byref_count_0 {
+    void *__isa;
+    __Block_byref_count_0 *__forwarding;
+    int __flags;
+    int __size;
+    int count;
+};
+
+struct __main_block_impl_0 {
+    struct __block_impl impl;
+    struct __main_block_desc_0* Desc;
+    __Block_byref_count_0 *count; // by ref
+    __main_block_impl_0(void *fp, struct __main_block_desc_0 *desc, __Block_byref_count_0 *_count, int flags=0) : count(_count->__forwarding) {
+        impl.isa = &_NSConcreteStackBlock;
+        impl.Flags = flags;
+        impl.FuncPtr = fp;
+        Desc = desc;
+    }
+};
+
+static void __main_block_func_0(struct __main_block_impl_0 *__cself) {
+    __Block_byref_count_0 *count = __cself->count; // bound by ref
+    (count->__forwarding->count) = 10;
+}
+
+static void __main_block_copy_0(struct __main_block_impl_0*dst, struct __main_block_impl_0*src) {
+    _Block_object_assign((void*)&dst->count, (void*)src->count, 8/*BLOCK_FIELD_IS_BYREF*/);
+}
+
+static void __main_block_dispose_0(struct __main_block_impl_0*src) {
+    _Block_object_dispose((void*)src->count, 8/*BLOCK_FIELD_IS_BYREF*/);
+    
+}
+
+static struct __main_block_desc_0 {
+    size_t reserved;
+    size_t Block_size;
+    void (*copy)(struct __main_block_impl_0*, struct __main_block_impl_0*);
+    void (*dispose)(struct __main_block_impl_0*);
+} __main_block_desc_0_DATA = { 0, sizeof(struct __main_block_impl_0), __main_block_copy_0, __main_block_dispose_0};
+
+int main(int argc, const char * argv[]) {
+    __attribute__((__blocks__(byref))) __Block_byref_count_0 count = {(void*)0,(__Block_byref_count_0 *)&count, 0, sizeof(__Block_byref_count_0), 0};
+    
+    void(*block)(void) = ((void (*)())&__main_block_impl_0((void *)__main_block_func_0,
+                                                           &__main_block_desc_0_DATA,
+                                                           (__Block_byref_count_0 *)&count,
+                                                           570425344));
+    (count.__forwarding->count) = 15;
+    
+    ((void (*)(__block_impl *))((__block_impl *)block)->FuncPtr)((__block_impl *)block);
+    
+    return 0;
+}
+```
 
 这次编译器将`count`相关的变量，都封装成了`__Block_byref_count_0`的结构体，并且可以看到与之前的不同，这次`block`结构体在初始化的时候将`_count->__forwarding`赋值给了`count`属性，而`__forwarding`属性则是所以这`count`属性其实传递进去的是外部`&count`的地址值。在block的实现结构体中，将地址赋值给了`__Block_byref_count_0`变量，这样就可以直接修改捕获的值了。即便是在外部，经过`__block`修饰后，修改`count`属性，也是通过` (count.__forwarding->count) = 15;`来修改变量，与之前的`age`不同。
 
@@ -478,12 +568,109 @@ myBlock();
 
 编译成CPP文件后：
 
-![Block5](../img/block5.png)
+```cpp
+struct __main_block_impl_0 {
+    struct __block_impl impl;
+    struct __main_block_desc_0* Desc;
+    NSMutableArray *arr;
+    __main_block_impl_0(void *fp, struct __main_block_desc_0 *desc, NSMutableArray *_arr, int flags=0) : arr(_arr) {
+        impl.isa = &_NSConcreteStackBlock;
+        impl.Flags = flags;
+        impl.FuncPtr = fp;
+        Desc = desc;
+    }
+};
 
-在block内部，我们可以通过NSMutableArray的方法来修改该数组，但是如果在block内部重新初始化数组编译器则会报错。
+static void __main_block_func_0(struct __main_block_impl_0 *__cself) {
+    NSMutableArray *arr = __cself->arr; // bound by copy
+    ((void (*)(id, SEL, ObjectType _Nonnull))(void *)objc_msgSend)((id)arr, sel_registerName("addObject:"), (id _Nonnull)((NSNumber *(*)(Class, SEL, int))(void *)objc_msgSend)(objc_getClass("NSNumber"), sel_registerName("numberWithInt:"), 4));
+}
+
+static void __main_block_copy_0(struct __main_block_impl_0*dst, struct __main_block_impl_0*src) {
+    _Block_object_assign((void*)&dst->arr, (void*)src->arr, 3/*BLOCK_FIELD_IS_OBJECT*/);
+}
+
+static void __main_block_dispose_0(struct __main_block_impl_0*src) {_
+    Block_object_dispose((void*)src->arr, 3/*BLOCK_FIELD_IS_OBJECT*/);
+}
+
+static struct __main_block_desc_0 {
+    size_t reserved;
+    size_t Block_size;
+    void (*copy)(struct __main_block_impl_0*, struct __main_block_impl_0*);
+    void (*dispose)(struct __main_block_impl_0*);
+} __main_block_desc_0_DATA = { 0, sizeof(struct __main_block_impl_0), __main_block_copy_0, __main_block_dispose_0};
+
+int main(int argc, const char * argv[]) {
+    NSMutableArray *arr = ((id (*)(id, SEL))(void *)objc_msgSend)((id)((NSArray *(*)(Class, SEL, ObjectType  _Nonnull const * _Nonnull, NSUInteger))(void *)objc_msgSend)(objc_getClass("NSArray"), sel_registerName("arrayWithObjects:count:"), (const id *)__NSContainer_literal(3U, ((NSNumber *(*)(Class, SEL, int))(void *)objc_msgSend)(objc_getClass("NSNumber"), sel_registerName("numberWithInt:"), 1), ((NSNumber *(*)(Class, SEL, int))(void *)objc_msgSend)(objc_getClass("NSNumber"), sel_registerName("numberWithInt:"), 2), ((NSNumber *(*)(Class, SEL, int))(void *)objc_msgSend)(objc_getClass("NSNumber"), sel_registerName("numberWithInt:"), 3)).arr, 3U), sel_registerName("mutableCopy"));
+    
+    void(*myBlock)(void) = ((void (*)())&__main_block_impl_0((void *)__main_block_func_0, &__main_block_desc_0_DATA, arr, 570425344));
+    
+    ((void (*)(id, SEL, ObjectType _Nonnull))(void *)objc_msgSend)((id)arr, sel_registerName("addObject:"), (id _Nonnull)((NSNumber *(*)(Class, SEL, int))(void *)objc_msgSend)(objc_getClass("NSNumber"), sel_registerName("numberWithInt:"), 5));
+    
+    ((void (*)(__block_impl *))((__block_impl *)myBlock)->FuncPtr)((__block_impl *)myBlock);
+    return 0;
+}
+```
+
+在block内部，我们可以通过`NSMutableArray`的方法来修改该数组，但是如果在`block`内部重新初始化数组编译器则会报错。
 
 加入`__block`后则可以修改：
 
-![Block6](../img/block6.png)
+```cpp
+struct __Block_byref_arr_0 {
+    void *__isa;
+    __Block_byref_arr_0 *__forwarding;
+    int __flags;
+    int __size;
+    void (*__Block_byref_id_object_copy)(void*, void*);
+    void (*__Block_byref_id_object_dispose)(void*);
+    NSMutableArray *arr;
+};
+
+struct __main_block_impl_0 {
+    struct __block_impl impl;
+    struct __main_block_desc_0* Desc;
+    __Block_byref_arr_0 *arr; // by ref
+    __main_block_impl_0(void *fp, struct __main_block_desc_0 *desc, __Block_byref_arr_0 *_arr, int flags=0) : arr(_arr->__forwarding) {
+        impl.isa = &_NSConcreteStackBlock;
+        impl.Flags = flags;
+        impl.FuncPtr = fp;
+        Desc = desc;
+    }
+};
+
+static void __main_block_func_0(struct __main_block_impl_0 *__cself) {
+    __Block_byref_arr_0 *arr = __cself->arr; // bound by ref
+    
+    ((void (*)(id, SEL, ObjectType _Nonnull))(void *)objc_msgSend)((id)(arr->__forwarding->arr), sel_registerName("addObject:"), (id _Nonnull)((NSNumber *(*)(Class, SEL, int))(void *)objc_msgSend)(objc_getClass("NSNumber"), sel_registerName("numberWithInt:"), 4));
+}
+
+static void __main_block_copy_0(struct __main_block_impl_0*dst, struct __main_block_impl_0*src) {
+    _Block_object_assign((void*)&dst->arr, (void*)src->arr, 8/*BLOCK_FIELD_IS_BYREF*/);
+}
+
+static void __main_block_dispose_0(struct __main_block_impl_0*src) {
+    _Block_object_dispose((void*)src->arr, 8/*BLOCK_FIELD_IS_BYREF*/);
+}
+
+static struct __main_block_desc_0 {
+    size_t reserved;
+    size_t Block_size;
+    void (*copy)(struct __main_block_impl_0*, struct __main_block_impl_0*);
+    void (*dispose)(struct __main_block_impl_0*);
+} __main_block_desc_0_DATA = { 0, sizeof(struct __main_block_impl_0), __main_block_copy_0, __main_block_dispose_0};
+
+int main(int argc, const char * argv[]) {
+    __attribute__((__blocks__(byref))) __Block_byref_arr_0 arr = {(void*)0,(__Block_byref_arr_0 *)&arr, 33554432, sizeof(__Block_byref_arr_0), __Block_byref_id_object_copy_131, __Block_byref_id_object_dispose_131, ((id (*)(id, SEL))(void *)objc_msgSend)((id)((NSArray *(*)(Class, SEL, ObjectType  _Nonnull const * _Nonnull, NSUInteger))(void *)objc_msgSend)(objc_getClass("NSArray"), sel_registerName("arrayWithObjects:count:"), (const id *)__NSContainer_literal(3U, ((NSNumber *(*)(Class, SEL, int))(void *)objc_msgSend)(objc_getClass("NSNumber"), sel_registerName("numberWithInt:"), 1), ((NSNumber *(*)(Class, SEL, int))(void *)objc_msgSend)(objc_getClass("NSNumber"), sel_registerName("numberWithInt:"), 2), ((NSNumber *(*)(Class, SEL, int))(void *)objc_msgSend)(objc_getClass("NSNumber"), sel_registerName("numberWithInt:"), 3)).arr, 3U), sel_registerName("mutableCopy"))};
+    void(*myBlock)(void) = ((void (*)())&__main_block_impl_0((void *)__main_block_func_0, &__main_block_desc_0_DATA, (__Block_byref_arr_0 *)&arr, 570425344));
+    
+    ((void (*)(id, SEL, ObjectType _Nonnull))(void *)objc_msgSend)((id)(arr.__forwarding->arr), sel_registerName("addObject:"), (id _Nonnull)((NSNumber *(*)(Class, SEL, int))(void *)objc_msgSend)(objc_getClass("NSNumber"), sel_registerName("numberWithInt:"), 5));
+    
+    ((void (*)(__block_impl *))((__block_impl *)myBlock)->FuncPtr)((__block_impl *)myBlock);
+    
+    return 0;
+}
+```
 
 可以看出，无论是基础类型还是OC对象，在block截获后，加入`__block`后，OC会将该变量声明成`__Block_bref_变量名_0`这样的结构体，然后将地址当作参数传入结构体内，所以在`block`内部，可以通过`__forwarding`获取到该变量堆内存中的地址，从而修改或者重新分配空间。
