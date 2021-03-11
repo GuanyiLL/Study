@@ -101,7 +101,7 @@ Student的instance对象要调用Person的方法时，会先通过isa找到Stude
 
 ## class结构
 
-### ![OC基础01](/img/OC基础01.png)
+![OC基础01](../../img/OC基础01.png)
 
 ## KVO
 
@@ -325,7 +325,7 @@ ObjcAssociation
 
 源码：objc-reference.mm
 
-![AssociateObject1](/img/AssociateObject1.png)
+![AssociateObject1](../../img/AssociateObject1.png)
 
 ## Block
 
@@ -437,7 +437,7 @@ block从堆中移除时
 
 ### __forwarding
 
-![forwarding](/img/forwarding.png)
+![forwarding](../../img/forwarding.png)
 
 ### 被__block修饰的对象类型
 

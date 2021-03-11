@@ -122,17 +122,16 @@ Block的类型分为以下三张情况：
 * 对StackBlock执行了copy操作--__NSMallocBlock__
 
 ```objective-c
-void(^block)()
+void(^block)();
 int count = 0;
-
 if (/*some condition*/) {
   	block = ^{
-        count += 1;
-    }
+        NSLog(@"Count is : %d", count);
+    };
 } else {
 		block = ^{
-        count -= 1;
-    }
+        NSLog(@"Count is : %d", count);
+    };
 }
 block();
 ```
@@ -157,13 +156,14 @@ block();
 
 ```objective-c
 void(^block)();
+int count = 0;
 if (/*some condition*/) {
   	block = [^{
-      	count += 1;
+      	NSLog(@"Count is : %d", count);
     } copy];
 } else {
 		block = [^{
-      	count -= 1;
+      	NSLog(@"Count is : %d", count);
     } copy];
 }
 block();
@@ -191,21 +191,19 @@ void (^block)() = ^{
 "__NSGlobalBlock__"
 ```
 
-以上情况，都是发生在`MRC`下，`ARC`时，编译器帮我们做了很多优化。
-
-在`ARC`下，全局block和`MRC`是一样的，在不截获外部变量的时候，block的类型为`__NSGlobalBlock__`，而像以下这种写法：
+以上情况，都是发生在`MRC`下，`ARC`时，编译器帮我们做了很多优化。同样的代码：
 
 ```objective-c
-void(^block)()
+void(^block)();
 int count = 0;
 if (/*some condition*/) {
   	block = ^{
-        count += 1;
-    }
+        NSLog(@"Count is : %d", count);
+    };
 } else {
 		block = ^{
-        count -= 1;
-    }
+        NSLog(@"Count is : %d", count);
+    };
 }
 block();
 ```
@@ -437,13 +435,27 @@ int main(int argc, const char * argv[]) {
 
 ![](../img/block3.png)
 
-不难看出，`block`在截获普通变量的时候,只是将值传递到了`block`中，因此，不能修改外部参数。
+不难看出，`block`的内部实现中，仅仅使用了`int age`属性在结构体初始化的时候来进行赋值，而不是修改age地址中的值，因此，不能修改截获参数的值，只能拿来使用。
 
-而加上修饰符后：
+而想要修改外部变量的值时：
+
+```objective-c
+int main(int argc, const char * argv[]) {
+    __block int count = 0;
+    void(^block)(void) = ^{
+        count = 10;
+    };
+    count = 15;
+    block();
+    return 0;
+}
+```
+
+将文件转为Cpp后：
 
 ![Block4](../img/block4.png)
 
-这次`age`相关的变量，都变成了`__Block_byref_age_0`的结构体，并且传参时都使用了`&`来取地址，由于传递的是引用，因此可以修改外部变量的值。
+这次编译器将`count`相关的变量，都封装成了`__Block_byref_count_0`的结构体，并且可以看到与之前的不同，这次`block`结构体在初始化的时候将`_count->__forwarding`赋值给了`count`属性，而`__forwarding`属性则是所以这`count`属性其实传递进去的是外部`&count`的地址值。在block的实现结构体中，将地址赋值给了`__Block_byref_count_0`变量，这样就可以直接修改捕获的值了。即便是在外部，经过`__block`修饰后，修改`count`属性，也是通过` (count.__forwarding->count) = 15;`来修改变量，与之前的`age`不同。
 
 那么在看一下OC对象的情况:
 
@@ -466,4 +478,4 @@ myBlock();
 
 ![Block6](../img/block6.png)
 
-可以看出，无论是基础类型还是OC对象，在block截获后，加入`__block`后，OC会将该变量声明成`__Block_bref_变量名_0`这样的结构体，然后将地址当作参数，因此在`block`内部，可以通过`__forwarding`获取到该变量堆上的地址，从而修改或者重新分配空间。我们也可以通过LLVM中的p指令来打印截获变量的地址，发现如果不加修饰符的话，地址是不一样的。
+可以看出，无论是基础类型还是OC对象，在block截获后，加入`__block`后，OC会将该变量声明成`__Block_bref_变量名_0`这样的结构体，然后将地址当作参数传入结构体内，所以在`block`内部，可以通过`__forwarding`获取到该变量堆内存中的地址，从而修改或者重新分配空间。
